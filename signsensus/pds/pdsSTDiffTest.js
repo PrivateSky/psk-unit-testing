@@ -23,12 +23,10 @@ h.writeKey("anotherKey", "value4");
 var diff = pds.computeSwarmTransactionDiff(swarm, h);
 
 var expected = { swarmName: 'Swarm',
-    input: { testKey: 3, READKeyM: 0, READKeyOnce: 0, anotherKey: 1 },
-    output: { testKey: 'value3', anotherKey: 'value4' } }
+    input: { testKey: 0, READKeyM: 0, READKeyOnce: 0, anotherKey: 0 },
+    output: { testKey: 'value3', anotherKey: 'value4' }
+}
 
-
-// console.log(JSON.stringify(diff));
-// console.log( JSON.stringify(expected));
 assert.equal(JSON.stringify(diff),JSON.stringify(expected),"Unexpected diff");
 
 var t = cutil.createTransaction(0, diff);
@@ -43,16 +41,25 @@ h.writeKey("anotherKey2", "value7"); //version 0
 
 var diff = pds.computeSwarmTransactionDiff(swarm, h);
 
+expected={ swarmName: 'Swarm',
+    input: { testKey: 1, anotherKey: 1, anotherKey2: 0 },
+    output: { testKey: 'value5', anotherKey: 'value6', anotherKey2: 'value7' }
+}
 
-//console.log("Without commit", diff);
+assert.equal(JSON.stringify(diff),JSON.stringify(expected),'Unexpected diff after first commit');
 
+t = cutil.createTransaction(0,diff);
+set={};
+set[t.digest] = t;
+pds.commit(set);
 
-//var h = pds.getHandler();
+h = pds.getHandler();
+
 var expected = { swarmName: 'Swarm',
-    input: { testKey: 2, anotherKey: 1, anotherKey2: 1 },
-    output: { testKey: 'value8', anotherKey: 'value6', anotherKey2: 'value7' } }
+    input: { testKey: 2 },
+    output: { testKey: 'value8' } }
 
 h.writeKey("testKey", "value8");
 var diff = pds.computeSwarmTransactionDiff(swarm, h);
-//console.log("Should be version 2 for input testKey ", diff);
-assert.equal(JSON.stringify(diff),JSON.stringify(expected),"Unexpected diff on version testing")
+
+assert.equal(JSON.stringify(diff),JSON.stringify(expected),"Unexpected diff on second commit ")
