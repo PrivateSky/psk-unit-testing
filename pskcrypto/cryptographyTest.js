@@ -11,7 +11,7 @@ console.log(signature);
 console.log(crypto.verify(keys.public, signature, 'some text'));
 
 var encryptionKey = crypto.generateEncryptionKey();
-
+var aad = crypto.generateEncryptionKey();
 
 
 
@@ -21,9 +21,9 @@ var data ={
 };
 
 
-var cipherText = crypto.encryptJson(data, encryptionKey );
+var cipherText = crypto.encryptJson(data, encryptionKey, aad);
 
-var plaintext = crypto.decryptJson(cipherText, encryptionKey);
+var plaintext = crypto.decryptJson(cipherText, encryptionKey, aad);
 
 console.log(plaintext);
 
@@ -32,8 +32,8 @@ var http = require('http')
 
 fs.readFile('C:\\Users\\Acer 2\\Desktop\\ecb.jpg', function(err, data) {
     if (err) throw err; // Fail if the file can't be read.
-    var enImg = crypto.encryptBlob(data, encryptionKey);
-    var decImg = crypto.decryptBlob(enImg, encryptionKey);
+    var enImg = crypto.encryptBlob(data, encryptionKey,aad);
+    var decImg = crypto.decryptBlob(enImg, encryptionKey, aad);
     http.createServer(function(req, res) {
         res.writeHead(200, {'Content-Type': 'image/jpeg'});
         res.end(decImg); // Send the file data to the browser.
