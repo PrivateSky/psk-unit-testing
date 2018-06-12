@@ -2,7 +2,7 @@ require("../../../engine/core").enableTesting();
 
 $$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");
 
-const assert = require("../../../modules/double-check").assert;
+const assert = $$.requireModule("double-check").assert;
 
 var f = $$.flow.create("deployerNoConfigObject", {
     start:function() {

@@ -1,5 +1,5 @@
 require("../../../engine/core").enableTesting();
-const assert = require("../../../modules/double-check").assert;
+const assert = $$.requireModule("double-check").assert;
 var positiveTestDataArray = [["",{},[1,[2,3]]], ["",{},[1,[2,3]]],["dd",null],["dd",null], ["1","dd",null,"aa","SF"], ["1","dd",null,"aa","SF"], [true, false, -0, NaN], [true, false, -0, NaN], [{1:1}],[{1:1}]];
 var f = $$.flow.create("assertArrayMatchTest",{
     action:function(cb){

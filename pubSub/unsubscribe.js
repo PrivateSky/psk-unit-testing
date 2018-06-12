@@ -1,6 +1,6 @@
 require("../../../engine/core").enableTesting();
 const soundPubSub = require('../../../engine/pubSub/core/soundPubSub.js').soundPubSub;
-const assert = require("../../../modules/double-check").assert;
+const assert = $$.requireModule("double-check").assert;
 var channelName = "superFunChannel";
 var received = [];
 var sent = ["Message should be received"];

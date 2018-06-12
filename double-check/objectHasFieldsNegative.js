@@ -1,5 +1,5 @@
 require("../../../engine/core").enableTesting();
-const assert = require("../../../modules/double-check").assert;
+const assert = $$.requireModule("double-check").assert;
 var f = $$.flow.create("assertObjectHasFields",{
     action:function(cb){
         this.testData = [{location:[1, 2, 3]}, {location:[1, 2, 3]}, {name:"john"}, {name:"adrian"}, {age:24}, {age:24, citty:"iasi"}];

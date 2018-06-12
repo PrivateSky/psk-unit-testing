@@ -1,4 +1,4 @@
-const assert = require("../../../modules/double-check").assert;
+const assert = $$.requireModule("double-check").assert;
 var arr = [function a (next){
     next();
 },

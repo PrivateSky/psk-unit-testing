@@ -1,5 +1,5 @@
 require("../../../engine/core").enableTesting();
-const assert = require("../../../modules/double-check").assert;
+const assert = $$.requireModule("double-check").assert;
 const soundPubSub = require('../../../engine/pubSub/core/soundPubSub.js').soundPubSub;
 var channelNames = {ch1:"superFunChannel", ch2:"notSoFunChannel"};
 var sub1 = "", sub2 = "";

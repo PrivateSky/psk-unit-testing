@@ -1,5 +1,5 @@
 require("../../../engine/core").enableTesting();
-const assert = require("../../../modules/double-check").assert;
+const assert = $$.requireModule("double-check").assert;
 const soundPubSub = require('../../../engine/pubSub/core/soundPubSub.js').soundPubSub;
 var channels = {ch1:"superFunChannel", ch2:"News1", ch3:"Travel", ch4:"Closed"};
 var sent = ["Draught in Greece!", "Draught ended in Greece!", "Visit beautiful Greece! "];

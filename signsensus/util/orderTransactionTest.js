@@ -1,5 +1,5 @@
-const cutil  = require("../../../modules/signsensus/lib/consUtil");
-const ssutil = require("../../../modules/signsensus/lib/ssutil");
+const cutil  = $$.requireModule("signsensus/lib/consUtil");
+const ssutil = $$.requireModule("signsensus/lib/ssutil");
 
 var pset = require("../../../../../psk-unit-testing/signsensus/pds/utilityCreateSet").set;
 
