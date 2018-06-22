@@ -1,9 +1,8 @@
 require("../../../engine/core").enableTesting();
 const assert = $$.requireModule("double-check").assert;
-const soundPubSub = require('../../../engine/pubSub/core/soundPubSub.js').soundPubSub;
+const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
 var channelNames = {ch1:"superFunChannel", ch2:"notSoFunChannel"};
 var sub1 = "", sub2 = "";
-
 
 var f = $$.flow.create("multipleSubscribersMultipleChannels",{
     init:function(cb){

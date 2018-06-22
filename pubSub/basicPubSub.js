@@ -1,10 +1,9 @@
 require("../../../engine/core").enableTesting();
-const soundPubSub = require('../../../engine/pubSub/core/soundPubSub.js').soundPubSub;
+const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
 const assert = $$.requireModule("double-check").assert;
 var channelName = "superFunChannel";
 var sent = ["Only this should be sent! in case of LastMessageCompacter"];
 var received = [];
-
 
 var f = $$.flow.create("basicPubSubTestWithCompacter",{
     init:function(cb){

@@ -1,25 +1,19 @@
 var crypto = require("./cryptography");
 
-
-
 var keys = crypto.generateECDSAKeyPair();
 
 var signature = crypto.sign(keys.private, 'some text');
 console.log(signature);
-
 
 console.log(crypto.verify(keys.public, signature, 'some text'));
 
 var encryptionKey = crypto.generateEncryptionKey();
 var aad = crypto.generateEncryptionKey();
 
-
-
 var data ={
     key1: "value1",
     key2: "value2"
 };
-
 
 var cipherText = crypto.encryptJson(data, encryptionKey, aad);
 
@@ -40,4 +34,3 @@ fs.readFile('C:\\Users\\Acer 2\\Desktop\\ecb.jpg', function(err, data) {
     }).listen(8124);
     console.log('Server running at http://localhost:8124/');
 });
-

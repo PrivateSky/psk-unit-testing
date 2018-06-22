@@ -1,6 +1,6 @@
 require("../../../engine/core").enableTesting();
 const assert = $$.requireModule("double-check").assert;
-const soundPubSub = require('../../../engine/pubSub/core/soundPubSub.js').soundPubSub;
+const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
 var channelName = "superFunChannel";
 var registered = {region:"europe", topic:"edu"}
 var sent = ["It works!", "Message on edu topic(Europe)!"];

@@ -1,15 +1,15 @@
-require("../../engine/core").enableTesting();
+require("../../../engine/core").enableTesting();
 var fs = require("fs");
-var mq = require("../../engine/pubSub/core/folderMQ");
-var assert = require("double-check").assert;
-var beesHealer = require("../../engine/choreographies/beesHealer");
+var mq = require("../../../engine/pubSub/core/folderMQ");
+var assert = $$.requireModule("double-check").assert;
+var beesHealer = $$.requireModule("callflow").beesHealer;
 var folderPath = './BasicReviveChannel';
 
 var queue = mq.getFolderQueue(folderPath, function(){});
 // Try clear the dir before writing if anything exists
 try{
     for (const file of fs.readdirSync(folderPath)) fs.unlink(folderPath + '/' + file);
-}catch(e){};
+}catch(e){}
 
 // Describe and create a new swarm
 var f = $$.swarm.create("test", {
@@ -52,11 +52,9 @@ f.observe(function () {
     // Then (2) send phaseTwo to execution for the moment when it'll be revived
     var swarm = beesHealer.asJSON(f.getInnerValue(),"phaseTwo",[4,8],function () {
 
-    })
+    });
     producerHandler.sendSwarmForExecution(swarm);
 },null,null);
-
-
 
 setTimeout(function(){
     assert.equal(finalResult, 23, "Phase two wasn't executed");
@@ -67,7 +65,7 @@ setTimeout(function(){
     try{
         for(const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
         fs.rmdirSync(folderPath);
-    }catch(e){};
+    }catch(e){}
 
     process.exit();
 }, 800);

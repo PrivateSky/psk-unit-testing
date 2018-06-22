@@ -3,7 +3,7 @@ $$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");
 const fs = require("fs")
 const assert = $$.requireModule("double-check").assert;
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
-var fsm = $$.requireLibrary("utils/FileStateManager");
+var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
 
 const path = require("path");

@@ -1,10 +1,9 @@
 require("../../../engine/core").enableTesting();
 const assert = $$.requireModule("double-check").assert;
-const soundPubSub = require('../../../engine/pubSub/core/soundPubSub.js').soundPubSub;
+const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
 var channels = {ch1:"superFunChannel", ch2:"News1", ch3:"Travel", ch4:"Closed"};
 var sent = ["Draught in Greece!", "Draught ended in Greece!", "Visit beautiful Greece! "];
 var received = [];
-
 
 var f = $$.flow.create("publishToUnregistered",{
     init:function(cb){
@@ -42,4 +41,3 @@ var f = $$.flow.create("publishToUnregistered",{
 assert.callback("publishToUnregistered", function(callback){
     f.init(callback);
 }, 1500);
-

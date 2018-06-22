@@ -1,7 +1,6 @@
-require("../../engine/core").enableTesting();
-const assert = require("double-check").assert;
-//const assert = require('assert');
-const Errors = require("./../../engine/util/Error");
+require("../../../engine/core").enableTesting();
+const assert = $$.requireModule("double-check").assert;
+const Errors = require("../../../engine/util/Error");
 
 var swarm = $$.swarm.create("SwarmExample", {
     private:{
@@ -21,7 +20,6 @@ var prop = "public";
 var value = [];
 var error = new Errors.SyntaxError(message, swarm, prop, value);
 
-
 function test(error){
     assert.true(error instanceof Errors.SyntaxError, "Wrong instance type");
 
@@ -32,7 +30,6 @@ function test(error){
 
     assert.true(error.inspect != null, "should have inspect function in order to overwrite console.log behavior");
 }
-
 test(error);
 
 try{

@@ -1,9 +1,8 @@
 require("../../../engine/core").enableTesting();
 const assert = $$.requireModule("double-check").assert;
-const soundPubSub = require('../../../engine/pubSub/core/soundPubSub.js').soundPubSub;
+const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
 var test = [null, undefined, "string", false, {}, [], function(){}];
 var channels = {ch1:"superFunChannel", ch2:"Random" };
-
 
 var f = $$.flow.create("testAcceptedMessageType",{
     init:function(cb){

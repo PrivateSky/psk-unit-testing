@@ -3,7 +3,7 @@ require("../../../engine/core").enableTesting();
 var fs = require("fs");
 
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
-var fsm = $$.requireLibrary("utils/FileStateManager");
+var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
 const assert = $$.requireModule("double-check").assert;
 

@@ -4,7 +4,7 @@ const assert = $$.requireModule("double-check").assert;
 
 $$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");
 
-var fsm = $$.requireLibrary("utils/FileStateManager");
+var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
 
 const path = require("path");
