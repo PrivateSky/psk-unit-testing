@@ -1,43 +1,51 @@
-var crypto = require("./cryptography");
 
+require('../../../engine/core').enableTesting();
+const assert = $$.requireModule('double-check').assert;
+
+var crypto = require("../../../modules/pskcrypto/cryptography");
+var fs = require('fs');
+
+const defaultIV = Buffer.from('defaultIV');
+const defaultSalt = Buffer.from('defaultSalt');
 
 
 var keys = crypto.generateECDSAKeyPair();
 
 var signature = crypto.sign(keys.private, 'some text');
-console.log(signature);
+assert.notEqual(signature, null, 'Signature is null');
 
 
-console.log(crypto.verify(keys.public, signature, 'some text'));
+assert.true(crypto.verify(keys.public, signature, 'some text'), 'Fail to verify signature');
 
-var encryptionKey = crypto.generateEncryptionKey();
-var aad = crypto.generateEncryptionKey();
+
+var seed = 'seed';
+var pin = 'pin';
 
 
 
 var data ={
-    key1: "value1",
-    key2: "value2"
+    key1:"value1",
+    key2:"value2"
 };
 
+crypto.saveDerivedSeed(seed, pin, 10000, 32);
 
-var cipherText = crypto.encryptJson(data, encryptionKey, aad);
+var cipherText = crypto.encryptJson(data, pin, 10000, 32);
+assert.notEqual(cipherText, null, 'Ciphertext is null');
 
-var plaintext = crypto.decryptJson(cipherText, encryptionKey, aad);
 
-console.log(plaintext);
+var plaintext = crypto.decryptJson(cipherText, pin, 10000, 32);
 
-var http = require('http')
-    , fs = require('fs');
 
-fs.readFile('C:\\Users\\Acer 2\\Desktop\\ecb.jpg', function(err, data) {
-    if (err) throw err; // Fail if the file can't be read.
-    var enImg = crypto.encryptBlob(data, encryptionKey,aad);
-    var decImg = crypto.decryptBlob(enImg, encryptionKey, aad);
-    http.createServer(function(req, res) {
-        res.writeHead(200, {'Content-Type': 'image/jpeg'});
-        res.end(decImg); // Send the file data to the browser.
-    }).listen(8124);
-    console.log('Server running at http://localhost:8124/');
-});
+assert.equal(JSON.stringify(data), JSON.stringify(plaintext), 'Decrypted data does not coincide with the original data');
+
+
+var img = fs.readFileSync('./Anton_Chigurh.jpg');
+var enImg = crypto.encryptBlob(img, pin, 1000, 32);
+assert.notEqual(enImg, null, 'Ciphertext is null');
+
+var decImg = crypto.decryptBlob(enImg, pin, 1000, 32);
+assert.equal(img.toString(), decImg.toString(), 'The decrypted image is different from the original image');
+
+
 
