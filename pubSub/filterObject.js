@@ -1,11 +1,10 @@
 require("../../../engine/core").enableTesting();
-const assert = require("../../../modules/double-check").assert;
-const soundPubSub = require('../../../engine/pubSub/core/soundPubSub.js').soundPubSub;
+const assert = $$.requireModule("double-check").assert;
+const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
 var channelName = "superFunChannel";
 var registered = {region:"europe", topic:"edu"};
 var received = [];
 var sent = ["It works!"];
-
 
 var f = $$.flow.create("filterObject-withStringify",{
     init:function(cb){
@@ -36,5 +35,3 @@ var f = $$.flow.create("filterObject-withStringify",{
 assert.callback("filterObject-withStringify", function(callback){
     f.init(callback);
 }, 1500);
-
-

@@ -1,5 +1,5 @@
 require("../../../engine/core").enableTesting();
-const assert = require("../../../modules/double-check").assert;
+const assert = $$.requireModule("double-check").assert;
 var f = $$.flow.create("equalPrimitiveAndNonPrimPositiveTest",{
 
     action:function(cb){

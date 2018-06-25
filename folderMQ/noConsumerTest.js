@@ -1,6 +1,6 @@
-require("../../engine/core").enableTesting();
+require("../../../engine/core").enableTesting();
 var fs = require("fs");
-var mq = require("../../engine/pubSub/core/folderMQ");
+var mq = require("../../../engine/pubSub/core/folderMQ");
 
 var folderPath = './noConsumerChannel';
 
@@ -12,7 +12,7 @@ $$.requireLibrary("testSwarms");
 // Try clear the dir before writing if anything exists
 try{
     for(const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
-}catch(e){};
+}catch(e){}
 
 // Get current number of files
 var initialFilesNumber = fs.readdirSync(folderPath).length; //should be 0
@@ -21,7 +21,6 @@ var initialFilesNumber = fs.readdirSync(folderPath).length; //should be 0
 var f = $$.swarm.start("testSwarms.simpleSwarm");
 var producerHandler = queue.getHandler();
 producerHandler.addSwarm(f);
-
 
 setTimeout(function(){
     var currentFiles = fs.readdirSync(folderPath);

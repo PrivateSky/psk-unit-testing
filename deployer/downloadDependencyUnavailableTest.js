@@ -1,7 +1,7 @@
 require("../../../engine/core").enableTesting();
-const assert = require("../../../modules/double-check").assert;
+const assert = $$.requireModule("double-check").assert;
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
-var fsm = require("../../../libraries/utils/FileStateManager");
+var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
 
 $$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");

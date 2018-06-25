@@ -1,7 +1,7 @@
-require("../../engine/core").enableTesting();
-var mq = require("../../engine/pubSub/core/folderMQ");
+require("../../../engine/core").enableTesting();
+var mq = require("../../../engine/pubSub/core/folderMQ");
 var fs = require("fs");
-var assert=require("double-check").assert;
+var assert = $$.requireModule("double-check").assert;
 
 var expectedErrors = 0;
 var folderPath = './testFolderMQ';

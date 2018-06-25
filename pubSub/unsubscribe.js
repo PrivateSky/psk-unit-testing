@@ -1,10 +1,9 @@
 require("../../../engine/core").enableTesting();
-const soundPubSub = require('../../../engine/pubSub/core/soundPubSub.js').soundPubSub;
-const assert = require("../../../modules/double-check").assert;
+const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
+const assert = $$.requireModule("double-check").assert;
 var channelName = "superFunChannel";
 var received = [];
 var sent = ["Message should be received"];
-
 
 var f = $$.flow.create("unsubscribe",{
     init:function(cb){

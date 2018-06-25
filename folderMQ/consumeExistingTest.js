@@ -1,11 +1,11 @@
-require("../../engine/core").enableTesting();
+require("../../../engine/core").enableTesting();
 var fs = require("fs");
-var mq = require("../../engine/pubSub/core/folderMQ");
+var mq = require("../../../engine/pubSub/core/folderMQ");
 
 var folderPath = './ConsumeExistingChannel';
 
 var queue = mq.getFolderQueue(folderPath, function(){});
-var assert = require("double-check").assert;
+var assert = $$.requireModule("double-check").assert;
 var steps = 0;
 var phases = [];
 

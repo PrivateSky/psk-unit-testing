@@ -1,6 +1,6 @@
-require("../../engine/core").enableTesting();
+require("../../../engine/core").enableTesting();
 
-var assert=require("double-check").assert;
+var assert = $$.requireModule("double-check").assert;
 
 var lib1 = $$.loadLibrary("library1","./lib1");
 var lib2 = $$.loadLibrary("library2","./lib2");

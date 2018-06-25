@@ -1,8 +1,8 @@
-require("../../engine/core").enableTesting();
-var mq = require("../../engine/pubSub/core/folderMQ");
+require("../../../engine/core").enableTesting();
+var mq = require("../../../engine/pubSub/core/folderMQ");
 var queue = mq.getFolderQueue("./testFolderMQ",function(){});
 
-var assert=require("double-check").assert;
+var assert = $$.requireModule("double-check").assert;
 
 var f = $$.swarm.create("test", {
     public:{
@@ -13,7 +13,6 @@ var f = $$.swarm.create("test", {
         this.value = 1;
     }
 });
-
 
 queue.registerConsumer(function(result){
     assert.notEqual(result,null,"Nothing is consumed");
@@ -26,16 +25,13 @@ function filter(){
     return f.getInnerValue().meta.swarmId;
 }
 
-
-
-
 assert.callback("Producer-consumer Test for folderMQ",function(callback){
     f.observe(function(){
         f.init(callback);
         producerHandler.addSwarm(f, function(){});
     }, null,filter);
 
-})
+});
 
 setTimeout(function(){
     process.exit();

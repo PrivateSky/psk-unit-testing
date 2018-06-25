@@ -1,9 +1,9 @@
-require("../../engine/core").enableTesting();
-var mq = require("../../engine/pubSub/core/folderMQ")
+require("../../../engine/core").enableTesting();
+var mq = require("../../../engine/pubSub/core/folderMQ")
 
 var queue = mq.getFolderQueue("./testFolderMQ",function(){});
 
-var assert=require("double-check").assert;
+var assert = $$.requireModule("double-check").assert;
 
 var flow1 = $$.callflows.create("test", {
     public:{
@@ -13,7 +13,6 @@ var flow1 = $$.callflows.create("test", {
         this.value = value;
     }
 });
-
 
 var flow2 = $$.callflows.start("test");
 flow2.init(2);

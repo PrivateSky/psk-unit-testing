@@ -1,18 +1,18 @@
-require("../../engine/core").enableTesting();
+require("../../../engine/core").enableTesting();
 var fs = require("fs");
-var mq = require("../../engine/pubSub/core/folderMQ");
+var mq = require("../../../engine/pubSub/core/folderMQ");
 
 var folderPath = './renamingTriggerTest';
 
 var queue = mq.getFolderQueue(folderPath, function(){});
-var assert = require("double-check").assert;
+var assert = $$.requireModule("double-check").assert;
 var fileCount = 0;
 var filesToTry = 30;
 
 // Try clear the dir before writing if anything exists
 try{
     for(const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
-}catch(e){};
+}catch(e){}
 
 // Write the test files
 fs.writeFileSync(folderPath+'/main_file.test', JSON.stringify({test:0}));
@@ -39,7 +39,7 @@ setTimeout(function(){
     try{
         for(const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
         fs.rmdirSync(folderPath);
-    }catch(e){};
+    }catch(e){}
 
     if(fileCount == filesToTry+1){
         console.log("Test passed");

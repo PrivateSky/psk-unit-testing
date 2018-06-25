@@ -1,10 +1,9 @@
 require("../../../engine/core").enableTesting();
-const assert = require("../../../modules/double-check").assert;
-const soundPubSub = require('../../../engine/pubSub/core/soundPubSub.js').soundPubSub;
+const assert = $$.requireModule("double-check").assert;
+const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
 var channelName = "superFunChannel";
 var sent = "World!";
 var received;
-
 
 var f = $$.flow.create("publishToRegisteredSubscriber",{
     init:function(cb){
@@ -28,4 +27,3 @@ var f = $$.flow.create("publishToRegisteredSubscriber",{
 assert.callback("publishToRegisteredSubscriber", function(callback){
     f.init(callback);
 }, 1500);
-

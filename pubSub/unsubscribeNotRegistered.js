@@ -1,8 +1,7 @@
 require("../../../engine/core").enableTesting();
-const assert = require("../../../modules/double-check").assert;
-const soundPubSub = require('../../../engine/pubSub/core/soundPubSub.js').soundPubSub;
+const assert = $$.requireModule("double-check").assert;
+const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
 var channelName = "BBC3";
-
 
 var f = $$.flow.create("pubSubUnsubscribeFromUnregisteredChannel",{
     init:function(cb){
@@ -19,4 +18,3 @@ var f = $$.flow.create("pubSubUnsubscribeFromUnregisteredChannel",{
 assert.callback("pubSubUnsubscribeFromUnregisteredChannel", function(callback){
     f.init(callback);
 }, 1500);
-

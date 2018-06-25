@@ -1,6 +1,6 @@
 require("../../../engine/core").enableTesting();
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt
-const assert = require("../../../modules/double-check").assert;
+const assert = $$.requireModule("double-check").assert;
 
 const path = require("path");
 var testWorkspaceDir = "./" + fsExt.guid();

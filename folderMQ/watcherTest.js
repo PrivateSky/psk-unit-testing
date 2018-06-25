@@ -1,15 +1,15 @@
-require("../../engine/core").enableTesting();
+require("../../../engine/core").enableTesting();
 var fs = require("fs");
-var mq = require("../../engine/pubSub/core/folderMQ");
+var mq = require("../../../engine/pubSub/core/folderMQ");
 
 var folderPath = './watcherChannel';
 
 var queue = mq.getFolderQueue(folderPath, function(){});
-var assert = require("double-check").assert;
+var assert = $$.requireModule("double-check").assert;
 // Try clear the dir before writing if anything exists
 try{
     for(const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
-}catch(e){};
+}catch(e){}
 
 var step = 0;
 
@@ -31,11 +31,10 @@ setTimeout(function(){
 setTimeout(function(){
     assert.equal(step, 2, "Watcher was not triggered");
 
-
     try{
         for(const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
         fs.rmdirSync(folderPath);
-    }catch(e){};
+    }catch(e){}
 
     console.log("Test passed");
     process.exit();

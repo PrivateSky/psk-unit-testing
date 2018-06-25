@@ -1,4 +1,4 @@
-const assert = require("../../../modules/double-check").assert;
+const assert = $$.requireModule("double-check").assert;
 var f = $$.flow.create("assertNotNull",{
     action:function(cb){
         this.cb = cb;

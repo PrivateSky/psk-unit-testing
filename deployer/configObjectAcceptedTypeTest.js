@@ -1,5 +1,5 @@
 require("../../../engine/core").enableTesting();
-const assert = require("../../../modules/double-check").assert;
+const assert = $$.requireModule("double-check").assert;
 
 $$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");
 
