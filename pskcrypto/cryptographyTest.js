@@ -28,24 +28,43 @@ var data ={
     key2:"value2"
 };
 
-crypto.saveDerivedSeed(seed, pin, 10000, 32);
+crypto.saveDerivedSeed(seed, pin, 32);
 
-var cipherText = crypto.encryptJson(data, pin, 10000, 32);
+var cipherText = crypto.encryptJson(data, pin);
 assert.notEqual(cipherText, null, 'Ciphertext is null');
 
 
-var plaintext = crypto.decryptJson(cipherText, pin, 10000, 32);
+var plaintext = crypto.decryptJson(cipherText, pin);
 
 
 assert.equal(JSON.stringify(data), JSON.stringify(plaintext), 'Decrypted data does not coincide with the original data');
 
 
 var img = fs.readFileSync('./Anton_Chigurh.jpg');
-var enImg = crypto.encryptBlob(img, pin, 1000, 32);
+var enImg = crypto.encryptBlob(img, pin);
 assert.notEqual(enImg, null, 'Ciphertext is null');
 
-var decImg = crypto.decryptBlob(enImg, pin, 1000, 32);
+var decImg = crypto.decryptBlob(enImg, pin);
 assert.equal(img.toString(), decImg.toString(), 'The decrypted image is different from the original image');
 
+function generateFile(size){ //size in Kb
+    var file = 'file'+size;
+    var data=[];
+    for(let i = 0; i < size * 512; i++){
+        data.push('a');
+    }
+    fs.writeFileSync(file, data);
+}
 
+// generateFile(100);
 
+var data = fs.readFileSync('file100');
+console.time('encryptFile');
+crypto.encryptBlob(data, pin);
+console.timeEnd('encryptFile');
+
+var digestJson = crypto.hashJson(data);
+console.log(digestJson);
+
+var digestBlob = crypto.hashBlob(img);
+console.log(digestBlob);
