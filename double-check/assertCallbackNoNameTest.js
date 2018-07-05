@@ -6,6 +6,6 @@ var f = $$.flow.create("assertCallbackNoName",{
         this.cb();
     }
 });
-assert.callback(function(cb){
+assert.callback("Callback simple test",function(cb){
     f.action(cb);
 }, 1500);

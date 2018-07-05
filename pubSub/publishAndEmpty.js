@@ -8,8 +8,10 @@ var f = $$.flow.create("publishAndEmpty",{
         this.cb = cb;
         soundPubSub.subscribe(channelName, this.callback);
         var catchedSubscriberList = this.publish({msg:"World!"});
-        catchedSubscriberList.splice(0, catchedSubscriberList.length);
-        this.publish({msg:"World!"});
+        if(Array.isArray(catchedSubscriberList)){
+			catchedSubscriberList.splice(0, catchedSubscriberList.length);
+        }
+        assert.false(Array.isArray(catchedSubscriberList), "Captured list of subscribers");
     },
     publish:function(message){
         return soundPubSub.publish(channelName, message);
