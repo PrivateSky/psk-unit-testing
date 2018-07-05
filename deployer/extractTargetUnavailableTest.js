@@ -5,10 +5,11 @@ var fileStateManager = fsm.getFileStateManager();
 const assert = $$.requireModule("double-check").assert;
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
 
-$$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");
+var deployer  = require( __dirname + "/../../../libraries/deployer/Deployer.js");
 
 const path = require("path");
-var testWorkspaceDir = "./" + fsExt.guid();
+const os = require("os");
+var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./extract");
 var dummyTargetDir2 = path.join(testWorkspaceDir, "./unarchived");
 var dummySrcFile1 = path.join(dummyTargetDir, "acl-magic.zip");
@@ -42,7 +43,7 @@ var f = $$.flow.create("extractTargetUnavailable", {
     },
 
     act:function() {
-        $$.callflow.start("deployer.Deployer").run(this.configObject, this.callback);
+        deployer.run(this.configObject, this.callback);
     },
 
     clean:function(){

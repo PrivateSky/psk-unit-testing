@@ -2,10 +2,11 @@ require("../../../engine/core").enableTesting();
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
 const assert = $$.requireModule("double-check").assert;
 
-$$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");
+var deployer  = require( __dirname + "/../../../libraries/deployer/Deployer.js");
 
 const path = require("path");
-var testWorkspaceDir = "./" + fsExt.guid();
+const os = require("os");
+var testWorkspaceDir = path.join(os.tmpdir(),fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./checksum-dummy");
 var dummyTargetFile = `${dummyTargetDir}/file1.js`;
 
@@ -36,7 +37,7 @@ var f = $$.flow.create("checksumActionTest", {
         fsExt.createFile(dummyTargetFile, "alert('test1')!");
     },
     act: function() {
-        $$.callflow.start("deployer.Deployer").run(this.configObject, this.check);
+        deployer.run(this.configObject, this.check);
     },
     clean:function(){
         console.log("Cleaning folder", testWorkspaceDir);

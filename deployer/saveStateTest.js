@@ -6,7 +6,8 @@ var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
 
 const path = require("path");
-var testWorkspaceDir = "./" + fsExt.guid();
+const os = require("os");
+var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./save-state-dummy");
 
 var f = $$.flow.create("saveState", {
@@ -26,13 +27,13 @@ var f = $$.flow.create("saveState", {
 
     act: function () {
         fileStateManager.saveState([testWorkspaceDir]);
-        fsExt.rmDir(dummyTargetDir);
-        fileStateManager.restoreState();
+      /*  fsExt.rmDir(dummyTargetDir);
+        fileStateManager.restoreState();*/
     },
 
     clean:function(){
         console.log("restoring");
-        fsExt.rmDir(testWorkspaceDir);
+      //  fsExt.rmDir(testWorkspaceDir);
     },
 
     assert: function () {

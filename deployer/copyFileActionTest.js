@@ -5,10 +5,11 @@ var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
 const assert = $$.requireModule("double-check").assert;
 
-$$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");
+var deployer  = require( __dirname + "/../../../libraries/deployer/Deployer.js");
 
 const path = require("path");
-var testWorkspaceDir = "./" + fsExt.guid();
+const os = require("os");
+var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummySrcDir = path.join(testWorkspaceDir, "./copy-source");
 var dummyTargetDir = path.join(testWorkspaceDir, "./copy-destination");
 var dependencyName = "file1.js";
@@ -40,7 +41,7 @@ var f = $$.flow.create("copyFileActionTest", {
         fsExt.createFile(`${dummySrcDir}/file1.js`, "alert('test')!");
     },
     act:function() {
-        $$.callflow.start("deployer.Deployer").run(this.configObject, this.callback);
+        deployer.run(this.configObject, this.callback);
     },
 
     clean:function(){

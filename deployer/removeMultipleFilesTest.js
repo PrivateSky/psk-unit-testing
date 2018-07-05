@@ -6,10 +6,11 @@ const assert = $$.requireModule("double-check").assert;
 var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
 
-$$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");
+var deployer  = require( __dirname + "/../../../libraries/deployer/Deployer.js");
 
 const path = require("path");
-var testWorkspaceDir = "./" + fsExt.guid();
+const os = require("os");
+var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./remove-source");
 var dummyTargetFile =  path.join(testWorkspaceDir, "./toDelete.js");
 var dependencyName = "dummy-dependency";
@@ -48,7 +49,7 @@ var f = $$.flow.create("removeMultipleFiles", {
     },
 
     act:function() {
-        $$.callflow.start("deployer.Deployer").run(this.configObject, this.callback);
+        deployer.run(this.configObject, this.callback);
     },
 
     clean:function(){

@@ -1,5 +1,5 @@
 require("../../../engine/core").enableTesting();
-$$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");
+var deployer  = require( __dirname + "/../../../libraries/deployer/Deployer.js");
 const fs = require("fs")
 const assert = $$.requireModule("double-check").assert;
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
@@ -7,7 +7,8 @@ var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
 
 const path = require("path");
-var testWorkspaceDir = "./" + fsExt.guid();
+const os = require("os");
+var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dependencyTarget = path.join(testWorkspaceDir, "./git");
 var dependencyName = "whys";
 
@@ -39,7 +40,7 @@ var f = $$.flow.create("cloneSourceUnavailable", {
     },
 
     act:function() {
-        $$.callflow.start("deployer.Deployer").run(this.configObject, this.callback);
+        deployer.run(this.configObject, this.callback);
     },
 
     clean:function(){

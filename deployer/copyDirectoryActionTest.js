@@ -5,10 +5,11 @@ const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
 var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
 
-$$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");
+var deployer  = require( __dirname + "/../../../libraries/deployer/Deployer.js");
 
 const path = require("path");
-var testWorkspaceDir = "./" + fsExt.guid();
+const os = require("os");
+var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummySrcDir = path.join(testWorkspaceDir, "./copy-source");
 var dummyTargetDir = path.join(testWorkspaceDir, "./copy-destination");
 var dependencyName = "/";
@@ -42,7 +43,7 @@ var f = $$.flow.create("copyDirectoryActionTest", {
     },
 
     act:function() {
-        $$.callflow.start("deployer.Deployer").run(this.configObject, this.callback);
+        deployer.run(this.configObject, this.callback);
     },
 
     clean:function(){
@@ -51,6 +52,7 @@ var f = $$.flow.create("copyDirectoryActionTest", {
     },
 
     callback:function (error, result) {
+        console.log("arguments",error, result);
         // TODO here maybe we can check all source files to match the ones from the destination files
         assert.notNull(result, "Result should not be null!");
         assert.isNull(error, "Should not be any errors!");

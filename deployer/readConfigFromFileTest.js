@@ -5,13 +5,15 @@ const assert = $$.requireModule("double-check").assert;
 var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
 
-$$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");
+var deployer  = require( __dirname + "/../../../libraries/deployer/Deployer.js");
 
 const path = require("path");
-var testWorkspaceDir = "./" + fsExt.guid();
+const os = require("os");
+var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./dummy-config-file-dir");
 var dummyConfigFile = fsExt.resolvePath(`${dummyTargetDir}/config.json`);
-var dummyDownloadDir = testWorkspaceDir + "/dummy-download-dir";
+const querystring = require('querystring');
+var dummyDownloadDir = querystring.escape(testWorkspaceDir + "/dummy-download-dir");
 var dependencyName = "acl.js";
 
 var f = $$.flow.create("readConfigFromTestFile", {
@@ -40,7 +42,7 @@ var f = $$.flow.create("readConfigFromTestFile", {
     },
 
     act: function() {
-        $$.callflow.start("deployer.Deployer").run(dummyConfigFile, this.callback);
+        deployer.run(dummyConfigFile, this.callback);
     },
 
     clean:function(){
@@ -49,6 +51,7 @@ var f = $$.flow.create("readConfigFromTestFile", {
     },
 
     callback: function(error, result) {
+        console.log("arguments", arguments)
         assert.notNull(result, "[FAIL] Reading config from file does not work !");
         assert.isNull(error, "Should not be any errors!");
         let targetPath = fsExt.resolvePath(dummyDownloadDir + "/" +dependencyName );

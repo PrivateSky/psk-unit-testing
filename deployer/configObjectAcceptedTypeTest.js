@@ -1,13 +1,13 @@
 require("../../../engine/core").enableTesting();
 const assert = $$.requireModule("double-check").assert;
 
-$$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");
+var deployer = require(__dirname + "/../../../libraries/deployer/Deployer.js");
 
 var configObject = [[], {}, true, undefined, null, function(){}];
 var errors = [];
 
 for(var i = 0; i < configObject.length; i++ ) {
-    $$.callflow.start("deployer.Deployer").run(configObject[i], callback);
+    deployer.run(configObject[i], callback);
 }
 
 function callback(error, result) {

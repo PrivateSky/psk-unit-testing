@@ -1,6 +1,6 @@
 require("../../../engine/core").enableTesting();
 
-$$.loadLibrary("deployer", __dirname + "/../../../libraries/deployer");
+var deployer  = require( __dirname + "/../../../libraries/deployer/Deployer.js");
 
 const assert = $$.requireModule("double-check").assert;
 
@@ -10,7 +10,7 @@ var f = $$.flow.create("deployerNoConfigObject", {
     },
     act: function() {
 
-        $$.callflow.start("deployer.Deployer").run(null, this.check);
+        deployer.run(null, this.check);
     },
     check: function(error) {
         assert.pass("deployerNoConfigObject", function() {

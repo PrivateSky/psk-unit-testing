@@ -3,7 +3,8 @@ const fsExt = require('../../../libraries/utils/FSExtension').fsExt
 const assert = $$.requireModule("double-check").assert;
 
 const path = require("path");
-var testWorkspaceDir = "./" + fsExt.guid();
+const os = require("os");
+var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "checksum-dummy");
 
 
