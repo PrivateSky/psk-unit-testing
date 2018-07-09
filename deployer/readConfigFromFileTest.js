@@ -9,11 +9,16 @@ var deployer  = require( __dirname + "/../../../libraries/deployer/Deployer.js")
 
 const path = require("path");
 const os = require("os");
+
 var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./dummy-config-file-dir");
 var dummyConfigFile = fsExt.resolvePath(`${dummyTargetDir}/config.json`);
-const querystring = require('querystring');
-var dummyDownloadDir = querystring.escape(testWorkspaceDir + "/dummy-download-dir");
+
+var dummyDownloadDir = path.normalize(testWorkspaceDir + "/dummy-download-dir");
+if(os.platform()=='win32'){
+	dummyDownloadDir = dummyDownloadDir.replace(/\\/g, "\\\\");
+}
+
 var dependencyName = "acl.js";
 
 var f = $$.flow.create("readConfigFromTestFile", {
@@ -51,7 +56,6 @@ var f = $$.flow.create("readConfigFromTestFile", {
     },
 
     callback: function(error, result) {
-        console.log("arguments", arguments)
         assert.notNull(result, "[FAIL] Reading config from file does not work !");
         assert.isNull(error, "Should not be any errors!");
         let targetPath = fsExt.resolvePath(dummyDownloadDir + "/" +dependencyName );
