@@ -8,15 +8,16 @@ var sent = ["Message should be received"];
 var f = $$.flow.create("unsubscribe",{
     init:function(cb){
         this.cb = cb;
-        soundPubSub.subscribe(channelName, this.callback, this.waitForMore);
-        this.publish({msg:"Message should be received"});
-        this.unsubscribe(channelName, this.callback);
-        this.publish({msg:"should not receive this!"});
-        this.publish({msg:"should not receive this!"});
-        setTimeout(this.test, 1000);
-    },
-    waitForMore:function(){
-        return false;
+        soundPubSub.subscribe(channelName, this.callback);
+        this.publish({msg:sent[0]});
+        var self = this;
+        setTimeout(function(){
+	        self.unsubscribe(channelName, self.callback);
+	        self.publish({msg:"should not receive this!"});
+	        self.publish({msg:"should not receive this!"});
+	        setTimeout(self.test, 1000);
+        }, 1);
+
     },
     publish:function(message){
         soundPubSub.publish(channelName, message);
@@ -28,7 +29,6 @@ var f = $$.flow.create("unsubscribe",{
         received.push(message.msg);
     },
     test :function () {
-        assert.true(sent.length == 1, "Size should be 1 but it is"+sent.length);
         assert.true(received.length >0, "No message was received " );
         for (var i = 0; i < sent.length; i++) {
             assert.true(received[i] === sent[i], "Unmatched elements");
