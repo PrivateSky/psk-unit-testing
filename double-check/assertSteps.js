@@ -1,4 +1,6 @@
+require("../../../engine/core").enableTesting();
 const assert = $$.requireModule("double-check").assert;
+
 var arr = [function a (next){
     next();
 },

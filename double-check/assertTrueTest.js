@@ -1,3 +1,4 @@
+require("../../../engine/core").enableTesting();
 const assert = $$.requireModule("double-check").assert;
 var f = $$.flow.create("assertNotNull",{
     action:function(cb){
