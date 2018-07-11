@@ -2,26 +2,16 @@ require("../../../engine/core").enableTesting();
 const assert = $$.requireModule("double-check").assert;
 const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
 var channelName = "superFunChannel";
-var sent = "Message should be received";
 
 var f = $$.flow.create("unsubscribeTwice",{
     init:function(cb){
-        this.cb = cb;
         soundPubSub.subscribe(channelName, this.callback);
-        this.publish({msg:"Message should be received"});
-        this.unsubscribe(channelName, this.callback);
-        this.unsubscribe(channelName, this.callback);
-        this.publish({msg:"should not receive this!"});
+	    soundPubSub.unsubscribe(channelName, this.callback);
+	    soundPubSub.unsubscribe(channelName, this.callback);
+        cb();
     },
-    publish:function(message){
-        soundPubSub.publish(channelName, message);
-    },
-    unsubscribe:function (channelName, callback){
-        soundPubSub.unsubscribe(channelName, callback);
-    },
-    callback:function(message){
-        assert.true(message.msg === sent);
-            this.cb();
+    callback: function(){
+        //dummy function
     }
 });
 assert.callback("waitingToReceiveMultipleMessages", function(callback){

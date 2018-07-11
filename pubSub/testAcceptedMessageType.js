@@ -1,7 +1,7 @@
 require("../../../engine/core").enableTesting();
 const assert = $$.requireModule("double-check").assert;
 const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
-var test = [null, undefined, "string", false, {}, [], function(){}];
+var test = [null, undefined, "string", false, function(){}, 5, Infinity, {}, []];
 var channels = {ch1:"superFunChannel", ch2:"Random" };
 
 var f = $$.flow.create("testAcceptedMessageType",{
@@ -16,8 +16,9 @@ var f = $$.flow.create("testAcceptedMessageType",{
             soundPubSub.publish(channelName, message);
     },
     callback:function(message) {
-        if (Object.prototype.toString.call(message) == "[object Function]"){
-        this.cb();
+        console.log(message);
+        if (Array.isArray(message)){
+            this.cb();
         }
     }
 });

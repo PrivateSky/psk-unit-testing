@@ -5,14 +5,11 @@ var channelName = "BBC3";
 
 var f = $$.flow.create("pubSubUnsubscribeFromUnregisteredChannel",{
     init:function(cb){
-        this.cb = cb;
-        this.unsubscribe(channelName, this.callback);
+        this.unsubscribe(channelName, function(){});
+        cb();
     },
     unsubscribe:function (channelName, callback){
         soundPubSub.unsubscribe(channelName, callback);
-    },
-    callback:function(){
-        this.cb();
     }
 });
 assert.callback("pubSubUnsubscribeFromUnregisteredChannel", function(callback){
