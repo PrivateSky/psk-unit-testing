@@ -8,6 +8,7 @@ $$.requireModule('psk-http-client');
 
 
 const tempFolder = path.resolve('../../../tmp');
+const fileSize = 100000;
 
 const flow = $$.flow.create('CSBmanagerClientBasic', {
 	init: function (callback) {
@@ -22,15 +23,26 @@ const flow = $$.flow.create('CSBmanagerClientBasic', {
 		});
 	},
 	postFile: function (callback) {
-		const buffer = Buffer.alloc(10000, 'a');
+		const buffer = Buffer.alloc(fileSize, 'a');
 		$$.remote.doHttpPost('http://localhost:8080/CSB/testId', buffer, (err) => {
 			assert.false(err, 'Post to virtualMq has failed');
 			callback();
 		});
 	},
 	getFile: function () {
-		$$.remote.doHttpGet('http://localhost:8080/CSB/testId', (err) => {
+		$$.remote.doHttpGet('http://localhost:8080/CSB/testId', (err, res) => {
 			assert.false(err, "Get from virtualMq has failed");
+			assert.true(fileSize === res.length, 'The received file is not complete or corrupted');
+
+			let match = true;
+			for(let i = 0; i < fileSize; ++i) {
+				if(res[i] !== 'a') {
+					match = false;
+					break;
+				}
+			}
+
+			assert.true(match, 'The received file is possibly corrupted');
 
 			this.virtualMq.close();
 			fileStateManager.restoreState(this.cb);
