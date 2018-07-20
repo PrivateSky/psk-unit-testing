@@ -14,7 +14,7 @@ try{
 var step = 0;
 
 // First prepare and register the consumer for the files
-function consume(result){
+function consume(err, result){
     assert.equal(step, 1, "Consuming before writing the file?");
     assert.notEqual(result.test, null, "Data in file is not fine");
     step++;

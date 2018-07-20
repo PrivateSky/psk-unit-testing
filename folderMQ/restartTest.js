@@ -29,7 +29,7 @@ flow1.observe(function(){
             flow1.init(1);
             producerHandler.addSwarm(flow1);
             producerHandler.addSwarm(flow2);
-            queue.registerConsumer(function(result){
+            queue.registerConsumer(function(err, result){
                 value++;
                 assert.notEqual(result,null,"Nothing is consumed");
             });

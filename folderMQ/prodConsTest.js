@@ -14,7 +14,7 @@ var f = $$.swarm.create("test", {
     }
 });
 
-queue.registerConsumer(function(result){
+queue.registerConsumer(function(err, result){
     assert.notEqual(result,null,"Nothing is consumed");
     f.callback();
 });
