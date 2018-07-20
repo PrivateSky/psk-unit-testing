@@ -1,31 +1,51 @@
 require('../../../modules/virtualmq/flows/remoteSwarming');
 require("../../../engine/core").enableTesting();
-const assert = $$.requireModule("double-check").assert;
-const path = require('path');
-const Duplex = require('stream').Duplex;
+const assert           = $$.requireModule("double-check").assert;
+const path             = require('path');
+const Duplex           = require('stream').Duplex;
 const fileStateManager = require('../../../libraries/utils/FileStateManager').getFileStateManager();
 
 const CHANNEL_ID = '123';
 const tempFolder = path.resolve('../../../tmp');
 
 const flow = $$.flow.create('RemoteSwarmingFlowTest', {
-	init: function(callback) {
+	init: function (callback) {
 		this.cb = callback;
 		fileStateManager.saveState([tempFolder], () => {
 			this.remoteSwarmingFlow = $$.flow.create('RemoteSwarming');
 			this.remoteSwarmingFlow.init(tempFolder, (err) => {
 				assert.false(err, 'Error initializing RemoteSwarming');
-				this.startSwarm();
+				this.startSwarm(() => {
+					this.waitForSwarm(() => {
+						this.waitForSwarm(() => {
+							this.cb();
+						});
+						setTimeout(() => {
+							this.startSwarm(() => {})
+						}, 100);
+					});
+				});
 			});
 		});
 	},
-	startSwarm: function() {
+	startSwarm: function (callback) {
 		const swarmBuffer = Buffer.from(JSON.stringify(swarmDefinition, 'utf8'));
 		this.remoteSwarmingFlow.startSwarm(CHANNEL_ID, bufferToStream(swarmBuffer), (err, result) => {
-			assert.false(err, 'Starting swarm has failed ' + (err && err.message));
-			fileStateManager.restoreState();
-			this.cb();
+			assert.false(err, 'Starting swarm has failed ');
+			callback();
 		})
+	},
+	waitForSwarm: function (callback) {
+		const duplex = new Duplex();
+		duplex._write = () => {};
+		this.remoteSwarmingFlow.waitForSwarm(CHANNEL_ID, duplex, (err, data, confirmationId) => {
+			assert.false(err, 'Waiting for swarm was not successful ');
+			assert.equal(JSON.stringify(data), JSON.stringify(swarmDefinition), "Received swarm doesn't match the sent one");
+			this.remoteSwarmingFlow.confirmSwarm(CHANNEL_ID, confirmationId, (err) => {
+				assert.false(err, 'Confirming swarm has failed');
+				callback();
+			});
+		});
 	}
 });
 
