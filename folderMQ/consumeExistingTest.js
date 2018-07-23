@@ -20,7 +20,7 @@ fs.writeFileSync(folderPath+'/file2.test', JSON.stringify({test:2}));
 fs.writeFileSync(folderPath+'/file3.test', JSON.stringify({test:3}));
 
 // Consumer for the files
-function consume(result){
+function consume(err, result){
     assert.notEqual(result.test, null, "Bad data from folderMQ");
     if(typeof result.test !== 'undefined'){
         phases.push(result.test);

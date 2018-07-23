@@ -35,7 +35,7 @@ var f = $$.swarm.create("test", {
 var finalResult = null;
 
 // Register a consumer
-queue.registerConsumer(function(result){
+queue.registerConsumer(function(err, result){
     assert.notEqual(result, null, "Nothing is consumed");
     // Revive the swarm
     var f2 = $$.swarmsInstancesManager.revive_swarm(result);

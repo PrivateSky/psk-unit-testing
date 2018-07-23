@@ -21,7 +21,7 @@ for(var i=1;i<=filesToTry;i++){
 }
 
 // Consumer for the files
-function consume(result){
+function consume(err, result){
     fileCount++;
     // console.log("Got file:", result.test);
 }

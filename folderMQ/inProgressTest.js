@@ -17,7 +17,7 @@ try{
 fs.writeFileSync(folderPath+'/'+inProgressFileName, JSON.stringify({test:1}));
 
 // Consumer for the files
-function consume(result){
+function consume(err, result){
     wasConsumed = 1;
     assert.notEqual(result.test, 1, "Test failed. The `In progress` file was consumed.");
 }
