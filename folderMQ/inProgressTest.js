@@ -1,6 +1,6 @@
 require("../../../engine/core").enableTesting();
 var fs = require("fs");
-var mq = require("../../../engine/pubSub/core/folderMQ");
+var mq = require("../../../modules/soundpubsub/lib/folderMQ");
 
 var folderPath = './InProgressChannel';
 var inProgressFileName = 'file1.test.in_progress';

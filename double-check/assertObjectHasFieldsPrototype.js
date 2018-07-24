@@ -15,7 +15,17 @@ var f = $$.flow.create("assertObjectHasFieldsPrototype", {
             name: "Adam",
             citty: "Kansas"
         };
-        assert.objectHasFields(this.x, this.y);
+
+        let didThrow = false;
+
+        try {
+	        assert.objectHasFields(this.x, this.y);
+        } catch (e) {
+            didThrow = true;
+        }
+
+        assert.false(didThrow, 'It looks like it compared prototype values too');
+        this.cb();
     }
 });
 assert.callback("assertObjectHasFieldsPrototype", function(cb){
