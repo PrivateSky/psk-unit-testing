@@ -1,44 +1,57 @@
 require("../../../engine/core").enableTesting();
-var fs = require("fs");
-var mq = require("../../../modules/soundpubsub/lib/folderMQ");
+const fs = require("fs");
+const mq = require("../../../modules/soundpubsub/lib/folderMQ");
 
-var folderPath = './ConsumeExistingChannel';
+const folderPath = './ConsumeExistingChannel';
 
-var queue = mq.getFolderQueue(folderPath, function(){});
-var assert = $$.requireModule("double-check").assert;
-var steps = 0;
-var phases = [];
+const queue  = mq.getFolderQueue(folderPath, function () {});
+const assert = $$.requireModule("double-check").assert;
+let steps    = 0;
+const phases = [];
 
-// Try clear the dir before writing if anything exists
-try{
-    for (const file of fs.readdirSync(folderPath)) fs.unlink(folderPath + '/' + file);
-}catch(e){};
 
-// Write the test files
-fs.writeFileSync(folderPath+'/file1.test', JSON.stringify({test:1}));
-fs.writeFileSync(folderPath+'/file2.test', JSON.stringify({test:2}));
-fs.writeFileSync(folderPath+'/file3.test', JSON.stringify({test:3}));
+const flow = $$.flow.create('consumeExistingTest', {
+	init: function (callback) {
+		// Try clear the dir before writing if anything exists
+		try {
+			for (const file of fs.readdirSync(folderPath)) fs.unlink(folderPath + '/' + file);
+		} catch (e) {}
+		this.cb = callback;
+		this.writeTestFiles();
+		this.registerConsumer();
+		setTimeout(this.checkResults, 1000);
 
-// Consumer for the files
-function consume(err, result){
-    assert.notEqual(result.test, null, "Bad data from folderMQ");
-    if(typeof result.test !== 'undefined'){
-        phases.push(result.test);
-    }
-    steps++;
-}
-// Register the consumer
-queue.registerConsumer(consume);
+	},
+	writeTestFiles: function () {
+		fs.writeFileSync(folderPath + '/file1.test', JSON.stringify({test: 1}));
+		fs.writeFileSync(folderPath + '/file2.test', JSON.stringify({test: 2}));
+		fs.writeFileSync(folderPath + '/file3.test', JSON.stringify({test: 3}));
+	},
+	consume: function (err, result) {
+		assert.notEqual(result.test, null, "Bad data from folderMQ");
+		if (typeof result.test !== 'undefined') {
+			phases.push(result.test);
+		}
+		steps++;
+	},
+	registerConsumer: function () {
+		queue.registerConsumer(this.consume);
+	},
+	checkResults: function () {
+		console.log("Read files order:", phases.join(", "));
+		assert.equal(steps, 3, "The 3 files were not consumed");
 
-setTimeout(function(){
-    console.log("Read files order:", phases.join(", "));
-    assert.equal(steps, 3, "The 3 files were not consumed");
+		try {
+			for (const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
+			fs.rmdirSync(folderPath);
+		} catch (e) {}
 
-    try{
-        for(const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
-        fs.rmdirSync(folderPath);
-    }catch(e){};
+		this.cb();
+		process.exit();
+	}
+});
 
-    console.log("Test passed");
-    process.exit();
-}, 1000);
+assert.callback("consumeExistingTest", function (callback) {
+	flow.init(callback);
+}, 2000);
+

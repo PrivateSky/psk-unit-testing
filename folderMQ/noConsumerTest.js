@@ -1,33 +1,43 @@
 require("../../../engine/core").enableTesting();
-var fs = require("fs");
-var mq = require("../../../modules/soundpubsub/lib/folderMQ");
+const fs = require("fs");
+const mq = require("../../../modules/soundpubsub/lib/folderMQ");
 
-var folderPath = './noConsumerChannel';
+const folderPath = './noConsumerChannel';
 
-var queue = mq.getFolderQueue(folderPath, function(){});
-var assert = $$.requireModule("double-check").assert;
+const queue  = mq.getFolderQueue(folderPath, function () {});
+const assert = $$.requireModule("double-check").assert;
 
 $$.requireLibrary("testSwarms");
 
-// Try clear the dir before writing if anything exists
-try{
-    for(const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
-}catch(e){}
 
-// Get current number of files
-var initialFilesNumber = fs.readdirSync(folderPath).length; //should be 0
+const flow = $$.flow.create('noConsumerTest', {
+	init: function (callback) {
+		this.cb = callback;
+		try {
+			for (const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
+		} catch (e) {}
 
-// Start and send swarm to MQ
-var f = $$.swarm.start("testSwarms.simpleSwarm");
-var producerHandler = queue.getHandler();
-producerHandler.addSwarm(f);
+		// Get current number of files
+		this.initialFilesNumber = fs.readdirSync(folderPath).length; //should be 0
+		this.sendSwarm();
+		setTimeout(this.checkResults, 1000);
+	},
+	sendSwarm: function () {
+		const f = $$.swarm.start("testSwarms.simpleSwarm");
+		const producerHandler = queue.getHandler();
+		producerHandler.addSwarm(f);
+	},
+	checkResults: function () {
+		const currentFiles = fs.readdirSync(folderPath);
+		assert.equal(this.initialFilesNumber + 1, currentFiles.length, "The file in queue was lost");
+		fs.unlinkSync(folderPath + '/' + currentFiles[0]);
+		fs.rmdirSync(folderPath);
 
-setTimeout(function(){
-    var currentFiles = fs.readdirSync(folderPath);
-    assert.equal(initialFilesNumber+1, currentFiles.length, "The file in queue was lost");
-    fs.unlinkSync(folderPath + '/' + currentFiles[0]);
-    fs.rmdirSync(folderPath);
+		this.cb();
+		process.exit();
+	}
+});
 
-    console.log("Test passed");
-    process.exit();
-}, 1000);
+assert.callback("noConsumerTest", function (callback) {
+	flow.init(callback);
+}, 2000);

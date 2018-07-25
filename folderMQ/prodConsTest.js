@@ -1,5 +1,5 @@
 require("../../../engine/core").enableTesting();
-var mq = require("../../../engine/pubSub/core/folderMQ");
+var mq = require("../../../modules/soundpubsub/lib/folderMQ");
 var queue = mq.getFolderQueue("./testFolderMQ",function(){});
 
 var assert = $$.requireModule("double-check").assert;
