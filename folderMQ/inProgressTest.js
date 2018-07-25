@@ -1,35 +1,46 @@
 require("../../../engine/core").enableTesting();
-var fs = require("fs");
-var mq = require("../../../engine/pubSub/core/folderMQ");
+const fs = require("fs");
+const mq = require("../../../modules/soundpubsub/lib/folderMQ");
 
-var folderPath = './InProgressChannel';
-var inProgressFileName = 'file1.test.in_progress';
+const folderPath         = './InProgressChannel';
+const inProgressFileName = 'file1.test.in_progress';
 
-var queue = mq.getFolderQueue(folderPath, function(){});
-var assert = $$.requireModule("double-check").assert;
-var wasConsumed = 0;
-// Try clear the dir before writing if anything exists
-try{
-    for(const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
-}catch(e){}
+const queue  = mq.getFolderQueue(folderPath, function () {});
+const assert = $$.requireModule("double-check").assert;
+let wasConsumed = 0;
 
-// Write the test files
-fs.writeFileSync(folderPath+'/'+inProgressFileName, JSON.stringify({test:1}));
+const flow = $$.flow.create('inProgressTest', {
+	init: function (callback) {
+		// Try clear the dir before writing if anything exists
+		try {
+			for (const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
+		} catch (e) {}
+		this.cb = callback;
+		this.writeTestFiles();
+		this.registerConsumer();
+		setTimeout(this.checkResults, 1000);
+	},
+	writeTestFiles: function () {
+		fs.writeFileSync(folderPath + '/' + inProgressFileName, JSON.stringify({test: 1}));
+	},
+	consume: function () {
+		wasConsumed = 1;
+		assert.notEqual(result.test, 1, "Test failed. The `In progress` file was consumed.");
+	},
+	registerConsumer: function () {
+		queue.registerConsumer(this.consume);
+	},
+	checkResults: function () {
+		fs.unlinkSync(folderPath + '/' + inProgressFileName);
+		fs.rmdirSync(folderPath);
 
-// Consumer for the files
-function consume(err, result){
-    wasConsumed = 1;
-    assert.notEqual(result.test, 1, "Test failed. The `In progress` file was consumed.");
-}
-// Register the consumer
-queue.registerConsumer(consume);
+		assert.true(wasConsumed === 0);
 
-setTimeout(function(){
-    fs.unlinkSync(folderPath+'/'+inProgressFileName);
-    fs.rmdirSync(folderPath);
+		this.cb();
+		process.exit();
+	}
+});
 
-    if(wasConsumed === 0){
-        console.log("Test passed");
-    }
-    process.exit();
-}, 1000);
+assert.callback("inProgressTest", function (callback) {
+	flow.init(callback);
+}, 2000);

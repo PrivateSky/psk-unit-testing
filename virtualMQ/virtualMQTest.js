@@ -19,9 +19,16 @@ const flow = $$.flow.create('VirtualMQTest', {
 			this.virtualMq = VirtualMQ.createVirtualMQ(PORT, tempFolder, () => {
 				this.sendSwarm(() => {
 					this.getSwarm(() => {
-						this.virtualMq.close();
-						fileStateManager.restoreState();
-						this.cb();
+						this.getSwarm(() => {
+
+						});
+						setTimeout(() => {
+							this.sendSwarm(() => {
+								this.virtualMq.close();
+								fileStateManager.restoreState();
+								this.cb();
+							})
+						}, 100);
 					});
 				});
 			});
