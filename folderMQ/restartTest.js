@@ -1,7 +1,14 @@
 require("../../../engine/core").enableTesting();
-var mq = require("../../../engine/pubSub/core/folderMQ")
+var mq = require("../../../modules/soundpubsub/lib/folderMQ")
+const fs = require('fs');
 
-var queue = mq.getFolderQueue("./testFolderMQ",function(){});
+const folderPath = './testFolderMQ';
+
+try {
+	for (const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
+} catch (e) {}
+
+var queue = mq.getFolderQueue(folderPath,function(){});
 
 var assert = $$.requireModule("double-check").assert;
 
@@ -37,5 +44,9 @@ flow1.observe(function(){
 
 setTimeout(function(){
     assert.equal(value,2,"Not consumed enough");
+	try {
+		for (const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
+		fs.rmdirSync(folderPath);
+	} catch (e) {}
     process.exit();
 }, 1000);

@@ -28,7 +28,7 @@ const flow = $$.flow.create('renamingTriggerTest', {
 			fs.writeFileSync(folderPath + '/file' + i + inProgressExtension, JSON.stringify({test: i}));
 		}
 	},
-	consume: function () {
+	__consume: function () {
 		fileCount++;
 	},
 	registerConsumer: function () {
@@ -40,7 +40,7 @@ const flow = $$.flow.create('renamingTriggerTest', {
 				});
 			}, j - 1);
 		}
-		queue.registerConsumer(this.consume);
+		queue.registerConsumer(this.__consume);
 	},
 	checkResults: function () {
 		console.log("## Consumed " + fileCount + " of " + (filesToTry + 1) + " files");
