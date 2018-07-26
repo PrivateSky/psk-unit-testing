@@ -1,6 +1,6 @@
 require("../../../engine/core").enableTesting();
 
-var deployer  = require( __dirname + "/../../../libraries/deployer/Deployer.js");
+var deployer  = require( __dirname + "/../../../deployer/Deployer.js");
 
 const assert = $$.requireModule("double-check").assert;
 

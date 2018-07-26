@@ -1,5 +1,5 @@
 require("../../../engine/core").enableTesting();
-var mq = require("../../../engine/pubSub/core/folderMQ");
+var mq = require("../../../modules/soundpubsub/lib/folderMQ");
 var fs = require("fs");
 var assert = $$.requireModule("double-check").assert;
 
@@ -106,7 +106,6 @@ TS.push(prepareTest({
         var producerHandler = queue.getHandler();
         var registeredConsumer = 0;
         var swarmList = [];
-
         var waiting = 0;
         var done = 0;
         function cb(){

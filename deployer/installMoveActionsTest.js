@@ -5,7 +5,7 @@ const assert = $$.requireModule("double-check").assert;
 var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
 
-var deployer  = require( __dirname + "/../../../libraries/deployer/Deployer.js");
+var deployer  = require( __dirname + "/../../../deployer/Deployer.js");
 
 const path = require("path");
 const os = require("os");

@@ -1,10 +1,14 @@
 require("../../../engine/core").enableTesting();
-var mq = require("../../../modules/soundpubsub/lib/folderMQ");
-var queue = mq.getFolderQueue("./testFolderMQ",function(){});
+const mq = require("../../../modules/soundpubsub/lib/folderMQ");
+const assert = $$.requireModule("double-check").assert;
+const fs = require('fs');
 
-var assert = $$.requireModule("double-check").assert;
+const folderPath = './testFolderMQ';
 
-var f = $$.swarm.create("test", {
+const queue = mq.getFolderQueue(folderPath,function(){});
+
+
+const f = $$.swarm.create("test", {
     public:{
         value:"int"
     },
@@ -14,25 +18,44 @@ var f = $$.swarm.create("test", {
     }
 });
 
-queue.registerConsumer(function(err, result){
-    assert.notEqual(result,null,"Nothing is consumed");
-    f.callback();
+
+const flow = $$.flow.create('prodConsTest', {
+	init: function (callback) {
+	    this.cb = callback;
+
+		try {
+			for (const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
+		} catch (e) {}
+
+
+		this.registerConsumer();
+        this.producerHandler = queue.getHandler();
+        this.startObserve(() => {
+	        try {
+		        for (const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
+		        fs.rmdirSync(folderPath);
+	        } catch (e) {}
+            this.cb();
+            process.exit();
+        });
+	},
+	registerConsumer: function () {
+		queue.registerConsumer(function (err, result) {
+			assert.notEqual(result, null, "Nothing is consumed");
+			f.callback();
+		});
+	},
+	__filter: function () {
+		return f.getInnerValue().meta.swarmId;
+	},
+	startObserve: function (callback) {
+	    f.observe(() => {
+		    f.init(callback);
+		    this.producerHandler.addSwarm(f, function(){});
+	    }, null,this.__filter);
+    }
 });
 
-var producerHandler = queue.getHandler();
-
-function filter(){
-    return f.getInnerValue().meta.swarmId;
-}
-
-assert.callback("Producer-consumer Test for folderMQ",function(callback){
-    f.observe(function(){
-        f.init(callback);
-        producerHandler.addSwarm(f, function(){});
-    }, null,filter);
-
-});
-
-setTimeout(function(){
-    process.exit();
-}, 1000);
+assert.callback("prodConsTest", function (callback) {
+   flow.init(callback);
+}, 2000);
