@@ -14,7 +14,6 @@ class PskWalletManager{
         this.expectedOutputPath = null;
         this.tempFolder = "temp";
         this.args=[]
-        this.trash=[]
     }
 
     setExpectedOutputPath(path){
@@ -52,12 +51,12 @@ class PskWalletManager{
         {
             stdio: [ 0, file, 2]
         });
-        
-            if(this.inputPath){
+
+        if(this.inputPath){
             var content =  fs.readFileSync(paths.resolve("..", this.inputPath),"utf8")
             console.log(content);
             sub.stdin.write(content);
-            }
+        }
 
         sub.on("close", ()=>{
             fs.closeSync(file);
