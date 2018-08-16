@@ -1,71 +1,92 @@
 const fs = require("fs");
 const process = require("process");
 const paths = require('path')
-const { fork, spawnSync, spawn } = require("child_process")
-
+const { fork, execFile, spawnSync, spawn } = require("child_process")
+const os = require('os');
 const outputFileName = "output.txt"
 
-class PskWalletManager{
+function PskWalletManager(){
     
-    constructor(){
+    return {
         
-        this.inputPath="";
-        this._stdout = null;
-        this.expectedOutputPath = null;
-        this.tempFolder = "temp";
-        this.args=[]
-    }
+        inputPath:          "",
 
-    setExpectedOutputPath(path){
-        this._stdout = fs.createWriteStream(path, { flags: 'a' });
-    }
-
-    deleteTrash(){
-        removeFolder(this.tempFolder)
-    }
-
-    getOutput(){
-        return fs.readFileSync(paths.resolve(this.tempFolder, outputFileName), "utf8");
-    }
-
-    resetOutput(){
-        fs.unlinkSync(paths.resolve(this.tempFolder, outputFileName));
-    }
-    
-
-    createPskWallet(args, callback){
-        if(args){
-            this.args = args
-            this.args.unshift("../../../../bin/pskwallet.js")
-        }
-        // this.deleteTrash();
-        console.log('before mkdir')
-        if(!fs.existsSync(this.tempFolder))
-            fs.mkdirSync(this.tempFolder, 0o777);
-        console.log("after mkdir")
-        process.chdir(this.tempFolder)
-        console.log("hello")
+        _stdout:            null,
         
-        var file = fs.openSync(outputFileName, 'a')
-        var sub = spawn("node", this.args, 
-        {
-            stdio: [ 0, file, 2]
-        });
+        expectedOutputPath: null,
+        
+        tempFolder:         "temp",
 
-        if(this.inputPath){
-            var content =  fs.readFileSync(paths.resolve("..", this.inputPath),"utf8")
-            console.log(content);
-            sub.stdin.write(content);
+        args:               [],
+
+        setExpectedOutputPath: function(path){
+            this._stdout = fs.createWriteStream(path, { flags: 'a' });
+        },
+
+        deleteTrash: function(){
+            removeFolder(this.tempFolder)
+        },
+
+        getOutput: function(){
+            return fs.readFileSync(paths.resolve(this.tempFolder, outputFileName), "utf8");
+        },
+
+        resetOutput: function(){
+            fs.unlinkSync(paths.resolve(this.tempFolder, outputFileName));
+        },
+        
+        setArgs: function(args){
+            if (args) {
+                this.args = args
+                this.args.unshift("../../../../bin/pskwallet.js")
+            }
+        },
+
+        setInputPath: function(path){
+            this.inputPath = path;
+        },
+
+        runCommand: function(callback){
+            
+            // this.deleteTrash();
+            // console.log('before mkdir')
+            if(!fs.existsSync(this.tempFolder))
+                fs.mkdirSync(this.tempFolder, 0o777);
+            // console.log("after mkdir")
+            process.chdir(this.tempFolder)
+            // console.log("hello")
+            var file = fs.openSync(outputFileName, 'w')
+            var stdioArr = ['pipe', file, 2]
+            if(this.inputPath){
+                var input = fs.openSync(paths.resolve("..", this.inputPath), 'r')
+                stdioArr[0]=input;
+            }
+            
+            var command = "";
+
+            this.args.forEach((val)=>{
+                command += val + " ";
+            })
+            
+            var sub = spawn("node", this.args, 
+            {
+                stdio: stdioArr
+            });
+
+            var responses = ["12345678\n", "87654321\n"];
+
+            // sub.stdin.on("drain", ()=>{
+            //     var resp = responses[0];
+            //     responses.splice(0, 1);
+            // })
+
+            sub.on("close", ()=>{
+                fs.closeSync(file);
+                process.chdir("..")
+                callback()
+            })
         }
-
-        sub.on("close", ()=>{
-            fs.closeSync(file);
-            process.chdir("..")
-            callback()
-        })
-
-        // this.deleteTrash()
-    }
+    }   
 }
 
 module.exports = PskWalletManager;

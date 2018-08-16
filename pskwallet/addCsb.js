@@ -15,8 +15,7 @@ const testName = "addCsb"
 var f = $$.flow.create(testName, {
     init: function (cb) {
         this.cb = cb;
-        console.log("hello")
-        this.manager = new PskWalletManager();
+        this.manager = PskWalletManager();
         this.createCsb(()=>{
             this.manager.resetOutput()
             this.recreateCsb(this.cb);
@@ -25,7 +24,9 @@ var f = $$.flow.create(testName, {
     },
     
     createCsb: function(callback){
-        this.manager.createPskWallet(["create", 'csb', 'test_csb'], ()=>{
+        
+        this.manager.setArgs(["create", 'csb', 'test_csb'])
+        this.manager.runCommand( ()=>{
             let privateSkyFolder = paths.resolve(this.manager.tempFolder, ".privateSky");
             let folderExists = fs.existsSync(privateSkyFolder)
             let dseedExists = fs.existsSync(paths.resolve(privateSkyFolder, "Dseed"));
@@ -34,15 +35,24 @@ var f = $$.flow.create(testName, {
             assert.true(dseedExists, "Dseed inside the folder .privateSky wasn't created");
             assert.true(/The default pin is: 12345678/i.test(output), "Default pin wasn't set to 12345678");
             console.log(output)
+            this.checkCreatedCsb();
             callback();
         });
     },
 
+    checkCreatedCsb: function(){
+        var dir = fs.readdirSync(this.manager.tempFolder);
+        assert.true(dir.length > 2, "Csb file wasn't created in the directory pskwallet was executed")
+    },
+
     recreateCsb(callback){
-        this.manager.inputPath = "input.txt";
-        this.manager.createPskWallet(null, () => {
+        this.manager.setInputPath("input.txt")
+        this.manager.runCommand(() => {
             var output = this.manager.getOutput();
+            // console.log("BEFORE CHECKING THE ATTEMPT")
             assert.true(/A csb with the provided alias already exists/i.test(output), "Attempted to create a csb over existing one")
+            console.log("TEST FINISHED")
+            this.manager.deleteTrash();
             callback();
         });
         
@@ -52,4 +62,4 @@ var f = $$.flow.create(testName, {
 });
 assert.callback(testName, function (callback) {
     f.init(callback);
-}, 5000);
+}, 1000);
