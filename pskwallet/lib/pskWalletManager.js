@@ -4,7 +4,6 @@ const paths = require('path')
 const { fork, execFile, spawnSync, spawn } = require("child_process")
 const os = require('os');
 const outputFileName = "output.txt"
-
 function PskWalletManager(){
     
     return {

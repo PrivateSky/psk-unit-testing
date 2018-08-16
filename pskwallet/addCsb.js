@@ -16,6 +16,7 @@ var f = $$.flow.create(testName, {
     init: function (cb) {
         this.cb = cb;
         this.manager = PskWalletManager();
+        this.manager.deleteTrash();
         this.createCsb(()=>{
             this.manager.resetOutput()
             this.recreateCsb(this.cb);

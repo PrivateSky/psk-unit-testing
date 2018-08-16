@@ -1,0 +1,7 @@
+process.stdin.isTTY undefined
+Setting non TTY version on.
+PSK node client loading
+Enter seed:password length: 144
+eyJiYWNrdXAiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJyYW5kIjoiMWY1OTk2M2ExMWEwMzViZTUzMTA5NWYwNzQwYjA3ZWU1MTJjZjdmZWNlZjEyYmQ1NDllNjUxNGMzMGQ5MjkxZCJ9
+Enter a new pin:password length: 13
+0000000000000
