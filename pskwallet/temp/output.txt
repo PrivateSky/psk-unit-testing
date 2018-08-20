@@ -1,12 +1,15 @@
 process.stdin.isTTY undefined
 Setting non TTY version on.
 PSK node client loading
-Enter old pin:password length: 8
+Insert pin:password length: 8
 12345678
-Insert new pin:password length: 8
-87654321
+There aren't any csbs in the current folder
+password length: 0
+
+There aren't any csbs in the current folder
+password length: 0
+
+There aren't any csbs in the current folder
 Pin is invalid
 Try again
-Enter old pin:Pin is invalid
-Try again
-Enter old pin:An invalid character was introduced. Try again:
+Insert pin:
