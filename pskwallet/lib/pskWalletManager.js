@@ -6,7 +6,7 @@ const os = require('os');
 const outputFileName = "output.txt"
 function PskWalletManager(){
     
-    return {
+    var obj =  {
         
         inputPath:          "",
 
@@ -43,6 +43,12 @@ function PskWalletManager(){
 
         setInputPath: function(path){
             this.inputPath = path;
+        },
+
+        createCsb: function(callback, csbName="test_csb"){
+
+            this.setArgs(["create", 'csb', csbName])
+            this.runCommand(callback)
         },
 
         runCommand: function(callback){
@@ -86,6 +92,8 @@ function PskWalletManager(){
             })
         }
     }   
+    obj.deleteTrash();
+    return obj;
 }
 
 module.exports = PskWalletManager;

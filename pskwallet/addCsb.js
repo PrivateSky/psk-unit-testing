@@ -16,7 +16,6 @@ var f = $$.flow.create(testName, {
     init: function (cb) {
         this.cb = cb;
         this.manager = PskWalletManager();
-        this.manager.deleteTrash();
         this.createCsb(()=>{
             this.manager.resetOutput()
             this.recreateCsb(this.cb);
@@ -26,8 +25,7 @@ var f = $$.flow.create(testName, {
     
     createCsb: function(callback){
         
-        this.manager.setArgs(["create", 'csb', 'test_csb'])
-        this.manager.runCommand( ()=>{
+        this.manager.createCsb( ()=>{
             let privateSkyFolder = paths.resolve(this.manager.tempFolder, ".privateSky");
             let folderExists = fs.existsSync(privateSkyFolder)
             let dseedExists = fs.existsSync(paths.resolve(privateSkyFolder, "Dseed"));
@@ -48,12 +46,11 @@ var f = $$.flow.create(testName, {
 
     recreateCsb(callback){
         this.manager.setInputPath("input.txt")
-        this.manager.runCommand(() => {
+        this.manager.createCsb(() => {
             var output = this.manager.getOutput();
             // console.log("BEFORE CHECKING THE ATTEMPT")
             assert.true(/A csb with the provided alias already exists/i.test(output), "Attempted to create a csb over existing one")
             console.log("TEST FINISHED")
-            this.manager.deleteTrash();
             callback();
         });
         

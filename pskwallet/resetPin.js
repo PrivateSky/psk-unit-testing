@@ -15,14 +15,12 @@ var f = $$.flow.create(testName, {
     init: function (cb) {
         this.cb = cb;
         this.manager = PskWalletManager();
-        this.manager.deleteTrash();
-        this.createCsb(cb);
+        this.createCsb();
 
     },
 
     createCsb: function () {
-        this.manager.setArgs(["create", 'csb', 'test_csb'])
-        this.manager.runCommand(() => {
+        this.manager.createCsb(() => {
             this.resetPin();
         });
     },

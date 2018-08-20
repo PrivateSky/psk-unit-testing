@@ -14,15 +14,13 @@ var f = $$.flow.create(testName, {
     init: function (cb) {
         this.cb = cb;
         this.manager = PskWalletManager();
-        this.manager.deleteTrash();
         this.createCsb(cb);
 
     },
 
     createCsb: function (callback) {
         this.manager.setInputPath(paths.resolve("setPin", "input1.txt"))
-        this.manager.setArgs(["create", 'csb', 'test_csb'])
-        this.manager.runCommand(() => {
+        this.manager.createCsb(() => {
             var output = this.manager.getOutput();
             this.changePin(callback);
         });
@@ -53,7 +51,6 @@ var f = $$.flow.create(testName, {
             var output = this.manager.getOutput();
             console.log(output);
             assert.true(/Pin is invalid/i.test(output), "Wrong pin code  was accepted by pskwallet as right");
-            this.manager.deleteTrash();
             callback();
         })
 
