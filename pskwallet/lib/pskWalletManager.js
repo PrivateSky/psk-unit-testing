@@ -4,6 +4,7 @@ const paths = require('path')
 const { fork, execFile, spawnSync, spawn } = require("child_process")
 const os = require('os');
 const outputFileName = "output.txt"
+const defaultCsb = "test_csb"
 function PskWalletManager(){
     
     var obj =  {
@@ -17,6 +18,8 @@ function PskWalletManager(){
         tempFolder:         "temp",
 
         args:               [],
+
+        _serverProc:         null,
 
         setExpectedOutputPath: function(path){
             this._stdout = fs.createWriteStream(path, { flags: 'a' });
@@ -45,11 +48,48 @@ function PskWalletManager(){
             this.inputPath = path;
         },
 
-        createCsb: function(callback, csbName="test_csb"){
+        createCsb: function(callback, csbName=defaultCsb){
 
             this.setArgs(["create", 'csb', csbName])
             this.runCommand(callback)
         },
+
+        createNote: function(callback, csbName=defaultCsb){
+            this.createEntry(callback, 'Notes', csbName);
+        },
+
+        createEntry: function(callback, entryType, csbName=defaultCsb){
+            this.setArgs(['set', 'url', `${csbName}/${entryType}`])
+            this.runCommand(callback);
+        },
+
+        updateNote: function(callback, title, csbName=defaultCsb){
+            this.updateEntry(callback, csbName, 'Notes', title)
+        },
+
+        updateEntry: function(callback, title, entryType, csbName=defaultCsb){
+            this.setArgs(['set', 'key', csbName, entryType, title ])
+            this.runCommand(callback);
+        },
+
+        printCsb: function(callback, csbName=defaultCsb){
+          this.setArgs(['print', 'csb', csbName]);
+          this.runCommand(callback);  
+        },
+
+
+        startServer: function(){
+            this._serverProc = spawn("node", ['../../../libraries/utils/startServer.js'])
+        },
+
+        backupCsb: function(callback){
+            this.setArgs(['add', 'backup', 'http://localhost:8080'])
+            this.runCommand(callback)
+        },
+
+        stopServer: function(){
+            process.kill(this._serverProc.pid, "SIGINT");
+        },       
 
         runCommand: function(callback){
             
