@@ -1,15 +1,44 @@
 process.stdin.isTTY undefined
 Setting non TTY version on.
 PSK node client loading
-Insert pin:password length: 8
-12345678
-There aren't any csbs in the current folder
-password length: 0
+Unknown command:  create
+List of commands:
+	 -h 						 |just print the help
+	 /? 						 |just print the help
+	 help 						 |just print the help
+	 add agent <agentName> 				 |add a new agent in the current domain
+	 del agent <agentName> 				 |remove the agent
+	 transfer agent <agentName> <remoteWalletUid> 	 |transfer the private key of an agent to another wallet
+	 allow agent <agentName> <remoteWalletUid> 	 |transfer a temporary private key of an agent to another wallet
+	 set pin 					 |change the pin
+	 create csb <aliasCsb> 				 |create a new CSB having the alias <aliasCsb>
+	 print csb <aliasCsb>				 |print the CSB having the alias <aliasCsb>
+	 set key <aliasCsb> <recordType> <key> <field>   |set the key 
+	 get key <aliasCsb> <recordType> <key> <field>   |get the key 
+	 add backup <url>				 |save all csbs at address <url>
+	 restore csb <aliasCsb>				 |restore the csb <aliasCsb> from one of the addresses stored
+							  in backup
 
-There aren't any csbs in the current folder
-password length: 0
+	 reset pin 					 |enter the seed in order to set the pin to a new value
+	 set url <url> 					 |set/update the record/field pointed by the provided <url>
+	 get url <url> 					 |print the record/field indicated by te provided <url>
+	 add file <csbUrl> <filePath> 			 |add a file to the csb pointed by <csbUrl>
+	 add folder <csbUrl> <folderPath> 		 |add a folder to the csb pointed by <csbUrl>
+	 extract <csbUrl> <alias> 			 |decrypt file/folder/csb having the alias <alias>, contained
+							   by the csb pointed to by <csbUrl>
 
-There aren't any csbs in the current folder
-Pin is invalid
-Try again
-Insert pin:
+	 list csbs <aliasCsb> 				 |show all child csbs in the csb <aliasCsb>; if <aliasCsb> 
+							  is not provided, the command will print all the csbs 
+							  in the current folder
+
+	 move csb <aliasCsb> <srcAlias> <destAlias> 	 |move the csb <aliasCsb> from <srcAlias> to <destAlias>
+	 connect <remoteEndPoint>   			 |connect to a remote privateSky service
+	 create domain <domainName> <remoteEndPoint> 	 |create a domain on a remote service
+	 publish domain <domainName> <remoteEndPoint> 	 |publish a domain on a remote service
+	 list services 					 |list remote end points
+	 list domains 					 |list all domains
+	 set shares <howMany> 				 |set the ammount of shares in current domain
+	 give shares <howMany>  <agentName> 		 |give an ammount of shares to another agent
+	 delegate <howMany>  <agentName> 		 |delegate an ammount of voting power to another agent
+	 undelegate <howMany>  <agentName> 		 |remove an ammount of voting power from another agent
+	 sync 						 |synchronise the current wallet with all the remote endpoints

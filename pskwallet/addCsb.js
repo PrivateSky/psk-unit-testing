@@ -45,7 +45,7 @@ var f = $$.flow.create(testName, {
     },
 
     recreateCsb(callback){
-        this.manager.setInputPath("input.txt")
+        this.manager.setInputPath("defaultPassword.txt")
         this.manager.createCsb(() => {
             var output = this.manager.getOutput();
             // console.log("BEFORE CHECKING THE ATTEMPT")

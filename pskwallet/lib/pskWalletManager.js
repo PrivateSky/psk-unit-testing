@@ -27,6 +27,7 @@ function PskWalletManager(){
 
         deleteTrash: function(){
             removeFolder(this.tempFolder)
+            removeFolder("tmp") // folder created by server
         },
 
         getOutput: function(){
@@ -82,13 +83,21 @@ function PskWalletManager(){
             this._serverProc = spawn("node", ['../../../libraries/utils/startServer.js'])
         },
 
-        backupCsb: function(callback){
-            this.setArgs(['add', 'backup', 'http://localhost:8080'])
+        backupCsb: function (callback, address = 'http://localhost:8080'){
+            this.setArgs(['add', 'backup', address])
             this.runCommand(callback)
         },
 
+        restore: function(callback, csbName){
+            var arr = ['create']
+            if(csbName) arr.push(csbName)
+            this.setArgs(arr);
+            this.runCommand(callback);
+        },
+
         stopServer: function(){
-            process.kill(this._serverProc.pid, "SIGINT");
+            // process.kill(this._serverProc.pid, "SIGINT");
+            this._serverProc.kill("SIGINT");
         },       
 
         runCommand: function(callback){
@@ -106,19 +115,12 @@ function PskWalletManager(){
                 var input = fs.openSync(paths.resolve("..", this.inputPath), 'r')
                 stdioArr[0]=input;
             }
-            
-            var command = "";
-
-            this.args.forEach((val)=>{
-                command += val + " ";
-            })
+        
             
             var sub = spawn("node", this.args, 
             {
                 stdio: stdioArr
             });
-
-            var responses = ["12345678\n", "87654321\n"];
 
             // sub.stdin.on("drain", ()=>{
             //     var resp = responses[0];
@@ -128,7 +130,7 @@ function PskWalletManager(){
             sub.on("close", ()=>{
                 fs.closeSync(file);
                 process.chdir("..")
-                callback()
+                callback(this.getOutput())
             })
         }
     }   
