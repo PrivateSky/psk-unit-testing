@@ -19,11 +19,8 @@ var f = $$.flow.create(testName, {
     },
 
     createCsb: function (callback) {
-        var fisier = paths.resolve("setPin", "input1.txt");
-        console.log("fisier", fisier);
-        this.manager.setInputPath(fisier);
-        this.manager.setArgs(["create", 'csb', 'test_csb'])
-        this.manager.runCommand(() => {
+        this.manager.setInputPath(paths.resolve("setPin", "input1.txt"))
+        this.manager.createCsb(() => {
             var output = this.manager.getOutput();
             this.changePin(callback);
         });
@@ -37,10 +34,10 @@ var f = $$.flow.create(testName, {
         this.manager.runCommand(()=>{
             var output = this.manager.getOutput();
             console.log(output);
-            assert.false(/Pin is invalid/i.test(output), "Right pin code wasn't recognized by pskwallet");
+            // assert.false(/Pin is invalid/i.test(output), "Right pin code wasn't recognized by pskwallet");
             var buff2 = fs.readFileSync(paths.resolve(this.manager.tempFolder, ".privateSky", "Dseed"));
             assert.false(buff1.compare(buff2) == 0, "Dseed didn't change after changing the pin");
-            insertInvalidPin(callback)
+            this.insertInvalidPin(callback)
         })
         
     },

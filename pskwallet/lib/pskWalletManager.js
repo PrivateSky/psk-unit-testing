@@ -4,10 +4,10 @@ const paths = require('path')
 const { fork, execFile, spawnSync, spawn } = require("child_process")
 const os = require('os');
 const outputFileName = "output.txt"
-
+const defaultCsb = "test_csb"
 function PskWalletManager(){
     
-    return {
+    var obj =  {
         
         inputPath:          "",
 
@@ -19,12 +19,15 @@ function PskWalletManager(){
 
         args:               [],
 
+        _serverProc:         null,
+
         setExpectedOutputPath: function(path){
             this._stdout = fs.createWriteStream(path, { flags: 'a' });
         },
 
         deleteTrash: function(){
             removeFolder(this.tempFolder)
+            removeFolder("tmp") // folder created by server
         },
 
         getOutput: function(){
@@ -46,6 +49,57 @@ function PskWalletManager(){
             this.inputPath = path;
         },
 
+        createCsb: function(callback, csbName=defaultCsb){
+
+            this.setArgs(["create", 'csb', csbName])
+            this.runCommand(callback)
+        },
+
+        createNote: function(callback, csbName=defaultCsb){
+            this.createEntry(callback, 'Notes', csbName);
+        },
+
+        createEntry: function(callback, entryType, csbName=defaultCsb){
+            this.setArgs(['set', 'url', `${csbName}/${entryType}`])
+            this.runCommand(callback);
+        },
+
+        updateNote: function(callback, title, csbName=defaultCsb){
+            this.updateEntry(callback, csbName, 'Notes', title)
+        },
+
+        updateEntry: function(callback, title, entryType, csbName=defaultCsb){
+            this.setArgs(['set', 'key', csbName, entryType, title ])
+            this.runCommand(callback);
+        },
+
+        printCsb: function(callback, csbName=defaultCsb){
+          this.setArgs(['print', 'csb', csbName]);
+          this.runCommand(callback);  
+        },
+
+
+        startServer: function(){
+            this._serverProc = spawn("node", ['../../../libraries/utils/startServer.js'])
+        },
+
+        backupCsb: function (callback, address = 'http://localhost:8080'){
+            this.setArgs(['add', 'backup', address])
+            this.runCommand(callback)
+        },
+
+        restore: function(callback, csbName){
+            var arr = ['create']
+            if(csbName) arr.push(csbName)
+            this.setArgs(arr);
+            this.runCommand(callback);
+        },
+
+        stopServer: function(){
+            // process.kill(this._serverProc.pid, "SIGINT");
+            this._serverProc.kill("SIGINT");
+        },       
+
         runCommand: function(callback){
             
             // this.deleteTrash();
@@ -59,25 +113,14 @@ function PskWalletManager(){
             var stdioArr = ['pipe', file, 2]
             if(this.inputPath){
                 var input = fs.openSync(paths.resolve("..", this.inputPath), 'r')
-                console.log("input", input);
                 stdioArr[0]=input;
             }
+        
             
-            var command = "";
-
-            this.args.forEach((val)=>{
-                command += val + " ";
-            })
-
-            console.log(this.args);
             var sub = spawn("node", this.args, 
             {
                 stdio: stdioArr
             });
-
-
-
-            var responses = ["12345678\n", "87654321\n"];
 
             // sub.stdin.on("drain", ()=>{
             //     var resp = responses[0];
@@ -87,10 +130,12 @@ function PskWalletManager(){
             sub.on("close", ()=>{
                 fs.closeSync(file);
                 process.chdir("..")
-                callback()
+                callback(this.getOutput())
             })
         }
     }   
+    obj.deleteTrash();
+    return obj;
 }
 
 module.exports = PskWalletManager;
