@@ -23,7 +23,7 @@ var f = $$.flow.create(testName, {
 
     
 
-    addNote: function(){
+    addNote: function(){ //record de anumit tip
         const arr = [
             '12345678',
             'test_title',
@@ -41,29 +41,28 @@ var f = $$.flow.create(testName, {
         var output = this.manager.getOutput()
         console.log(output);
         createFileFromArray(this.inputPath, ['12345678'])
-        this.manager.printCsb(()=>{
-            output = this.manager.getOutput();
+        this.manager.printCsb((output)=>{
             console.log(output)
             assert.false(/There aren't any csbs in the current folder/i.
-                            test(output), 'No records were created')
+                            test(output), 'No records were created/modified')
             
             var satisfied = recordArguments.every((v)=> 
                     new RegExp(`.*${v}.*`, 'i').test(output))
 
-            assert.true(satisfied, 'Record wasn\'t created')
+            assert.true(satisfied, 'Record wasn\'t created/modified')
             callback();
             
         })
     },
-    updateRecord: function(recordArguments){
+    updateRecord: function(recordArguments){ //testarea modificarii unui field intr-un record avand cheia specificata
         var arr = ['12345678', 'y', 'title2', 'content2']
         createFileFromArray(this.inputPath, arr)
         this.manager.updateNote(()=>{
-            this.checkRecord([arr[2], arr[3]], this.setRecordWithoutKey)
+            this.checkRecord([arr[2], arr[3]], this.setRecordWithoutKeyAndField)
         }, recordArguments[1], 'test_csb')
     },
 
-    setRecordWithoutKey: function(){
+    setRecordWithoutKeyAndField: function(){ //with unspecified key and field
         
         this.manager.setArgs(['set', 'key', 'test_csb', 'Notes'])
         var fileLines = [
@@ -72,12 +71,48 @@ var f = $$.flow.create(testName, {
             'test note nr.3'
         ]
         createFileFromArray(this.inputPath, fileLines)
-        this.manager.runCommand(()=>{
-            var output = this.manager.getOutput()
+        this.manager.runCommand((output)=>{ 
             console.log(output)
-            this.checkRecord([fileLines[1],fileLines[2]])
+            this.checkRecord([fileLines[1],fileLines[2]], ()=>{
+                this.setRecordWithoutField();
+            })
         })
-    }
+    },
+    setRecordWithoutField: function(){ //with unspecified field
+        
+        this.manager.setArgs(['set', 'key', 'test_csb', 'Notes', 'title3'])
+        var fileLines = [
+            '12345678',
+            'y',
+            'title4',
+            'test note nr.3'
+        ]
+        createFileFromArray(this.inputPath, fileLines)
+        this.manager.runCommand((output)=>{ 
+            
+            this.checkRecord([fileLines[2],fileLines[3]], this.setInvalidRecordType)
+        })
+    },
+    setInvalidRecordType: function(){ //with unspecified field
+        
+        this.manager.setArgs(['set', 'key', 'test_csb', 'InvalidRecord', 'title3'])
+        var fileLines = [
+            '12345678',
+            'y',
+            'title4',
+            'test note nr.3'
+        ]
+        createFileFromArray(this.inputPath, fileLines)
+        this.manager.runCommand((output)=>{ 
+            
+            this.checkRecord([fileLines[2],fileLines[3]], ()=>{
+                this.cb();
+            })
+        })
+    },
+
+
+
 
 
 });

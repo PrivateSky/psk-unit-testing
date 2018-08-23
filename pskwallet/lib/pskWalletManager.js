@@ -30,6 +30,15 @@ function PskWalletManager(){
             removeFolder("tmp") // folder created by server
         },
 
+        deleteMasterCsb: function(){
+            console.log('deleteMastercsb')
+            var pskyFolder = paths.resolve('temp', '.privateSky');
+            var folderContent = fs.readdirSync(pskyFolder)
+            var masterCsbFile = folderContent.reduce((prev, cur)=>
+                    prev.length > cur.length? prev :cur);
+            fs.unlinkSync(paths.resolve(pskyFolder, masterCsbFile))
+        },
+
         getOutput: function(){
             return fs.readFileSync(paths.resolve(this.tempFolder, outputFileName), "utf8");
         },
@@ -67,13 +76,23 @@ function PskWalletManager(){
         updateNote: function(callback, title, csbName=defaultCsb){
             this.updateEntry(callback, csbName, 'Notes', title)
         },
-
+        
         updateEntry: function(callback, title, entryType, csbName=defaultCsb){
             this.setArgs(['set', 'key', csbName, entryType, title ])
             this.runCommand(callback);
         },
 
-        printCsb: function(callback, csbName=defaultCsb){
+        getKey: function(callback, entryType, entryTitle, entryField, csbName=defaultCsb){
+            if(!entryField) 
+                var args = ['get', 'key', csbName, entryType, entryTitle];
+            else
+                var args = ['get', 'key', csbName, entryType, entryTitle, entryField]
+
+            this.setArgs(args)
+            this.runCommand(callback);
+        },
+
+        printCsb: function(callback, csbName= defaultCsb){
           this.setArgs(['print', 'csb', csbName]);
           this.runCommand(callback);  
         },
@@ -89,26 +108,20 @@ function PskWalletManager(){
         },
 
         restore: function(callback, csbName){
-            var arr = ['create']
+            var arr = ['restore', 'csb']
             if(csbName) arr.push(csbName)
             this.setArgs(arr);
             this.runCommand(callback);
         },
 
         stopServer: function(){
-            // process.kill(this._serverProc.pid, "SIGINT");
             this._serverProc.kill("SIGINT");
         },       
 
         runCommand: function(callback){
-            
-            // this.deleteTrash();
-            // console.log('before mkdir')
             if(!fs.existsSync(this.tempFolder))
                 fs.mkdirSync(this.tempFolder, 0o777);
-            // console.log("after mkdir")
             process.chdir(this.tempFolder)
-            // console.log("hello")
             var file = fs.openSync(outputFileName, 'w')
             var stdioArr = ['pipe', file, 2]
             if(this.inputPath){
@@ -121,11 +134,6 @@ function PskWalletManager(){
             {
                 stdio: stdioArr
             });
-
-            // sub.stdin.on("drain", ()=>{
-            //     var resp = responses[0];
-            //     responses.splice(0, 1);
-            // })
 
             sub.on("close", ()=>{
                 fs.closeSync(file);
