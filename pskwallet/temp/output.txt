@@ -1,5 +1,9 @@
 process.stdin.isTTY undefined
 Setting non TTY version on.
 PSK node client loading
-Enter seed:password length: 8
+Insert pin:password length: 8
 12345678
+A csb with the provided alias already exists
+Pin is invalid
+Try again
+Insert pin:
