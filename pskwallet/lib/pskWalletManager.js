@@ -92,9 +92,25 @@ function PskWalletManager(){
             this.runCommand(callback);
         },
 
+        getUrl(callback, type, title, csbName=defaultCsb){
+            var path = csbName;
+            if(type){
+                path += "/" + type;
+                if(title) path += '/' + title
+            }
+
+            this.setArgs(['get',  'url', path])
+            this.runCommand(callback)
+        },
+
         printCsb: function(callback, csbName= defaultCsb){
           this.setArgs(['print', 'csb', csbName]);
           this.runCommand(callback);  
+        },
+
+        printMasterCsb: function(callback){
+            this.setArgs(['print','csb'])
+            this.runCommand(callback)
         },
 
 
@@ -123,7 +139,7 @@ function PskWalletManager(){
                 fs.mkdirSync(this.tempFolder, 0o777);
             process.chdir(this.tempFolder)
             var file = fs.openSync(outputFileName, 'w')
-            var stdioArr = ['pipe', file, 2]
+            var stdioArr = ['pipe', file, file]
             if(this.inputPath){
                 var input = fs.openSync(paths.resolve("..", this.inputPath), 'r')
                 stdioArr[0]=input;

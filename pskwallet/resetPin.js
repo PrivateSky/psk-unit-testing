@@ -37,8 +37,9 @@ var f = $$.flow.create(testName, {
 
         this.manager.setInputPath(inputFilePath);
         this.manager.setArgs(["reset", "pin"]);
-        this.manager.runCommand(()=>{
+        this.manager.runCommand((output)=>{
             var buff2 = fs.readFileSync(paths.resolve(this.manager.tempFolder, ".privateSky", "Dseed"));
+            assert.true(/ENOENT: no such file or directory/i.test(output), "Pskwallet threw an exception")
             assert.false(buff1.compare(buff2) == 0, "Dseed didn't change after changing the pin");
             this.resetWithFakeSeed();
         })
@@ -47,8 +48,7 @@ var f = $$.flow.create(testName, {
     resetWithFakeSeed(){
         const fakeSeed = "veryveryveryfake"
         createFileFromArray(this.manager.inputFilePath, [fakeSeed, "0000000000000"])
-        this.manager.runCommand(()=>{
-            var output = this.manager.getOutput();
+        this.manager.runCommand((output)=>{
             assert.true(/ENOENT: no such file or directory/i.test(output), "Pskwallet accepted fake seed to change the password")
             this.cb();
         })

@@ -28,6 +28,7 @@ var f = $$.flow.create(testName, {
 
     backup: function(){
         this.manager.backupCsb((output)=>{
+            assert.true
             this.restoreCsb(this.restoreNonexistent)
         })
     },
@@ -50,7 +51,7 @@ var f = $$.flow.create(testName, {
 
     restoreWithDeletedMaster: function(){
         this.manager.deleteMasterCsb();
-        this.restoreCsb()
+        this.restoreCsb(this.cb)
     }
 
 
