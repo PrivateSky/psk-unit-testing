@@ -28,8 +28,5 @@ assert.notEqual(test4,null,"Test4 is null");
 var lib4 = $$.loadLibrary("library4","./lib2");
 assert.notEqual(lib2, lib4, "Libraries shoud not be the same");
 
-var test5 = $$.callflow.start(lib4.f1);
-console.log("lib4", lib4);
-assert.notEqual(test5, null, "Test5 is null");
 
 $$.callflow.start("wrongName"); //should send errors
