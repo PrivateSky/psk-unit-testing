@@ -1,4 +1,4 @@
-var pdsFake = require("../../../../modules/signsensus/lib/InMemoryPDS");
+var pdsFake = require("../../../../modules/pskdb/lib/InMemoryPDS");
 
 var i = 100;
 while(i>0){

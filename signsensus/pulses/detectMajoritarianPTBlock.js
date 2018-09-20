@@ -4,7 +4,7 @@ var lset = require("../../../../../psk-unit-testing/signsensus/pds/utilityCreate
 
 var assert = require('double-check').assert;
 
-var pdsInM = require("../../../../modules/signsensus/lib/InMemoryPDS");
+var pdsInM = require("../../../../modules/pskdb/lib/InMemoryPDS");
 
 var pdsAdapter = pdsInM.newPDS();
 

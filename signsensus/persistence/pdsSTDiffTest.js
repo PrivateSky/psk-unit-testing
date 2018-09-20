@@ -1,4 +1,4 @@
-var pdsFake = require("../../../../modules/signsensus/lib/InMemoryPDS");
+var pdsFake = require("../../../../modules/pskdb/lib/InMemoryPDS");
 const cutil = require("../../../../modules/signsensus/lib/consUtil");
 var assert = require('double-check').assert;
 

@@ -2,7 +2,7 @@ const cutil = require("../../../../modules/signsensus/lib/consUtil");
 const ssutil = require("../../../../modules/signsensus/lib/ssutil");
 var pset = require("../../../../../psk-unit-testing/signsensus/pds/utilityCreateSet").set;
 
-var pdsInM = require("../../../../modules/signsensus/lib/InMemoryPDS");
+var pdsInM = require("../../../../modules/pskdb/lib/InMemoryPDS");
 
 var pdsAdapter = pdsInM.newPDS();
 

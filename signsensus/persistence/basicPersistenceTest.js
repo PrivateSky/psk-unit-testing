@@ -1,4 +1,4 @@
-var pdsModule = require("../../../../modules/signsensus/lib/FolderPersistentPDS");
+var pdsModule = require("../../../../modules/pskdb/lib/FolderPersistentPDS");
 const cutil = require("../../../../modules/signsensus/lib/consUtil");
 var assert = require('double-check').assert;
 
