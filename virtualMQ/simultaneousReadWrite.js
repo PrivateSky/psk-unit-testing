@@ -1,4 +1,4 @@
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime");
 const assert           = $$.requireModule("double-check").assert;
 const fileStateManager = require('../../../libraries/utils/FileStateManager').getFileStateManager();
 const VirtualMQ        = $$.requireModule('virtualmq');

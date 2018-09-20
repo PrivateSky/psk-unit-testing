@@ -1,4 +1,4 @@
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime"); 
 var fs = require("fs");
 var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();

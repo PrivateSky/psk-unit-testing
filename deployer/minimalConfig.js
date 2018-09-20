@@ -1,4 +1,4 @@
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime");
 
 const deployer = require('../../../deployer/Deployer');
 const fsExt    = require('../../../libraries/utils/FSExtension').fsExt;

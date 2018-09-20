@@ -1,5 +1,5 @@
-require("../../../engine/core").enableTesting();
-const mq = require("../../../modules/soundpubsub/lib/folderMQ");
+require("../../../builds/devel/pskruntime"); 
+const mq = require("../../../modules/foldermq/lib/folderMQ");
 const assert = $$.requireModule("double-check").assert;
 const fs = require('fs');
 

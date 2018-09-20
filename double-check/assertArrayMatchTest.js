@@ -1,4 +1,4 @@
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime"); 
 const assert = $$.requireModule("double-check").assert;
 const positiveTestDataArray = [["", {}, [1, [2, 3]]], ["", {}, [1, [2, 3]]], ["dd", null], ["dd", null], ["1", "dd", null, "aa", "SF"], ["1", "dd", null, "aa", "SF"], [true, false, -0, NaN], [true, false, -0, NaN], [{1: 1}], [{1: 1}]];
 

@@ -1,4 +1,4 @@
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime"); 
 
 var deployer  = require( __dirname + "/../../../deployer/Deployer.js");
 

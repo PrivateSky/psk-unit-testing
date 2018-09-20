@@ -1,4 +1,4 @@
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime");
 const assert = $$.requireModule("double-check").assert;
 const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
 var channelName = "superFunChannel";

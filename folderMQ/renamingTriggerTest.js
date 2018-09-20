@@ -1,6 +1,6 @@
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime"); 
 const fs = require("fs");
-const mq = require("../../../modules/soundpubsub/lib/folderMQ");
+const mq = require("../../../modules/foldermq/lib/folderMQ");
 
 const folderPath = './renamingTriggerTest';
 const inProgressExtension = '.test.in_progress';

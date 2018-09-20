@@ -1,5 +1,5 @@
-require("../../../engine/core").enableTesting();
-var mq = require("../../../modules/soundpubsub/lib/folderMQ")
+require("../../../builds/devel/pskruntime"); 
+var mq = require("../../../modules/foldermq/lib/folderMQ")
 const fs = require('fs');
 
 const folderPath = './testFolderMQ';

@@ -1,11 +1,12 @@
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime");
+require("callflow");
 const fs         = require("fs");
-const mq = require("../../../modules/soundpubsub/lib/folderMQ");
-const assert     = $$.requireModule("double-check").assert;
-const beesHealer = require('../../../modules/soundpubsub/lib/beesHealer');
+const mq = require("foldermq");
+const assert     = require("double-check").assert;
+const beesHealer = require("foldermq").beesHealer;
 const folderPath = './BasicReviveChannel';
 
-const queue = mq.getFolderQueue(folderPath, function () {
+const queue = mq.createQue(folderPath, function () {
 });
 // Try clear the dir before writing if anything exists
 try {

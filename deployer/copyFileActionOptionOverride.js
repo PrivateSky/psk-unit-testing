@@ -1,5 +1,5 @@
 process.env.DEPLOYER_DEBUG = true;
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime");
 var fs = require("fs");
 
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;

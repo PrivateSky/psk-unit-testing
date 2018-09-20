@@ -1,4 +1,4 @@
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime"); 
 const { spawn, fork } = require("child_process");
 const fs = require('fs')
 const process = require("process")

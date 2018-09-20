@@ -1,4 +1,4 @@
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime");
 const assert = $$.requireModule("double-check").assert;
 var f = $$.flow.create("assertObjectHasFields",{
     action:function(cb){

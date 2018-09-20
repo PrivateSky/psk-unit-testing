@@ -1,5 +1,5 @@
 require('../../../modules/virtualmq/flows/CSBmanager');
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime"); 
 const assert = $$.requireModule("double-check").assert;
 const path = require('path');
 const Duplex = require('stream').Duplex;

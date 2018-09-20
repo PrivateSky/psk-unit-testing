@@ -1,4 +1,4 @@
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime"); 
 const fs = require("fs");
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
 const assert = $$.requireModule("double-check").assert;

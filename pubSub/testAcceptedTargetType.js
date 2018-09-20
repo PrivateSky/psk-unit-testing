@@ -1,4 +1,4 @@
-require("../../../engine/core").enableTesting();
+require("../../../builds/devel/pskruntime"); 
 const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
 const assert = $$.requireModule("double-check").assert;
 var test = [null, undefined, "string", true, {}, function(){}, []];

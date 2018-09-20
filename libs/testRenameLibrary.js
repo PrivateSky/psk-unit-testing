@@ -9,7 +9,6 @@ var assert = require("double-check").assert;
 
 var lib1 = $$.loadLibrary("library1", require("./lib1"));
 
-return;
 var lib2 = $$.loadLibrary("library2", "./lib1");
 assert.notEqual(lib1, lib2, "Libraries should not be the same");
 
