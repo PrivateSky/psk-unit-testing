@@ -5,7 +5,7 @@ const mq = require("../../../modules/foldermq/lib/folderMQ");
 const folderPath = './watcherChannel';
 
 const queue  = mq.getFolderQueue(folderPath, function () {});
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 
 let step = 0;
 

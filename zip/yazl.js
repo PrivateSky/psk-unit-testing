@@ -1,6 +1,6 @@
 require("../../../engine/core");
 const path = require("path");
-const yazl = $$.requireModule("yazl");
+const yazl = require("yazl");
 const fs = require("fs");
 
 let outputFolder = "output";

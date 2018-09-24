@@ -1,6 +1,6 @@
 require("../../../engine/core");
 const path = require("path");
-const yauzl = $$.requireModule("yauzl");
+const yauzl = require("yauzl");
 const fs = require("fs");
 
 let outputFolder = "output/unzip";

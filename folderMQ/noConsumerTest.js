@@ -5,7 +5,7 @@ const mq = require("../../../modules/foldermq/lib/folderMQ");
 const folderPath = './noConsumerChannel';
 
 const queue  = mq.getFolderQueue(folderPath, function () {});
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 
 $$.requireLibrary("testSwarms");
 

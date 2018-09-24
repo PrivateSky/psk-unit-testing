@@ -6,7 +6,7 @@ const folderPath         = './InProgressChannel';
 const inProgressFileName = 'file1.test.in_progress';
 
 const queue  = mq.getFolderQueue(folderPath, function () {});
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 let wasConsumed = 0;
 
 const flow = $$.flow.create('inProgressTest', {

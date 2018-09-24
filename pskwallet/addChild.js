@@ -6,7 +6,7 @@ const paths = require("path")
 const PskWalletManager = require('./lib/pskWalletManager')
 const { createFileFromArray } = require('./lib/utility')
 
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 const testName = "addChild"
 const input1 = paths.resolve("getRecord", 'input.txt')
 const passwordInput = "defaultPassword.txt"

@@ -2,7 +2,7 @@ var path = require("path");
 process.env.PRIVATESKY_TMP = path.normalize(__dirname + "/../../../tmp");
 require("../../../engine/launcher");
 require("../../../libraries/launcher/debugFacilitator").debugForks(true);
-var assert = $$.requireModule("double-check").assert;
+var assert = require("double-check").assert;
 
 $$.requireLibrary("testSwarms");
 

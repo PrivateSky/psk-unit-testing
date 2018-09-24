@@ -1,10 +1,10 @@
 require('../../../engine/core').enableTesting();
-const VirtualMQ        = $$.requireModule('virtualmq');
-const assert           = $$.requireModule("double-check").assert;
+const VirtualMQ        = require('virtualmq');
+const assert           = require("double-check").assert;
 const fileStateManager = require('../../../libraries/utils/FileStateManager').getFileStateManager();
 const fs               = require('fs');
 const path             = require('path');
-$$.requireModule('psk-http-client');
+require('psk-http-client');
 
 
 const tempFolder = path.resolve('../../../tmp');

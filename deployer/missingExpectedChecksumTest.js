@@ -1,6 +1,6 @@
 require("../../../builds/devel/pskruntime"); 
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
 

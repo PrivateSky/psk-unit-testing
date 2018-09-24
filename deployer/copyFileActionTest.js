@@ -3,7 +3,7 @@ var fs = require("fs");
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
 var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 
 var deployer  = require( __dirname + "/../../../deployer/Deployer.js");
 

@@ -6,7 +6,7 @@ const folderPath = './renamingTriggerTest';
 const inProgressExtension = '.test.in_progress';
 
 const queue = mq.getFolderQueue(folderPath, function () {});
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 let fileCount = 0;
 const filesToTry = 30;
 

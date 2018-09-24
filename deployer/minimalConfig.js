@@ -1,13 +1,13 @@
 require("../../../builds/devel/pskruntime");
 
 const deployer = require('../../../deployer/Deployer');
-const fsExt    = require('../../../libraries/utils/FSExtension').fsExt;
-const assert   = $$.requireModule("double-check").assert;
-const path     = require('path');
+const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
+const assert = require("double-check").assert;
+const path = require('path');
 
 const config = {
-    'modules'  : ['callflow'],
-    'libraries': ['domain']
+    'modules': ['callflow'],
+    'libraries': ['launcher']
 };
 
 
@@ -17,26 +17,35 @@ const flow = $$.flow.create('checksumActionTest', {
         this.computeOriginalFilesHashes();
         deployer.runBasicConfig('../../../', config, (err, res) => {
             assert.false(err, 'Deployer had an error ' + (err ? err : ''));
-            this.checkDownloadedFiles(() => {
-                this.cleanup();
-            });
-        });
+        this.checkDownloadedFiles(() => {
+            this.cleanup();
+    })
+        ;
+    })
+        ;
     },
     computeOriginalFilesHashes: function (callback) {
-        this.domain_sha512 = fsExt.checksum('libraries/domain', 'sha512', 'hex');
-        this.callflow_sha512 = fsExt.checksum('modules/callflow', 'sha512', 'hex');
+        try {
+            this.launcher_sha512 = fsExt.checksum('libraries/launcher', 'sha512', 'hex');
+            this.callflow_sha512 = fsExt.checksum('modules/callflow', 'sha512', 'hex');
+        } catch (err) {
+            console.log(err);
+        }
+
     },
     checkDownloadedFiles: function (callback) {
         const downloadedCallflowHash = fsExt.checksum(path.normalize('tests/psk-unit-testing/deployer/modules/callflow'), 'sha512', 'hex');
-        const downloadedDomainHash = fsExt.checksum(path.normalize('tests/psk-unit-testing/deployer/libraries/domain'), 'sha512', 'hex');
+        const downloadedLauncherHash = fsExt.checksum(path.normalize('tests/psk-unit-testing/deployer/libraries/launcher'), 'sha512', 'hex');
         assert.equal(this.callflow_sha512, downloadedCallflowHash, 'Downloaded file is not the same as the original');
-        assert.equal(this.domain_sha512, downloadedDomainHash, 'Downloaded file is not the same as the original');
+        assert.equal(this.launcher_sha512, downloadedLauncherHash, 'Downloaded file is not the same as the original');
         callback();
     },
     cleanup: function () {
+
         fsExt.remove(path.normalize('tests/psk-unit-testing/deployer/modules'), () => {
             fsExt.remove(path.normalize('tests/psk-unit-testing/deployer/libraries'), this.cb);
-        });
+    })
+        ;
     }
 });
 

@@ -1,4 +1,4 @@
-const cutil = $$.requireModule("signsensus/lib/consUtil");
+const cutil = require("signsensus/lib/consUtil");
 
 
 cutil.orderTransactions(pset);

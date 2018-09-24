@@ -10,7 +10,7 @@ try {
 
 var queue = mq.getFolderQueue(folderPath,function(){});
 
-var assert = $$.requireModule("double-check").assert;
+var assert = require("double-check").assert;
 
 var flow1 = $$.callflows.create("test", {
     public:{
