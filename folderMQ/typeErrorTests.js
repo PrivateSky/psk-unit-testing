@@ -1,7 +1,7 @@
 require("../../../builds/devel/pskruntime"); 
 var mq = require("../../../modules/foldermq/lib/folderMQ");
 var fs = require("fs");
-var assert = $$.requireModule("double-check").assert;
+var assert = require("double-check").assert;
 
 var expectedErrors = 0;
 var folderPath = './testFolderMQ';

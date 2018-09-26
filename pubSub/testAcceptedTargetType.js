@@ -1,6 +1,6 @@
 require("../../../builds/devel/pskruntime"); 
-const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
-const assert = $$.requireModule("double-check").assert;
+const soundPubSub = require("soundpubsub").soundPubSub;
+const assert = require("double-check").assert;
 var test = [null, undefined, "string", true, {}, function(){}, []];
 
 var f = $$.flow.create("testAcceptedChannelName",{

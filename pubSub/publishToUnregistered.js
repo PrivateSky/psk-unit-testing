@@ -1,6 +1,6 @@
 require("../../../builds/devel/pskruntime"); 
-const assert = $$.requireModule("double-check").assert;
-const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
+const assert = require("double-check").assert;
+const soundPubSub = require("soundpubsub").soundPubSub;
 var channels = {ch1:"superFunChannel", ch2:"News1", ch3:"Travel", ch4:"Closed"};
 var sent = ["Draught in Greece!", "Draught ended in Greece!", "Visit beautiful Greece! "];
 var received = [];

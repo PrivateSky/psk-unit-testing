@@ -1,6 +1,6 @@
 require('../../../modules/virtualmq/flows/CSBmanager');
 require("../../../builds/devel/pskruntime"); 
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 const path = require('path');
 const Duplex = require('stream').Duplex;
 const fileStateManager = require('../../../libraries/utils/FileStateManager').getFileStateManager();

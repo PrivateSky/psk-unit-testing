@@ -1,6 +1,6 @@
 require("../../../builds/devel/pskruntime"); 
-const assert = $$.requireModule("double-check").assert;
-const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
+const assert = require("double-check").assert;
+const soundPubSub = require("soundpubsub").soundPubSub;
 var channelNames = {ch1:"superFunChannel", ch2:"notSoFunChannel"};
 var sub1 = "", sub2 = "";
 

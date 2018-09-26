@@ -5,7 +5,7 @@ const process = require("process")
 const paths = require("path")
 const PskWalletManager  = require('./lib/pskWalletManager')
 
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 var test = [null, undefined, "string", false, function () { }, 5, Infinity, {}, []];
 var channels = { ch1: "superFunChannel", ch2: "Random" };
 const testName = "addCsb"

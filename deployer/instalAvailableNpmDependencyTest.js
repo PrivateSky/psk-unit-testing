@@ -2,7 +2,7 @@ require("../../../builds/devel/pskruntime");
 var fs = require("fs");
 var fsm = require("../../../libraries/utils/FileStateManager.js");
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 var fileStateManager = fsm.getFileStateManager();
 
 var deployer  = require( __dirname + "/../../../deployer/Deployer.js");

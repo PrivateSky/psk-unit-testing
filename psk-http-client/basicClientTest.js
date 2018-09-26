@@ -1,8 +1,8 @@
 require("../../../engine/core");
 const path = require("path");
-$$.requireModule("psk-http-client");
+require("psk-http-client");
 
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 
 const testPort = 9080;
 const alias = "localVirtualMQ";
@@ -13,7 +13,7 @@ const mainFolder = "uploads";
 
 assert.callback("BasicNodeHttpClientTest", function(callback){
 	function prepareTest(){
-		var server = $$.requireModule("virtualmq").createVirtualMQ(testPort, path.join(baseFolder, mainFolder), runningTests);
+		var server = require("virtualmq").createVirtualMQ(testPort, path.join(baseFolder, mainFolder), runningTests);
 	}
 
 	function runningTests(){

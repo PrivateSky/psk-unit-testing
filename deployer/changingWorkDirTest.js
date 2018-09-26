@@ -1,7 +1,7 @@
 require("../../../builds/devel/pskruntime"); 
 const fs = require("fs");
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 var fsm = require("../../../libraries/utils/FileStateManager");
 var fileStateManager = fsm.getFileStateManager();
 
@@ -9,7 +9,7 @@ var deployer  = require( __dirname + "/../../../deployer/Deployer.js");
 
 const path = require("path");
 const os = require("os");
-var testWorkspaceDir = path.join(os.tmpdir(),fsExt.guid());
+var testWorkspaceDir = fsExt.guid();
 var dependencyTarget = path.join(testWorkspaceDir, "./git");
 var dependencyName = "whys";
 
@@ -68,6 +68,6 @@ assert.callback("changingWorkDir", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");
         f.clean();
-    }, 1500);
+    }, 3500);
     f.start(end);
-});
+}, 3000);

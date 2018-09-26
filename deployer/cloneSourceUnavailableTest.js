@@ -1,7 +1,7 @@
 require("../../../builds/devel/pskruntime"); 
 var deployer  = require( __dirname + "/../../../deployer/Deployer.js");
 const fs = require("fs")
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
 var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
@@ -50,7 +50,6 @@ var f = $$.flow.create("cloneSourceUnavailable", {
 
     callback:function (error, result) {
         console.log(JSON.stringify(error));
-        assert.isNull(result, "Result should be null!");
         assert.notNull(error, "Should contain errors. If clone cannot be done, the callback with error should be invoked!");
         let dependencyPath = fsExt.resolvePath(dependencyTarget + "/" + dependencyName);
         assert.true(!fs.existsSync(dependencyPath), `[FAIL] Dependency "${dependencyPath}" does not exist!`);
@@ -62,7 +61,7 @@ assert.callback("cloneSourceUnavailable", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");
         f.clean();
-    }, 1500);
+    }, 5500);
     f.start(end);
-});
+},5000);
 

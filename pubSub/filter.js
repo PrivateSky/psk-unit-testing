@@ -1,6 +1,6 @@
 require("../../../builds/devel/pskruntime"); 
-const assert = $$.requireModule("double-check").assert;
-const soundPubSub = $$.requireModule("soundpubsub").soundPubSub;
+const assert = require("double-check").assert;
+const soundPubSub = require("soundpubsub").soundPubSub;
 var channelName = "superFunChannel";
 var registered = {region:"europe", topic:"edu"}
 var sent = ["It works!", "Message on edu topic(Europe)!"];

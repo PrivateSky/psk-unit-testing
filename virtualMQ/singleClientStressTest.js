@@ -1,10 +1,10 @@
 require("../../../builds/devel/pskruntime"); 
-const assert           = $$.requireModule("double-check").assert;
+const assert           = require("double-check").assert;
 const fileStateManager = require('../../../libraries/utils/FileStateManager').getFileStateManager();
-const VirtualMQ        = $$.requireModule('virtualmq');
+const VirtualMQ        = require('virtualmq');
 const path             = require('path');
 const childProcess     = require('child_process');
-$$.requireModule('psk-http-client');
+require('psk-http-client');
 
 const PORT = 9090;
 const tempFolder = path.resolve('../../../tmp');

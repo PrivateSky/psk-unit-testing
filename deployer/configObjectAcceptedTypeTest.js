@@ -1,5 +1,5 @@
 require("../../../builds/devel/pskruntime");
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 
 var deployer = require(__dirname + "/../../../deployer/Deployer.js");
 

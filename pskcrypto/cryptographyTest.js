@@ -1,6 +1,6 @@
 
 require('../../../engine/core').enableTesting();
-const assert = $$.requireModule('double-check').assert;
+const assert = require('double-check').assert;
 
 var crypto = require("../../../modules/pskcrypto/cryptography");
 var fs = require('fs');

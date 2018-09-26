@@ -2,7 +2,7 @@ require("../../../builds/devel/pskruntime");
 
 var deployer  = require( __dirname + "/../../../deployer/Deployer.js");
 
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 
 var f = $$.flow.create("deployerNoConfigObject", {
     start:function() {

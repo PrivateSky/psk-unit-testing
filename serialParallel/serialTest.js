@@ -1,5 +1,5 @@
 require("../../../builds/devel/pskruntime"); 
-var assert = $$.requireModule('double-check').assert;
+var assert = require('double-check').assert;
 
 var f = $$.callflow.create("serialExample", {
     public:{

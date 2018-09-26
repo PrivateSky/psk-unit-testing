@@ -5,7 +5,7 @@ const process = require("process")
 const paths = require("path")
 const PskWalletManager = require('./lib/pskWalletManager')
 
-const assert = $$.requireModule("double-check").assert;
+const assert = require("double-check").assert;
 const testName = "setRecord"
 const { createFileFromArray }  = require("./lib/utility")
 
