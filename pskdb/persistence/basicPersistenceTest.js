@@ -1,8 +1,9 @@
-var pdsModule = require("../../../../modules/pskdb/lib/FolderPersistentPDS");
+require("../../../../builds/devel/pskruntime");
+var pskDB = require("pskdb");
 const cutil = require("../../../../modules/signsensus/lib/consUtil");
 var assert = require('double-check').assert;
 
-var pds = pdsModule.newPDS("./storageFolder");
+var pds = pskDB.startDB("./storageFolder");
 var h = pds.getHandler();
 
 
@@ -20,4 +21,4 @@ var diff = pds.computeSwarmTransactionDiff(swarm, h);
 var t = cutil.createTransaction(0, diff);
 var set = {};
 set[t.digest] = t;
-pds.commit(set);
+pds.commit(set,1);
