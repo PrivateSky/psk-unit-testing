@@ -5,7 +5,7 @@ var channelName = "superFunChannel";
 var sent = "World!";
 var received;
 
-var f = $$.flow.create("publishToRegisteredSubscriber",{
+var f = $$.flow.describe("publishToRegisteredSubscriber",{
     init:function(cb){
         this.cb = cb;
         soundPubSub.subscribe(channelName, this.callback);

@@ -7,7 +7,7 @@ var sent = ["It works!", "Message on edu topic(Europe)!"];
 var received = [];
 
 
-var f = $$.flow.create("filter",{
+var f = $$.flow.describe("filter",{
     init:function(cb){
         this.cb = cb;
         soundPubSub.subscribe(channelName, this.callback, null, this.filter);

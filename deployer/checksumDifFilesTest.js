@@ -10,7 +10,7 @@ var dummyTargetDir2 = path.join(testWorkspaceDir, "./checksum-dummy2");
 var dummyTargetFile = `${dummyTargetDir}/file1.js`;
 var dummyTargetFile2 = `${dummyTargetDir2}/file2.js`;
 
-var f = $$.flow.create("checksumDifFiles", {
+var f = $$.flow.describe("checksumDifFiles", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

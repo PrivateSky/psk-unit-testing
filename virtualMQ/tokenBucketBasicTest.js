@@ -4,7 +4,7 @@ const assert = require('double-check').assert;
 const TokenBucket = require('../../../modules/virtualmq/libs/TokenBucket');
 
 
-const flow = $$.flow.create('tokenBucketBasicTest', {
+const flow = $$.flow.describe('tokenBucketBasicTest', {
     init: function(callback) {
         this.tokenBucket = new TokenBucket();
 

@@ -5,7 +5,7 @@ var channels = {ch1:"superFunChannel", ch2:"News1", ch3:"Travel", ch4:"Closed"};
 var sent = ["Draught in Greece!", "Draught ended in Greece!", "Visit beautiful Greece! "];
 var received = [];
 
-var f = $$.flow.create("publishToUnregistered",{
+var f = $$.flow.describe("publishToUnregistered",{
     init:function(cb){
         this.cb = cb;
         soundPubSub.subscribe(channels.ch2, this.callback, null, this.filter);

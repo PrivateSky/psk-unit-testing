@@ -15,7 +15,7 @@ var dummyTargetDir = path.join(testWorkspaceDir, "copy-destination");
 var dependencyName = "/";
 
 
-var f = $$.flow.create("copyTargetUnavailableTest", {
+var f = $$.flow.describe("copyTargetUnavailableTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

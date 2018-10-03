@@ -10,7 +10,7 @@ let steps    = 0;
 const phases = [];
 
 
-const flow = $$.flow.create('consumeExistingTest', {
+const flow = $$.flow.describe('consumeExistingTest', {
 	init: function (callback) {
 		// Try clear the dir before writing if anything exists
 		try {

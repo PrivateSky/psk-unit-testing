@@ -36,7 +36,7 @@ const f = $$.swarm.create("test", {
 
 let finalResult = null;
 
-const flow = $$.flow.create('basicMQReviveTest', {
+const flow = $$.flow.describe('basicMQReviveTest', {
 	start: function (callback) {
 		this.cb = callback;
 		this.registerConsumer();

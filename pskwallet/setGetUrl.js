@@ -11,7 +11,7 @@ const testName = "getRecord"
 const input1 = paths.resolve("getRecord", 'input.txt')
 const passwordInput = "defaultPassword.txt"
 
-var f = $$.flow.create(testName, {
+var f = $$.flow.describe(testName, {
     init: function (cb) {
         this.cb = cb;
         this.manager = PskWalletManager();

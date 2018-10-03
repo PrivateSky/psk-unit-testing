@@ -1,6 +1,6 @@
 require("../../../builds/devel/pskruntime");
 const assert = require("double-check").assert;
-var f = $$.flow.create("assertObjectHasFields",{
+var f = $$.flow.describe("assertObjectHasFields",{
     action:function(cb){
         var locationArray = [1, 2, 3];
         var name = "john";

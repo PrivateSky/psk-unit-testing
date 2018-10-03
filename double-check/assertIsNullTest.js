@@ -1,6 +1,6 @@
 require("../../../builds/devel/pskruntime"); 
 const assert = require("double-check").assert;
-var f = $$.flow.create("assertNullTest",{
+var f = $$.flow.describe("assertNullTest",{
     action:function(cb){
         var x = null;
         this.dataArray = [ null , (function(){return null})(), x];

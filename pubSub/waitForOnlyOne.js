@@ -5,7 +5,7 @@ var channelName = "superFunChannel";
 var sent = ["only one"];
 var received = [];
 
-var f = $$.flow.create("waitForOnlyOneMessage",{
+var f = $$.flow.describe("waitForOnlyOneMessage",{
     init:function(cb){
         this.cb = cb;
         soundPubSub.subscribe(channelName, this.callback, this.waitForMore);

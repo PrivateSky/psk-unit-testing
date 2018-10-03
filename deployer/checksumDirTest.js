@@ -7,7 +7,7 @@ const os = require("os");
 var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./checksum-dummy");
 
-var f = $$.flow.create("dirChecksum", {
+var f = $$.flow.describe("dirChecksum", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

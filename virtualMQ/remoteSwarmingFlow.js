@@ -8,11 +8,11 @@ const fileStateManager = require('../../../libraries/utils/FileStateManager').ge
 const CHANNEL_ID = '123';
 const tempFolder = path.resolve('../../../tmp');
 
-const flow = $$.flow.create('RemoteSwarmingFlowTest', {
+const flow = $$.flow.describe('RemoteSwarmingFlowTest', {
 	init: function (callback) {
 		this.cb = callback;
 		fileStateManager.saveState([tempFolder], () => {
-			this.remoteSwarmingFlow = $$.flow.create('RemoteSwarming');
+			this.remoteSwarmingFlow = $$.flow.describe('RemoteSwarming');
 			this.remoteSwarmingFlow.init(tempFolder, (err) => {
 				assert.false(err, 'Error initializing RemoteSwarming');
 				this.startSwarm(() => {

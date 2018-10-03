@@ -3,7 +3,7 @@ const assert = require("double-check").assert;
 const soundPubSub = require("soundpubsub").soundPubSub;
 var channelName = "superFunChannel";
 
-var f = $$.flow.create("unsubscribeTwice",{
+var f = $$.flow.describe("unsubscribeTwice",{
     init:function(cb){
         soundPubSub.subscribe(channelName, this.callback);
 	    soundPubSub.unsubscribe(channelName, this.callback);

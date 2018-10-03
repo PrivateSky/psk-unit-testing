@@ -15,7 +15,7 @@ var dummyTargetDir = path.join(testWorkspaceDir, "./node_modules");
 var dependencyName = "unavailable";
 
 
-var f = $$.flow.create("downloadDependencyUnavailable", {
+var f = $$.flow.describe("downloadDependencyUnavailable", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

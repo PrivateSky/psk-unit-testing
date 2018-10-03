@@ -19,7 +19,7 @@ const swarmIds = {};
 
 let childProcessInstance;
 
-const flow = $$.flow.create('simultaneousReadWrite', {
+const flow = $$.flow.describe('simultaneousReadWrite', {
 	init: function (callback) {
 		this.cb = callback;
 

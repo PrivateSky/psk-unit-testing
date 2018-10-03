@@ -12,7 +12,7 @@ var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./modules");
 var dependencyName = "nothing.zip";
 
-var f = $$.flow.create("downloadDependencyUnavailable", {
+var f = $$.flow.describe("downloadDependencyUnavailable", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

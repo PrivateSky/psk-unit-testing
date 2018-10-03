@@ -5,7 +5,7 @@ var channelName = "superFunChannel";
 var received = [];
 var sent = ["Message should be received"];
 
-var f = $$.flow.create("unsubscribe",{
+var f = $$.flow.describe("unsubscribe",{
     init:function(cb){
         this.cb = cb;
         soundPubSub.subscribe(channelName, this.callback);

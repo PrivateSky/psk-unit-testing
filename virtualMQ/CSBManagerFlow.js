@@ -12,7 +12,7 @@ const demoFileBufferSize = 100000;
 const tempFolder = path.resolve('../../../tmp');
 
 
-const flow = $$.flow.create('CSBmanagerFlowTest', {
+const flow = $$.flow.describe('CSBmanagerFlowTest', {
 	init: function (callback) {
 		this.cb = callback;
 		fileStateManager.saveState([tempFolder], () => {
@@ -26,7 +26,7 @@ const flow = $$.flow.create('CSBmanagerFlowTest', {
 		});
 	},
 	__initializeCSBManager: function (callback) {
-		this.CSBManager = $$.flow.create('CSBmanager');
+		this.CSBManager = $$.flow.describe('CSBmanager');
 		this.CSBManager.init(`${tempFolder}/CSB`, callback);
 	},
 	__getDemoFileStream: function () {

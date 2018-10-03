@@ -15,7 +15,7 @@ var dummyTargetDir2 = path.join(testWorkspaceDir, "./unarchived");
 var dummySrcFile1 = path.join(dummyTargetDir, "acl-magic.zip");
 var dependencyName = "acl-magic.zip";
 
-var f = $$.flow.create("extractTargetUnavailable", {
+var f = $$.flow.describe("extractTargetUnavailable", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

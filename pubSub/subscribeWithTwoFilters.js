@@ -5,7 +5,7 @@ var sent = ["First message on edu topic!", "Technology is great! "];
 var channelName = "superFunChannel";
 var received = [];
 
-var f = $$.flow.create("filterMessagesFromChannel",{
+var f = $$.flow.describe("filterMessagesFromChannel",{
     init:function(cb){
         this.cb = cb;
         soundPubSub.subscribe(channelName, this.callback, this.waitForMore, this.filter);

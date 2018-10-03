@@ -13,7 +13,7 @@ var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./modules");
 var dependencyName = "acl.js";
 
-var f = $$.flow.create("downloadSimpleActionTest", {
+var f = $$.flow.describe("downloadSimpleActionTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

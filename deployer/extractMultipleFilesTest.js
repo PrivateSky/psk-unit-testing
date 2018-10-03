@@ -18,7 +18,7 @@ var dummyTargetDirPdscore = path.join(dummyTargetDir, "pdscore-master");
 var dummySrcFileOne = path.join(dummyTargetDir, "acl-magic.zip");
 var dummySrcFileTwo = path.join(dummyTargetDir, "pdscore-master.zip");
 
-var f = $$.flow.create("extractMultipleFiles", {
+var f = $$.flow.describe("extractMultipleFiles", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

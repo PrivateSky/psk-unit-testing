@@ -12,7 +12,7 @@ var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./checksum-dummy");
 var dummyTargetFile = `${dummyTargetDir}/file1.js`;
 
-var f = $$.flow.create("missingExpectedChecksum", {
+var f = $$.flow.describe("missingExpectedChecksum", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

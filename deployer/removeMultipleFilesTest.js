@@ -15,7 +15,7 @@ var dummyTargetDir = path.join(testWorkspaceDir, "./remove-source");
 var dummyTargetFile =  path.join(testWorkspaceDir, "./toDelete.js");
 var dependencyName = "dummy-dependency";
 
-var f = $$.flow.create("removeMultipleFiles", {
+var f = $$.flow.describe("removeMultipleFiles", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

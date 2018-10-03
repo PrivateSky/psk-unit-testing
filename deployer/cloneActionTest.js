@@ -13,7 +13,7 @@ var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dependencyTarget = path.join(testWorkspaceDir, "./git");
 var dependencyName = "whys";
 
-var f = $$.flow.create("cloneActionTest", {
+var f = $$.flow.describe("cloneActionTest", {
 
     start:function(end) {
         this.end = end;

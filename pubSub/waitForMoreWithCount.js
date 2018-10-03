@@ -5,7 +5,7 @@ var channelName = "superFunChannel";
 var received  = [];
 var sent = [1, 2, 3];
 
-var f = $$.flow.create("orderOfMessagesWithLimit",{
+var f = $$.flow.describe("orderOfMessagesWithLimit",{
     public:{
         count: "int"
     },

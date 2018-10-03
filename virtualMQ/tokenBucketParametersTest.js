@@ -16,7 +16,7 @@ const initParamsToTest = [
 
 const takeTokenParams = [-1, 0, undefined, null, {}, [], -Infinity, Infinity, NaN];
 
-const flow = $$.flow.create('tokenBucketParametersTest', {
+const flow = $$.flow.describe('tokenBucketParametersTest', {
     init: function (callback) {
         this.testInitParameters();
         this.testTakeTokenParameters();

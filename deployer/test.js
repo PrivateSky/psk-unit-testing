@@ -17,7 +17,7 @@ var dependencyName = "dummy-dependency";
 var callback = "adsfv"
 
 
-var f = $$.flow.create("moveActionTest", {
+var f = $$.flow.describe("moveActionTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

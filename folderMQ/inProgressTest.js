@@ -9,7 +9,7 @@ const queue  = mq.getFolderQueue(folderPath, function () {});
 const assert = require("double-check").assert;
 let wasConsumed = 0;
 
-const flow = $$.flow.create('inProgressTest', {
+const flow = $$.flow.describe('inProgressTest', {
 	init: function (callback) {
 		// Try clear the dir before writing if anything exists
 		try {

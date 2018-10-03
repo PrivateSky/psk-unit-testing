@@ -15,7 +15,7 @@ var dependencyName = "demo-project";
 
 var tempDir = path.join(testWorkspaceDir, "./git-new-files");
 
-var f = $$.flow.create("commitActionTest", {
+var f = $$.flow.describe("commitActionTest", {
 
     start:function(end) {
         this.end = end;

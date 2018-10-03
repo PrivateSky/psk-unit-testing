@@ -1,6 +1,6 @@
 require("../../../builds/devel/pskruntime"); 
 const assert = require("double-check").assert;
-var f = $$.flow.create("equalPrimitiveNegativeTest",{
+var f = $$.flow.describe("equalPrimitiveNegativeTest",{
     action:function(cb){
 
         this.cb = cb;
@@ -21,7 +21,7 @@ assert.callback("equalPrimitiveNegativeTest", function(cb){
 }, 1500);
 
 
-var f1 = $$.flow.create("equalNonPrimitiveNegativeTest",{
+var f1 = $$.flow.describe("equalNonPrimitiveNegativeTest",{
     action:function(cb){
         this.cb = cb;
         this.compareDataPrim = [[1,2,3], {1:3}, new String('foo'), new String('foo') ];

@@ -4,7 +4,7 @@ var deployer  = require( __dirname + "/../../../deployer/Deployer.js");
 
 const assert = require("double-check").assert;
 
-var f = $$.flow.create("deployerNoConfigObject", {
+var f = $$.flow.describe("deployerNoConfigObject", {
     start:function() {
         this.act();
     },

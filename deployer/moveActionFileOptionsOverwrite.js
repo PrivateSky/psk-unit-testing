@@ -15,7 +15,7 @@ var dummySrcDir = path.join(testWorkspaceDir, "./move-source");
 var dummyTargetDir = path.join(testWorkspaceDir, "./move-destination");
 var dependencyName = "dummy-dependency";
 
-var f = $$.flow.create("moveActionOverwriteTest", {
+var f = $$.flow.describe("moveActionOverwriteTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

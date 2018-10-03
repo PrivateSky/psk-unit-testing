@@ -15,7 +15,7 @@ var dummyTargetDir = `${dummyTargetDirBase}/dummy-dependency`;
 var dependencyName = "dummy-dependency";
 var srcChecksum;
 
-var f = $$.flow.create("moveCheckFilesAfterAction", {
+var f = $$.flow.describe("moveCheckFilesAfterAction", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

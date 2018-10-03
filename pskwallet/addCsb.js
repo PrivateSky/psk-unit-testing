@@ -12,7 +12,7 @@ const testName = "addCsb"
 
 
 
-var f = $$.flow.create(testName, {
+var f = $$.flow.describe(testName, {
     init: function (cb) {
         this.cb = cb;
         this.manager = PskWalletManager();

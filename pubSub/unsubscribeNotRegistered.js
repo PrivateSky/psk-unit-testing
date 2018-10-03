@@ -3,7 +3,7 @@ const assert = require("double-check").assert;
 const soundPubSub = require("soundpubsub").soundPubSub;
 var channelName = "BBC3";
 
-var f = $$.flow.create("pubSubUnsubscribeFromUnregisteredChannel",{
+var f = $$.flow.describe("pubSubUnsubscribeFromUnregisteredChannel",{
     init:function(cb){
         this.unsubscribe(channelName, function(){});
         cb();

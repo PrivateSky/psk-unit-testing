@@ -15,7 +15,7 @@ var dummyTargetDir = path.join(testWorkspaceDir, "./copy-destination");
 var dependencyName = "file1.js";
 
 
-var f = $$.flow.create("copyFileActionTest", {
+var f = $$.flow.describe("copyFileActionTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

@@ -17,7 +17,7 @@ var dependencyName1 = "transrest";
 var dependencyName2 = "whys";
 
 
-var f = $$.flow.create("installMoveActionTest", {
+var f = $$.flow.describe("installMoveActionTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

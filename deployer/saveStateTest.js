@@ -10,7 +10,7 @@ const os = require("os");
 var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./save-state-dummy");
 
-var f = $$.flow.create("saveState", {
+var f = $$.flow.describe("saveState", {
     start: function (end) {
         this.end = end;
         this.beforeExecution();

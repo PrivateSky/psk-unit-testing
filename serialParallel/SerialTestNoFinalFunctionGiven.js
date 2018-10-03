@@ -1,7 +1,7 @@
 require("../../../builds/devel/pskruntime");
 var assert = require('double-check').assert;
 
-var f = $$.callflow.create("serialExample", {
+var f = $$.callflow.describe("serialExample", {
     start:function(){
         var serial = this.serial();
     }

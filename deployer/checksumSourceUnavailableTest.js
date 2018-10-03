@@ -8,7 +8,7 @@ var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./checksum-dummy");
 var dummyTargetFile = `${dummyTargetDir}/file1.js`;
 
-var f = $$.flow.create("checksumSourceUnavailable", {
+var f = $$.flow.describe("checksumSourceUnavailable", {
     start:function() {
         assert.fail("checksumSourceUnavailable",  this.test)
     },

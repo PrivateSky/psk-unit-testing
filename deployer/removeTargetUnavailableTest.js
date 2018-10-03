@@ -13,7 +13,7 @@ var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./remove-source");
 var dependencyName = "dummy-dependency";
 
-var f = $$.flow.create("removeTargetUnavailable", {
+var f = $$.flow.describe("removeTargetUnavailable", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

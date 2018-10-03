@@ -16,7 +16,7 @@ var dummySrcFile2 = path.join(dummyTargetDir, "acl-magic.zip");
 var dependencyName = "acl-magic.zip";
 
 
-var f = $$.flow.create("extractActionTest", {
+var f = $$.flow.describe("extractActionTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

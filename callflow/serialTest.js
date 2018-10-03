@@ -3,7 +3,7 @@ require("../../../engine/core");
 const assert = require("double-check").assert;
 
 
-const flow = $$.flow.create('serialTest', {
+const flow = $$.flow.describe('serialTest', {
     init: function (callback) {
         this.times = [];
         this.incrementor = incrementor();

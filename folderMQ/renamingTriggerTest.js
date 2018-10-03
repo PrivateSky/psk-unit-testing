@@ -11,7 +11,7 @@ let fileCount = 0;
 const filesToTry = 30;
 
 
-const flow = $$.flow.create('renamingTriggerTest', {
+const flow = $$.flow.describe('renamingTriggerTest', {
 	init: function (callback) {
 		this.cb = callback;
 		this.clean();

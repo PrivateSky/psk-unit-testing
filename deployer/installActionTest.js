@@ -15,7 +15,7 @@ var dummyTargetDir = path.join(testWorkspaceDir, "./node_modules");
 var dependencyName = "transrest";
 
 
-var f = $$.flow.create("installActionTest", {
+var f = $$.flow.describe("installActionTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

@@ -18,7 +18,7 @@ var dependencyName = "file1.js";
 
 
 
-var f = $$.flow.create("copyFileActionOptionOverrideTest", {
+var f = $$.flow.describe("copyFileActionOptionOverrideTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

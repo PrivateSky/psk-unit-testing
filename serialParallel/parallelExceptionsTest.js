@@ -1,7 +1,7 @@
 require("../../../builds/devel/pskruntime"); 
 var assert = require('double-check').assert;
 
-var f = $$.callflow.create("parallelExceptionCase", {
+var f = $$.callflow.describe("parallelExceptionCase", {
     public: {
         result: "int"
     },

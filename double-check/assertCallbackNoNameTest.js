@@ -1,6 +1,6 @@
 require("../../../builds/devel/pskruntime"); 
 const assert = require("double-check").assert;
-var f = $$.flow.create("assertCallbackNoName",{
+var f = $$.flow.describe("assertCallbackNoName",{
     action:function(cb){
         this.cb = cb;
         this.cb();

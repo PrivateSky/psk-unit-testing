@@ -13,7 +13,7 @@ var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./extract");
 var dummySrcFile1 = path.join(dummyTargetDir, "acl-magic.zip");
 
-var f = $$.flow.create("extractSourceUnavailable", {
+var f = $$.flow.describe("extractSourceUnavailable", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

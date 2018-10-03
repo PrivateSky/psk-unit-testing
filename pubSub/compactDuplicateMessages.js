@@ -7,7 +7,7 @@ var received = [];
 var count = 0;
 
 
-var f = $$.flow.create("CompactFilteredDuplicates",{
+var f = $$.flow.describe("CompactFilteredDuplicates",{
     init:function(cb){
         this.cb = cb;
         soundPubSub.subscribe(channelName, this.callback, null, this.filter);

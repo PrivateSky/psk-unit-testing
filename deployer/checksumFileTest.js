@@ -8,7 +8,7 @@ var testWorkspaceDir = path.join(os.tmpdir(),fsExt.guid());//"./" + fsExt.guid()
 var dummyTargetDir = path.join(testWorkspaceDir, "./checksum-dummy");
 var dummyTargetFile = `${dummyTargetDir}/file1.js`;
 
-var f = $$.flow.create("fileChecksum", {
+var f = $$.flow.describe("fileChecksum", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

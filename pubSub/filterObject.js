@@ -6,7 +6,7 @@ var registered = {region:"europe", topic:"edu"};
 var received = [];
 var sent = ["It works!"];
 
-var f = $$.flow.create("filterObject-withStringify",{
+var f = $$.flow.describe("filterObject-withStringify",{
     init:function(cb){
         this.cb = cb;
         soundPubSub.subscribe(channelName, this.callback, null, this.filter);

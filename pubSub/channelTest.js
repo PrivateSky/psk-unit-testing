@@ -5,7 +5,7 @@ const soundPubSub = require("soundpubsub").soundPubSub;
 var channelName = "superFunChannel";
 
 
-var f = $$.flow.create("VerifyChannelExistence",{
+var f = $$.flow.describe("VerifyChannelExistence",{
     init:function(cb){
         this.cb = cb;
         soundPubSub.subscribe(channelName, function(){});

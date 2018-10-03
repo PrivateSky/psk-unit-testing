@@ -13,7 +13,7 @@ var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "./modules");
 var dependencyName = "acl-magic.zip";
 
-var f = $$.flow.create("downloadActionTest", {
+var f = $$.flow.describe("downloadActionTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

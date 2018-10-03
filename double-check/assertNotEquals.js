@@ -1,6 +1,6 @@
 require("../../../builds/devel/pskruntime"); 
 const assert = require("double-check").assert;
-var f = $$.flow.create("assertNotEquals", {
+var f = $$.flow.describe("assertNotEquals", {
     action:function (cb) {
         this.cb = cb;
         this.valueArray1 = [0, "", "", '0', '17', [1, 2], new String('foo'), null, null, undefined, {foo: 'bar'}, new String('foo'), 0, 0, 'foo', NaN];

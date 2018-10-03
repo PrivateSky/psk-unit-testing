@@ -10,7 +10,7 @@ const assert = require("double-check").assert;
 $$.requireLibrary("testSwarms");
 
 
-const flow = $$.flow.create('noConsumerTest', {
+const flow = $$.flow.describe('noConsumerTest', {
 	init: function (callback) {
 		this.cb = callback;
 		try {

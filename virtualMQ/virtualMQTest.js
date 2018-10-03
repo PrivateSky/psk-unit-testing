@@ -10,7 +10,7 @@ const tempFolder = path.resolve('../../../tmp');
 const CHANNEL_NAME = 'testChannel';
 const url = `http://127.0.0.1:${PORT}/${CHANNEL_NAME}`;
 
-const flow = $$.flow.create('VirtualMQTest', {
+const flow = $$.flow.describe('VirtualMQTest', {
 	init: function(callback) {
 		this.cb = callback;
 

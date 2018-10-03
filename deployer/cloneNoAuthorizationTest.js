@@ -13,7 +13,7 @@ var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dependencyTarget = path.join(testWorkspaceDir, "./git");
 var dependencyName = "swarm-engine";
 
-var f = $$.flow.create("cloneNoAuthorizationTest", {
+var f = $$.flow.describe("cloneNoAuthorizationTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

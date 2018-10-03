@@ -10,7 +10,7 @@ const assert = require("double-check").assert;
 let step = 0;
 
 
-const flow = $$.flow.create('watcherTest', {
+const flow = $$.flow.describe('watcherTest', {
 	init: function (callback) {
 		// Try clear the dir before writing if anything exists
 		try {

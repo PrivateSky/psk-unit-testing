@@ -14,7 +14,7 @@ var dummyTargetDir = path.join(testWorkspaceDir, "./remove-source");
 var dependencyName = "dummy-dependency";
 
 
-var f = $$.flow.create("removeActionTest", {
+var f = $$.flow.describe("removeActionTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

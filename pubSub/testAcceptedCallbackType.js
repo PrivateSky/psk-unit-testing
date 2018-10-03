@@ -4,7 +4,7 @@ const soundPubSub = require("soundpubsub").soundPubSub;
 var received = null;
 var test =[null, undefined, {}, "string", true, function(){received = true}];
 
-var f = $$.flow.create("testAcceptedCallbackType",{
+var f = $$.flow.describe("testAcceptedCallbackType",{
     init:function(cb){
         this.cb = cb;
         for(var i = 0; i<test.length; i++) {

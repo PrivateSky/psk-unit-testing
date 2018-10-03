@@ -14,7 +14,7 @@ var dependencyTarget = path.join(testWorkspaceDir, "js");
 
 var dependencyName = "double-check";
 
-var f = $$.flow.create("cloneActionNoOptionsTest", {
+var f = $$.flow.describe("cloneActionNoOptionsTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

@@ -4,7 +4,7 @@ const soundPubSub = require("soundpubsub").soundPubSub;
 var channelNames = {ch1:"superFunChannel", ch2:"notSoFunChannel"};
 var sub1 = "", sub2 = "";
 
-var f = $$.flow.create("multipleSubscribersMultipleChannels",{
+var f = $$.flow.describe("multipleSubscribersMultipleChannels",{
     init:function(cb){
         this.cb = cb;
         soundPubSub.subscribe(channelNames.ch1, this.callback1);

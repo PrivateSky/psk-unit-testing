@@ -11,7 +11,7 @@ var dummyTargetDir = path.join(testWorkspaceDir, "./checksum-dummy");
 var dummyTargetFile = `${dummyTargetDir}/file1.js`;
 
 
-var f = $$.flow.create("checksumActionTest", {
+var f = $$.flow.describe("checksumActionTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

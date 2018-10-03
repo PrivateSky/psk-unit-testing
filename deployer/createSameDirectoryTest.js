@@ -8,7 +8,7 @@ var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dummyTargetDir = path.join(testWorkspaceDir, "checksum-dummy");
 
 
-var f = $$.flow.create("Using create directory multiple times on the same path", {
+var f = $$.flow.describe("Using create directory multiple times on the same path", {
     start:function() {
         this.beforeExecution();
         this.afterExecution();

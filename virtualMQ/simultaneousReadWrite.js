@@ -17,7 +17,7 @@ let sentSwarms = 0;
 
 const swarmIds = {};
 
-const flow = $$.flow.create('simultaneousReadWrite', {
+const flow = $$.flow.describe('simultaneousReadWrite', {
 	init: function (callback) {
 		this.cb = callback;
 

@@ -14,7 +14,7 @@ var dummyTargetDir = path.join(testWorkspaceDir, "./modules");
 var dependencyJs = "acl.js";
 var dependencyZip = "acl-magic.zip";
 
-var f = $$.flow.create("downloadMultipleFilesDependencyAvailable", {
+var f = $$.flow.describe("downloadMultipleFilesDependencyAvailable", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

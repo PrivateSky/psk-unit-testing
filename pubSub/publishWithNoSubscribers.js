@@ -4,7 +4,7 @@ const soundPubSub = require("soundpubsub").soundPubSub;
 var channels = { ch1:"superFunChannel", ch2:"Random" };
 var received = [];
 
-var f = $$.flow.create("PublishWithNoSubscribers",{
+var f = $$.flow.describe("PublishWithNoSubscribers",{
     init:function(cb){
         this.cb = cb;
         this.publish(channels.ch1, {msg:"World!"});

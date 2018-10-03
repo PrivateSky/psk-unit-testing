@@ -12,7 +12,7 @@ var testWorkspaceDir = path.join(os.tmpdir(), fsExt.guid());
 var dependencyTarget = path.join(testWorkspaceDir, "./git");
 var dependencyName = "whys";
 
-var f = $$.flow.create("cloneSourceUnavailable", {
+var f = $$.flow.describe("cloneSourceUnavailable", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

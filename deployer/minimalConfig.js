@@ -11,7 +11,7 @@ const config = {
 };
 
 
-const flow = $$.flow.create('checksumActionTest', {
+const flow = $$.flow.describe('checksumActionTest', {
     init: function (callback) {
         this.cb = callback;
         this.computeOriginalFilesHashes();

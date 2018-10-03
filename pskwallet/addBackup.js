@@ -10,7 +10,7 @@ const testName = "addBackup"
 const { createFileFromArray } = require("./lib/utility")
 
 
-var f = $$.flow.create(testName, {
+var f = $$.flow.describe(testName, {
     init: function (cb) {
         this.cb = cb;
         this.inputPath = "defaultPassword.txt"

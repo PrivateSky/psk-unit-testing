@@ -13,7 +13,7 @@ const port = 9082;
 const remote = "http://127.0.0.1:"+port;
 const testUrl = remote+'/CSB/testId';
 
-const flow = $$.flow.create('CSBmanagerClientGetFail', {
+const flow = $$.flow.describe('CSBmanagerClientGetFail', {
 	init: function (callback) {
 		this.cb = callback;
 		fileStateManager.saveState([tempFolder], () => {

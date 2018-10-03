@@ -21,7 +21,7 @@ if(os.platform()=='win32'){
 
 var dependencyName = "acl.js";
 
-var f = $$.flow.create("readConfigFromTestFile", {
+var f = $$.flow.describe("readConfigFromTestFile", {
     start:function(end) {
         this.beforeExecution();
         this.act();

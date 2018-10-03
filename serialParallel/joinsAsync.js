@@ -1,7 +1,7 @@
 require("../../../builds/devel/pskruntime"); 
 var assert = require('double-check').assert;
 
-var f = $$.callflow.create("joinsExample", {
+var f = $$.callflow.describe("joinsExample", {
     public:{
         result:"int"
     },

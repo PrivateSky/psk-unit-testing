@@ -15,7 +15,7 @@ var dummyTargetDirBase = path.join(testWorkspaceDir, "./move-destination");
 var dummyTargetDir = `${dummyTargetDirBase}/dummy-dependency`;
 var dependencyName = "dummy-dependency";
 
-var f = $$.flow.create("moveCheckSourceAfterActionTest", {
+var f = $$.flow.describe("moveCheckSourceAfterActionTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

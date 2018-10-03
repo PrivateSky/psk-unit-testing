@@ -13,7 +13,7 @@ var testWorkspaceDir = fsExt.guid();
 var dependencyTarget = path.join(testWorkspaceDir, "./git");
 var dependencyName = "whys";
 
-var f = $$.flow.create("changingWorkDirTest", {
+var f = $$.flow.describe("changingWorkDirTest", {
 
     start:function(end) {
         this.end = end;

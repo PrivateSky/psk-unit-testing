@@ -19,7 +19,7 @@ const f = $$.swarm.create("test", {
 });
 
 
-const flow = $$.flow.create('prodConsTest', {
+const flow = $$.flow.describe('prodConsTest', {
 	init: function (callback) {
 	    this.cb = callback;
 

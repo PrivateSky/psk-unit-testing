@@ -6,7 +6,7 @@ var registered = ["edu", "europe"];
 var sent = ["Message on edu topic(Europe)!", "Second message "];
 var received = [];
 
-var f = $$.flow.create("filterMessagesWithMultipleFilters",{
+var f = $$.flow.describe("filterMessagesWithMultipleFilters",{
     init:function(cb){
         this.cb = cb;
         soundPubSub.subscribe(channelName, this.callback, null, this.filter);

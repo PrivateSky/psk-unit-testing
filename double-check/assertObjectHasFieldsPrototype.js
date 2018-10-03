@@ -1,6 +1,6 @@
 require("../../../builds/devel/pskruntime"); 
 const assert = require("double-check").assert;
-var f = $$.flow.create("assertObjectHasFieldsPrototype", {
+var f = $$.flow.describe("assertObjectHasFieldsPrototype", {
     action: function (cb) {
         this.cb = cb;
         this.f = function () {

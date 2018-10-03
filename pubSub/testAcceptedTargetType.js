@@ -3,7 +3,7 @@ const soundPubSub = require("soundpubsub").soundPubSub;
 const assert = require("double-check").assert;
 var test = [null, undefined, "string", true, {}, function(){}, []];
 
-var f = $$.flow.create("testAcceptedChannelName",{
+var f = $$.flow.describe("testAcceptedChannelName",{
     init:function(cb){
         this.cb = cb;
         for(var i = 0; i<test.length; i++) {

@@ -5,7 +5,7 @@ var channelName = "superFunChannel";
 var sent = ["Only this should be sent! in case of LastMessageCompacter"];
 var received = [];
 
-var f = $$.flow.create("basicPubSubTestWithCompacter",{
+var f = $$.flow.describe("basicPubSubTestWithCompacter",{
     init:function(cb){
         this.cb = cb;
         soundPubSub.subscribe(channelName, this.callback);

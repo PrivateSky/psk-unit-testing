@@ -13,7 +13,7 @@ var dummySrcDir = path.join(testWorkspaceDir, "copy-source");
 var dummyTargetDir = path.join(testWorkspaceDir, "copy-destination");
 var dependencyName = "/";
 
-var f = $$.flow.create("copySrcFileTest", {
+var f = $$.flow.describe("copySrcFileTest", {
     start:function(end) {
         this.end = end;
         this.beforeExecution();

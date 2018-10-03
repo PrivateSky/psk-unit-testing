@@ -1,7 +1,7 @@
 require("../../../builds/devel/pskruntime"); 
 const assert = require("double-check").assert;
 var negativeTestDataArray = [ [1,2,3,4,5], [6,7,6,6,6], ['1','2','3','4','5'], [1,2,3,4,5], [NaN, NaN], [NaN, NaN] ];
-var f = $$.flow.create("assertArrayMatchTestNegative",{
+var f = $$.flow.describe("assertArrayMatchTestNegative",{
 
     action:function(cb){
         this.cb = cb;
