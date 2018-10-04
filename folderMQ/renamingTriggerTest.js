@@ -63,7 +63,7 @@ const flow = $$.flow.describe('renamingTriggerTest', {
         	console.log();
 		}
 	}
-});
+})();
 
 assert.callback("renamingTriggerTest", function (callback) {
 	flow.init(callback);

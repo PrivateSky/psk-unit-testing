@@ -33,7 +33,7 @@ var f = $$.callflow.describe("serialExample", {
         assert.equal(this.result,1030,"Results don't match");
         this.callback();
     }
-});
+})();
 assert.callback("Serial Array Test",function(callback){
     f.start(callback);
 })

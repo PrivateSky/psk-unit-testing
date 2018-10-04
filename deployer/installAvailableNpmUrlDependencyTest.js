@@ -52,7 +52,7 @@ var f = $$.flow.describe("installAvailableNpmUrlDependency", {
         assert.true(fs.existsSync(targetPath), `[FAIL] Dependency "${dependencyName}" does not exist in ${dummyTargetDir}`) ;
         this.end();
     }
-});
+})();
 assert.callback("installAvailableNpmUrlDependency", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

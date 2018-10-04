@@ -34,7 +34,7 @@ var f = $$.flow.describe("basicPubSubTestWithCompacter",{
         }
         this.cb();
     }
-});
+})();
 assert.callback("basicPubSubTestWithCompacter", function(callback){
     f.init(callback);
 },1500);

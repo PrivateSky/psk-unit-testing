@@ -11,7 +11,7 @@ var f = $$.flow.describe("assertNotEquals", {
         }
         this.cb();
     }
-    });
+})();
 assert.callback("assertNotEquals", function(cb){
     f.action(cb);
 }, 1500);

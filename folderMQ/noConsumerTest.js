@@ -7,8 +7,7 @@ const folderPath = './noConsumerChannel';
 const queue  = mq.getFolderQueue(folderPath, function () {});
 const assert = require("double-check").assert;
 
-$$.requireLibrary("testSwarms");
-
+$$.loadLibrary("testSwarms", "../../../libraries/testSwarms");
 
 const flow = $$.flow.describe('noConsumerTest', {
 	init: function (callback) {
@@ -36,7 +35,7 @@ const flow = $$.flow.describe('noConsumerTest', {
 		this.cb();
 		process.exit();
 	}
-});
+})();
 
 assert.callback("noConsumerTest", function (callback) {
 	flow.init(callback);

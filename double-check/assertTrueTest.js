@@ -13,7 +13,7 @@ var f = $$.flow.describe("assertNotNull",{
         });
         this.cb();
     }
-});
+})();
 assert.callback("assertNotNull", function(cb){
     f.action(cb);
 }, 1500);

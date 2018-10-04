@@ -55,7 +55,7 @@ var f = $$.flow.describe("missingExpectedChecksum", {
         this.end();
     }
 
-});
+})();
 assert.callback("missingExpectedChecksum", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

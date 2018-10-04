@@ -21,7 +21,7 @@ var f = $$.flow.describe("testAcceptedChannelName",{
         if(Object.prototype.toString.call(message.msg) == "[object Array]" );
         this.cb();
     }
-});
+})();
 assert.callback("testAcceptedChannelName", function (callback){
     f.init(callback);
 }, 1000);

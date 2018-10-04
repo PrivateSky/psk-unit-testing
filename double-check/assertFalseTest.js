@@ -15,7 +15,7 @@ var f = $$.flow.describe("assertFalseTest",{
         });
         this.cb();
     },
-});
+})();
 assert.callback("assertFalseTest", function(cb){
     f.action(cb);
 }, 1500);

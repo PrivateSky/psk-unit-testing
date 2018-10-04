@@ -60,7 +60,7 @@ var f = $$.flow.describe("moveActionTest", {
         this.end();
 
     }
-});
+})();
 assert.callback("moveActionTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

@@ -53,7 +53,7 @@ var f = $$.flow.describe("cloneActionNoOptionsTest", {
         assert.true(fs.existsSync(dependencyPath), `[FAIL] Dependency "${dependencyPath}" does not exist!`);
         this.end();
     }
-});
+})();
 assert.callback("cloneActionNoOptionsTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

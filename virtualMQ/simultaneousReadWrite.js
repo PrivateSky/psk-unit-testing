@@ -10,7 +10,7 @@ const PORT = 9090;
 const tempFolder = path.resolve('../../../tmp');
 const CHANNEL_NAME = 'testChannel';
 const url = `http://127.0.0.1:${PORT}/${CHANNEL_NAME}`;
-const NUMBER_OF_SWARMS = 100;
+const NUMBER_OF_SWARMS = 30;
 
 let receivedSwarms = 0;
 let sentSwarms = 0;
@@ -100,7 +100,7 @@ const flow = $$.flow.describe('simultaneousReadWrite', {
 
 		this.cb();
 	}
-});
+})();
 
 assert.callback("simultaneousReadWrite", function (callback) {
 	flow.init(callback);

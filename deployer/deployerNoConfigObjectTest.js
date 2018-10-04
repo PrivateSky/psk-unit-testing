@@ -17,6 +17,6 @@ var f = $$.flow.describe("deployerNoConfigObject", {
             assert.notNull(error, "Should not be errors!");
         })
     }
-});
+})();
 f.start();
 

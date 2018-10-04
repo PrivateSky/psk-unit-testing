@@ -34,7 +34,7 @@ var f = $$.flow.describe("filter",{
         }
         this.cb();
     }
-});
+})();
 assert.callback("filter", function(callback){
     f.init(callback);
 }, 1500);

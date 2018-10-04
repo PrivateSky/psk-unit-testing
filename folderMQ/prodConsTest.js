@@ -8,7 +8,7 @@ const folderPath = './testFolderMQ';
 const queue = mq.getFolderQueue(folderPath,function(){});
 
 
-const f = $$.swarm.create("test", {
+const f = $$.swarm.describe("test", {
     public:{
         value:"int"
     },
@@ -16,7 +16,7 @@ const f = $$.swarm.create("test", {
         this.callback=callback;
         this.value = 1;
     }
-});
+})();
 
 
 const flow = $$.flow.describe('prodConsTest', {
@@ -54,7 +54,7 @@ const flow = $$.flow.describe('prodConsTest', {
 		    this.producerHandler.addSwarm(f, function(){});
 	    }, null,this.__filter);
     }
-});
+})();
 
 assert.callback("prodConsTest", function (callback) {
    flow.init(callback);

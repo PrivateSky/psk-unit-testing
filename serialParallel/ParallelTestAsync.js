@@ -33,7 +33,7 @@ var f = $$.callflow.describe("joinsExample", {
         assert.equal(this.result,110,"Results don't match");
         this.callback();
     }
-});
+})();
 assert.callback("Parallel test",function(callback){
     f.start(callback);
 })

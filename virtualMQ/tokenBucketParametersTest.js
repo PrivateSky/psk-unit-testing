@@ -43,7 +43,7 @@ const flow = $$.flow.describe('tokenBucketParametersTest', {
             });
         }
     }
-});
+})();
 
 assert.callback('tokenBucketParametersTest', function (callback) {
     flow.init(callback);

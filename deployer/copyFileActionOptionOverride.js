@@ -67,7 +67,7 @@ var f = $$.flow.describe("copyFileActionOptionOverrideTest", {
         assert.false(this.destinationChecksum == this.sourceChecksum , `[FAIL] Dependency "${targetPath}" was overwritten!`);
         this.end();
     }
-});
+})();
 assert.callback("copyFileActionTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

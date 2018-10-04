@@ -35,7 +35,7 @@ var f = $$.callflow.describe("serialExample", {
         assert.equal(this.result,1103,"Results don't match");
         this.callback();
     }
-});
+})();
 assert.callback("Serial Test",function(callback){
     f.start(callback);
 })

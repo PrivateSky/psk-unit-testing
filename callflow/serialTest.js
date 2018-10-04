@@ -35,7 +35,7 @@ const flow = $$.flow.describe('serialTest', {
             assert.true(this.times[i] <= this.times[i + 1], 'serial callback executed before __progress');
         }
     }
-});
+})();
 
 
 assert.callback('serialTest', function(callback) {

@@ -37,7 +37,7 @@ var f = $$.flow.describe("publishToUnregistered",{
         }
         this.cb();
     }
-});
+})();
 assert.callback("publishToUnregistered", function(callback){
     f.init(callback);
 }, 1500);

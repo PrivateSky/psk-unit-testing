@@ -73,7 +73,7 @@ var f = $$.flow.describe("commitActionTest", {
         assert.isNull(error, "Should not be any errors!");
         this.end();
     }
-});
+})();
 
 assert.callback("commitActionTest", function(end) {
     setTimeout(function(){

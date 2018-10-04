@@ -13,7 +13,7 @@ var f = $$.flow.describe("unsubscribeTwice",{
     callback: function(){
         //dummy function
     }
-});
+})();
 assert.callback("waitingToReceiveMultipleMessages", function(callback){
     f.init(callback);
 }, 1500);

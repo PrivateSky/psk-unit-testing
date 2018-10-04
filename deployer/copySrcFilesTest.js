@@ -57,7 +57,7 @@ var f = $$.flow.describe("copySrcFileTest", {
         assert.true(srcChecksumAfterAction === srcChecksumInitial, `[FAIL] Files were changed by copy action. Before action checksum was ${srcChecksumInitial}, after action it is ${srcChecksumAfterAction}`);
         this.end();
     }
-});
+})();
 assert.callback("copySrcFileTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

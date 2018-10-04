@@ -56,7 +56,7 @@ var f = $$.flow.describe("copyFileActionTest", {
         assert.true(fs.existsSync(targetPath), `[FAIL] Dependency "${dependencyName}" does not exist in ${targetPath}`);
         this.end();
     }
-});
+})();
 assert.callback("copyFileActionTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

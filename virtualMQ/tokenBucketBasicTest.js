@@ -23,7 +23,7 @@ const flow = $$.flow.describe('tokenBucketBasicTest', {
            assert.true(err, 'Limit was too permissive, remaining ' + limit);
         });
     }
-});
+})();
 
 
 assert.callback('tokenBucketBasicTest', function(callback) {

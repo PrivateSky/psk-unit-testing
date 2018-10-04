@@ -15,7 +15,7 @@ var f = $$.flow.describe("equalPrimitiveNegativeTest",{
         }
         this.cb();
     }
-});
+})();
 assert.callback("equalPrimitiveNegativeTest", function(cb){
     f.action(cb);
 }, 1500);
@@ -31,7 +31,7 @@ var f1 = $$.flow.describe("equalNonPrimitiveNegativeTest",{
         }
         this.cb();
     }
-});
+})();
 assert.callback("equalNonPrimitiveNegativeTest", function(cb){
     f1.action(cb);
 }, 1500);

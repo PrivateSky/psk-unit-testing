@@ -40,7 +40,7 @@ var f = $$.flow.describe("checksumDifFiles", {
         assert.true(checksum1 != checksum2, `[FAIL] Checksum was not calculated correctly! The checksum for the first file is ${checksum1} the checksum for the second file is ${checksum2}!`);
         this.end();
     }
-});
+})();
 assert.callback("checksumDifFiles", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

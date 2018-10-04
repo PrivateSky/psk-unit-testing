@@ -2,12 +2,11 @@ require("../../../builds/devel/pskruntime");
 var assert = require('double-check').assert;
 
 var f = $$.callflow.describe("serialExample", {
-    start:function(){
-        var serial = this.serial();
+    start:function(callback){
+        var serial = this.serial(callback);
     }
+})();
+
+assert.callback("SerialExample", function(callback){
+    f.start(callback);
 });
-try {
-    f.start();
-}catch(err){
-    assert.notEqual(err,null,"Error expected");
-}

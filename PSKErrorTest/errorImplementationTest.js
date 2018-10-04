@@ -2,7 +2,7 @@ require("../../../builds/devel/pskruntime");
 const assert = require("double-check").assert;
 const Errors = require("../../../engine/util/Error");
 
-var swarm = $$.swarm.create("SwarmExample", {
+var swarm = $$.swarm.describe("SwarmExample", {
     private:{
         a1:"int",
         a2:"int"
@@ -13,7 +13,7 @@ var swarm = $$.swarm.create("SwarmExample", {
     begin:function(a1,a2){
         this.result = a1 + a2;
     }
-});
+})();
 swarm.begin(1,2);
 var message = "just a simple message";
 var prop = "public";

@@ -1,4 +1,4 @@
-require('../../../engine/core').enableTesting();
+require('../../../builds/devel/pskruntime');
 const VirtualMQ        = require('virtualmq');
 const assert           = require("double-check").assert;
 const fileStateManager = require('../../../libraries/utils/FileStateManager').getFileStateManager();
@@ -52,7 +52,7 @@ const flow = $$.flow.describe('CSBmanagerClientBasic', {
 			fileStateManager.restoreState(this.cb);
 		});
 	}
-});
+})();
 
 assert.callback("CSBmanagerClientBasic", function (callback) {
 	flow.init(callback);

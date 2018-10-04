@@ -61,7 +61,7 @@ var f = $$.flow.describe("moveCheckFilesAfterAction", {
         assert.true(srcChecksum === targetChecksum, `[FAIL] Files were moved incorrect.Original checksum was ${srcChecksum} checksum after move is ${targetChecksum}`);
         this.end();
     }
-});
+})();
 assert.callback("moveCheckFilesAfterAction", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

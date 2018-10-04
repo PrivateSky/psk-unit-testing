@@ -1,3 +1,4 @@
+require("../../../builds/devel/pskruntime");
 require('../../../modules/virtualmq/flows/CSBmanager');
 require("../../../builds/devel/pskruntime"); 
 const assert = require("double-check").assert;
@@ -67,7 +68,7 @@ const flow = $$.flow.describe('CSBmanagerFlowTest', {
 			});
 		});
 	}
-});
+})();
 
 assert.callback("CSBmanagerFlowTest", function (callback) {
 	flow.init(callback);

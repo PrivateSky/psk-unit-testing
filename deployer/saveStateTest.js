@@ -41,7 +41,7 @@ var f = $$.flow.describe("saveState", {
         assert.true(fs.existsSync(dirPath), `[FAIL] Dir "${dirPath}" does not exist after restore!`);
         this.end();
     }
-});
+})();
 
 assert.callback("saveState", function(end) {
     setTimeout(function(){

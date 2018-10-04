@@ -55,7 +55,7 @@ var f = $$.flow.describe("cloneSourceUnavailable", {
         assert.true(!fs.existsSync(dependencyPath), `[FAIL] Dependency "${dependencyPath}" does not exist!`);
         this.end();
     }
-});
+})();
 
 assert.callback("cloneSourceUnavailable", function(end) {
     setTimeout(function(){

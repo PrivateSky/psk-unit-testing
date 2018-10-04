@@ -20,7 +20,7 @@ var f = $$.flow.describe("publishAndEmpty",{
         assert.true(message.msg === "World!");
         this.cb();
     }
-});
+})();
 assert.callback("publishToRegisteredSubscriber", function(callback){
     f.init(callback);
 }, 1500);

@@ -12,14 +12,14 @@ var queue = mq.getFolderQueue(folderPath,function(){});
 
 var assert = require("double-check").assert;
 
-var flow1 = $$.callflows.create("test", {
+var flow1 = $$.callflows.describe("test", {
     public:{
         value:"int"
     },
     init:function(value){
         this.value = value;
     }
-});
+})();
 
 var flow2 = $$.callflows.start("test");
 flow2.init(2);
@@ -42,11 +42,14 @@ flow1.observe(function(){
             });
         }, null,filter);
 
-setTimeout(function(){
-    assert.equal(value,2,"Not consumed enough");
-	try {
-		for (const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
-		fs.rmdirSync(folderPath);
-	} catch (e) {}
-    process.exit();
-}, 1000);
+assert.callback("restartTest", function(callback){
+    setTimeout(function(){
+        assert.equal(value,2,"Not consumed enough");
+        try {
+            for (const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
+            fs.rmdirSync(folderPath);
+        } catch (e) {}
+        callback();
+        process.exit();
+    }, 1000);
+}, 1500)

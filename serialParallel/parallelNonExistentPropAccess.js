@@ -30,7 +30,7 @@ var f = $$.callflow.describe("joinsExample", {
         assert.equal(this.result,3,"Results don't match");
         this.callback();
     }
-});
+})();
 assert.callback("Parallel test: accessing non-existent  property",function(callback){
     f.start(callback);
 })

@@ -15,7 +15,7 @@ var f = $$.flow.describe("VerifyChannelExistence",{
         assert.true(soundPubSub.hasChannel(channelName) == true, "Subscribe did not work")
         this.cb();
     }
-});
+})();
 assert.callback("VerifyChannelExistence", function(callback){
     f.init(callback);
 },1500);

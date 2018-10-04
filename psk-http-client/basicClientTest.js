@@ -1,3 +1,4 @@
+require("../../../builds/devel/pskruntime");
 require("../../../engine/core");
 const path = require("path");
 require("psk-http-client");

@@ -1,5 +1,5 @@
 
-require('../../../engine/core').enableTesting();
+require('../../../builds/devel/pskruntime');
 const assert = require('double-check').assert;
 
 var crypto = require("../../../modules/pskcrypto/cryptography");

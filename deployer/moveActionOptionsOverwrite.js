@@ -68,7 +68,7 @@ var f = $$.flow.describe("moveActionOverwriteTest", {
         this.end();
 
     }
-});
+})();
 
 assert.callback("moveActionOverwriteTest", function(end) {
     setTimeout(function(){

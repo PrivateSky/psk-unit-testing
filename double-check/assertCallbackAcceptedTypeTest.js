@@ -6,7 +6,7 @@ var f = $$.flow.describe("acceptedCallbackType",{
        this.cb = cb;
        this.cb();
     }
-});
+})();
 
 var wrongCalls = [null, undefined, {}, "string", true, 5, 0, function(){}.toString(), false];
 var goodCalls = [function(cb){f.action(cb);}, (function(callback){return function(cb){f.action(cb);}})()];

@@ -62,7 +62,7 @@ var f = $$.flow.describe("changingWorkDirTest", {
         assert.true(fs.existsSync(dependencyPath), `[FAIL]  "${dependencyPath}" is not in ${this.configObject.workDir}!`);
         this.end();
     }
-});
+})();
 
 assert.callback("changingWorkDir", function(end) {
     setTimeout(function(){

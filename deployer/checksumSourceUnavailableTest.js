@@ -15,6 +15,6 @@ var f = $$.flow.describe("checksumSourceUnavailable", {
     test: function() {
         let checksum = fsExt.checksum(dummyTargetFile);
     }
-});
+})();
 f.start();
 

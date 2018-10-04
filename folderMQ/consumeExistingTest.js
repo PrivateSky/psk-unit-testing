@@ -49,7 +49,7 @@ const flow = $$.flow.describe('consumeExistingTest', {
 		this.cb();
 		process.exit();
 	}
-});
+})();
 
 assert.callback("consumeExistingTest", function (callback) {
 	flow.init(callback);

@@ -52,7 +52,7 @@ var f = $$.flow.describe("downloadDependencyUnavailable", {
         assert.isNull(result, "Result should be null!");
         this.end();
     }
-});
+})();
 
 assert.callback("downloadDependencyUnavailable", function(end) {
     setTimeout(function(){

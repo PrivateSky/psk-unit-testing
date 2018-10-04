@@ -15,7 +15,7 @@ var f = $$.flow.describe("assertNullTest",{
 
         cb();
 	}
-});
+})();
 assert.callback("assertNullTest", function(cb){
     f.action(cb);
 }, 1500);

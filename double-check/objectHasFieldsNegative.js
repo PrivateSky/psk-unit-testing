@@ -13,7 +13,7 @@ var f = $$.flow.describe("assertObjectHasFields",{
         };
         this.cb();
     }
-});
+})();
 assert.callback("assertObjectHasFields", function(cb){
     f.action(cb);
 }, 1500);

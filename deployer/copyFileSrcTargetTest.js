@@ -61,7 +61,7 @@ var f = $$.flow.describe("copyFileSrcTargetTest", {
         this.end();
 
     }
-});
+})();
 assert.callback("copyFileSrcTargetTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

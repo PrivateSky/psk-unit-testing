@@ -25,7 +25,7 @@ var f = $$.flow.describe("PublishWithNoSubscribers",{
         assert.true(received.length == 0, "Size should be 0 but it is"+received.length);
         this.cb();
     }
-});
+})();
 assert.callback("PublishWithNoSubscribers", function(callback){
     f.init(callback);
 }, 1500);

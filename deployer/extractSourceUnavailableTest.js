@@ -49,7 +49,7 @@ var f = $$.flow.describe("extractSourceUnavailable", {
         assert.isNull(result, "Result should be null!");
         this.end();
     }
-});
+})();
 assert.callback("extractSourceUnavailable", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

@@ -24,7 +24,7 @@ var f = $$.callflow.describe("parallelExceptionCase", {
         assert.notEqual(err, null, err.message);
         this.callback();
     }
-});
+})();
 assert.callback("Parallel Step Error Test",function(callback){
     f.start(callback);
 })

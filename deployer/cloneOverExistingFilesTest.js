@@ -69,7 +69,7 @@ var f = $$.flow.describe("cloneOverExistingFiles", {
         assert.true(fs.existsSync(dependencyPath), `[FAIL] Dependency "${dependencyPath}" does not exist!`);
         this.end();
     }
-});
+})();
 
 assert.callback("cloneOverExistingFiles", function(end) {
     setTimeout(function(){

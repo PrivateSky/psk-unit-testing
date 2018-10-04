@@ -7,14 +7,14 @@ var expectedErrors = 0;
 var folderPath = './testFolderMQ';
 var caughtErrors = 0;
 
-var someSwarm = $$.swarm.create("test", {
+var someSwarm = $$.swarm.describe("test", {
     public:{
         value:"int"
     },
     init:function(){
         this.value = 1;
     }
-});
+})();
 
 var TS = [];
 
@@ -116,7 +116,7 @@ TS.push(prepareTest({
         }
         for(var i=0;i<testCases.length;i++){
             waiting++;
-            swarmList[i] = $$.swarm.create("test");
+            swarmList[i] = $$.swarm.start("test");
             swarmList[i].init();
             swarmList[i].observe(cb)
         }

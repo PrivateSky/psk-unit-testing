@@ -31,7 +31,7 @@ var f = $$.flow.describe("waitForOnlyOneMessage",{
         }
         this.cb();
     }
-});
+})();
 assert.callback("waitForOnlyOneMessage", function(cb){
     f.init(cb);
 }, 1500);

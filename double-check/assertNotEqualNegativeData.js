@@ -14,7 +14,7 @@ var f = $$.flow.describe("assertNotEqualNegativeDataTest",{
         }
         this.cb();
     }
-});
+})();
 assert.callback("assertNotEqualNegativeDataTest", function(cb){
     f.action(cb);
 }, 1500);

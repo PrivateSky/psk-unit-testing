@@ -35,7 +35,7 @@ var f = $$.flow.describe("unsubscribe",{
         }
         this.cb();
     }
-});
+})();
 assert.callback("unsubscribe", function(callback){
     f.init(callback);
 }, 1500);

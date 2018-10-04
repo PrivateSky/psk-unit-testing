@@ -62,7 +62,7 @@ var f = $$.flow.describe("downloadMultipleFilesDependencyAvailable", {
         assert.true(fs.existsSync(targetPathJS) && fs.existsSync(targetPathZip), `[FAIL] Dependency "${targetPathJS}" and "${targetPathZip}" does not exist!`);
         this.end();
     }
-});
+})();
 assert.callback("downloadMultipleFilesDependencyAvailable", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

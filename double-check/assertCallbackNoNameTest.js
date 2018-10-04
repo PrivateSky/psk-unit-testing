@@ -5,7 +5,7 @@ var f = $$.flow.describe("assertCallbackNoName",{
         this.cb = cb;
         this.cb();
     }
-});
+})();
 assert.callback("Callback simple test",function(cb){
     f.action(cb);
 }, 1500);

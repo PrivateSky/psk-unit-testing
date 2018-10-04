@@ -31,7 +31,7 @@ var f = $$.flow.describe("fileChecksum", {
         assert.true(expectedChecksum === checksum, `[FAIL] Checksum was not calculated correctly! The result was ${checksum} and it should have been ${expectedChecksum}!`);
         this.end();
     }
-});
+})();
 
 assert.callback("fileChecksum", function(end) {
     setTimeout(function(){

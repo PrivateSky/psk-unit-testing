@@ -23,7 +23,7 @@ var f = $$.flow.describe("testAcceptedCallbackType",{
     publish:function(channelName, message) {
         soundPubSub.publish(channelName, message);
     }
-});
+})();
 assert.callback("testAcceptedCallbackType", function (callback){
     f.init(callback);
 }, 1500);

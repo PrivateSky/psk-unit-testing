@@ -27,7 +27,7 @@ var f = $$.callflow.describe("joinsExample", {
     asyncCode: function(){
         this.result += 100;
     }
-});
+})();
 assert.callback("Join array test",function(callback){
    f.start(callback);
 });

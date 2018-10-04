@@ -47,7 +47,7 @@ var f = $$.flow.describe("filterMessagesWithMultipleFilters",{
         }
         this.cb();
     }
-});
+})();
 assert.callback("filterMessagesWithMultipleFilters", function(callback){
     f.init(callback);
 }, 1200);

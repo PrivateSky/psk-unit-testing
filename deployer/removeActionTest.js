@@ -57,7 +57,7 @@ var f = $$.flow.describe("removeActionTest", {
         assert.true(!fs.existsSync(targetPath), `[FAIL] Dependency ${targetPath} still exists!`);
         this.end();
     }
-});
+})();
 assert.callback("removeActionTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

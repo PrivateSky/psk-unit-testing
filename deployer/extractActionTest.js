@@ -59,7 +59,7 @@ var f = $$.flow.describe("extractActionTest", {
         assert.true(fs.existsSync(targetPath), `[FAIL] Dependency does not exist in ${targetPath}`);
         this.end();
     }
-});
+})();
 assert.callback("extractActionTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

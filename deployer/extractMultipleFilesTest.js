@@ -75,7 +75,7 @@ var f = $$.flow.describe("extractMultipleFiles", {
         this.end();
     }
 
-});
+})();
 assert.callback("extractMultipleFiles", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

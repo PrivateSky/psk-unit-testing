@@ -47,7 +47,7 @@ const flow = $$.flow.describe('checksumActionTest', {
     })
         ;
     }
-});
+})();
 
 assert.callback('checksumActionTest', function (callback) {
     flow.init(callback);

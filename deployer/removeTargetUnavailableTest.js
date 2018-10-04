@@ -50,7 +50,7 @@ var f = $$.flow.describe("removeTargetUnavailable", {
         assert.isNull(result, "Result should be null!");
         this.end();
     }
-});
+})();
 assert.callback("removeTargetUnavailable", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

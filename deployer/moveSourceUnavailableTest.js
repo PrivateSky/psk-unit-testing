@@ -52,7 +52,7 @@ var f = $$.flow.describe("moveSourceUnavailable", {
         assert.isNull(result, "Should not be any errors!");
         this.end();
     }
-});
+})();
 assert.callback("moveSourceUnavailable", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

@@ -11,7 +11,7 @@ var f = $$.flow.describe("pubSubUnsubscribeFromUnregisteredChannel",{
     unsubscribe:function (channelName, callback){
         soundPubSub.unsubscribe(channelName, callback);
     }
-});
+})();
 assert.callback("pubSubUnsubscribeFromUnregisteredChannel", function(callback){
     f.init(callback);
 }, 1500);

@@ -49,7 +49,7 @@ var f = $$.flow.describe("checksumActionTest", {
         this.end();
     }
 
-});
+})();
 assert.callback("checksumActionTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

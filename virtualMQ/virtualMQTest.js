@@ -46,7 +46,7 @@ const flow = $$.flow.describe('VirtualMQTest', {
 			callback();
 		});
 	}
-});
+})();
 
 assert.callback("VirtualMQTest", function (callback) {
 	flow.init(callback);

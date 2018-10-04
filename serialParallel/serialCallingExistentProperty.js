@@ -40,7 +40,7 @@ var f = $$.callflow.describe("serialExample", {
         assert.equal(this.result,1103,"Results don't match");
         this.callback();
     }
-});
+})();
 assert.callback("Serial Test; calling existent property",function(callback){
     f.start(callback);
 })

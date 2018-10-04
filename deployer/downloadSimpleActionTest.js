@@ -54,7 +54,7 @@ var f = $$.flow.describe("downloadSimpleActionTest", {
         this.end();
 
     }
-});
+})();
 assert.callback("downloadSimpleActionTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

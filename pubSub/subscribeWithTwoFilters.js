@@ -39,7 +39,7 @@ var f = $$.flow.describe("filterMessagesFromChannel",{
         }
         this.cb();
     }
-});
+})();
 assert.callback("filterMessagesFromChannel", function(callback){
     f.init(callback);
 }, 1500);

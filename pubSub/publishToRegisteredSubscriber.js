@@ -23,7 +23,7 @@ var f = $$.flow.describe("publishToRegisteredSubscriber",{
         assert.true(received === sent);
         this.cb();
     }
-});
+})();
 assert.callback("publishToRegisteredSubscriber", function(callback){
     f.init(callback);
 }, 1500);

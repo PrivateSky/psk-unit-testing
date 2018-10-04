@@ -58,7 +58,7 @@ var f = $$.flow.describe("copyTargetUnavailableTest", {
         assert.true(fs.existsSync(targetPath), `[FAIL] Target directory was not created `);
         this.end();
     }
-});
+})();
 
 assert.callback("copyTargetUnavailableTest", function(end) {
     setTimeout(function(){

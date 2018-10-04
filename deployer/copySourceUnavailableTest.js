@@ -55,7 +55,7 @@ var f = $$.flow.describe("copySourceUnavailableTest", {
         this.end();
 
     }
-});
+})();
 assert.callback("copySourceUnavailableTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

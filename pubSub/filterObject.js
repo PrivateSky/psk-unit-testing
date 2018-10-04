@@ -31,7 +31,7 @@ var f = $$.flow.describe("filterObject-withStringify",{
         }
         this.cb();
     }
-});
+})();
 assert.callback("filterObject-withStringify", function(callback){
     f.init(callback);
 }, 1500);

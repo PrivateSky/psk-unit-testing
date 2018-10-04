@@ -59,7 +59,7 @@ var f = $$.flow.describe("moveCheckSourceAfterActionTest", {
         this.end();
 
     }
-});
+})();
 assert.callback("moveCheckSourceAfterActionTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

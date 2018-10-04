@@ -72,7 +72,7 @@ var f = $$.flow.describe("installMoveActionTest", {
         }
         this.end();
     }
-});
+})();
 
 assert.callback("installMoveActionTest", function(end) {
     setTimeout(function(){

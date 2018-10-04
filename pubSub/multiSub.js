@@ -27,7 +27,7 @@ var f = $$.flow.describe("multipleSubscribersMultipleChannels",{
         assert.true(sub1 === channelNames.ch1 && sub2 === channelNames.ch2);
         this.cb();
     }
-});
+})();
 assert.callback("multipleSubscribersMultipleChannels", function(callback){
     f.init(callback);
 }, 1500);

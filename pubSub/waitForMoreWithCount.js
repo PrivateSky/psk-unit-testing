@@ -39,7 +39,7 @@ var f = $$.flow.describe("orderOfMessagesWithLimit",{
         }
         this.cb();
     }
-});
+})();
 assert.callback("orderOfMessagesWithLimit", function(cb){
     f.init(cb);
 }, 1500);

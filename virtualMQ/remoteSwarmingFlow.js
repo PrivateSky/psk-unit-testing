@@ -1,3 +1,5 @@
+require("../../../builds/devel/pskruntime");
+require("callflow");
 require('../../../modules/virtualmq/flows/remoteSwarming');
 require("../../../builds/devel/pskruntime"); 
 const assert           = require("double-check").assert;
@@ -47,7 +49,7 @@ const flow = $$.flow.describe('RemoteSwarmingFlowTest', {
 			});
 		});
 	}
-});
+})();
 
 assert.callback("RemoteSwarmingFlowTest", function (callback) {
 	flow.init(callback);

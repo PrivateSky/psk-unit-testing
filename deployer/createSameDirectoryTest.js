@@ -30,6 +30,6 @@ var f = $$.flow.describe("Using create directory multiple times on the same path
     afterExecution: function() {
         fsExt.rmDir(testWorkspaceDir);
     }
-});
+})();
 f.start();
 

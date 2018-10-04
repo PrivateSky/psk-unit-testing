@@ -27,7 +27,7 @@ var f = $$.flow.describe("assertObjectHasFieldsPrototype", {
         assert.false(didThrow, 'It looks like it compared prototype values too');
         this.cb();
     }
-});
+})();
 assert.callback("assertObjectHasFieldsPrototype", function(cb){
     f.action(cb);
 }, 1500);

@@ -58,7 +58,7 @@ var f = $$.flow.describe("moveActionTest", {
         console.log("restoring");
         fileStateManager.restoreState();
     }
-});
+})();
 assert.callback("cleanup", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

@@ -61,7 +61,7 @@ var f = $$.flow.describe("copyDirectoryActionTest", {
         this.end();
 
     }
-});
+})();
 
 assert.callback("copyDirectoryActionTest", function(end) {
     setTimeout(function(){

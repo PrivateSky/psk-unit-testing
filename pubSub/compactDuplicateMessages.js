@@ -49,7 +49,7 @@ var f = $$.flow.describe("CompactFilteredDuplicates",{
         }
         this.cb();
     }
-});
+})();
 assert.callback("CompactFilteredDuplicates", function(callback){
     f.init(callback);
 }, 1500);

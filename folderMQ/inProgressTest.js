@@ -39,7 +39,7 @@ const flow = $$.flow.describe('inProgressTest', {
 		this.cb();
 		process.exit();
 	}
-});
+})();
 
 assert.callback("inProgressTest", function (callback) {
 	flow.init(callback);

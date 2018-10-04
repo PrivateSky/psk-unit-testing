@@ -65,7 +65,7 @@ var f = $$.flow.describe("removeMultipleFiles", {
         assert.true(!fs.existsSync(targetPathDir) && !fs.existsSync(targetPathFile), `[FAIL] Dependencies ${targetPathDir} and ${targetPathFile} still exists!`);
         this.end();
     }
-});
+})();
 assert.callback("removeMultipleFiles", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

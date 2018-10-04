@@ -12,7 +12,7 @@ const f = $$.flow.describe("assertArrayMatchTest", {
 
 		this.cb();
 	}
-});
+})();
 assert.callback("assertArrayMatchTest", function(cb){
     f.action(cb);
 }, 1500);

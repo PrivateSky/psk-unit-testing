@@ -29,7 +29,7 @@ var f = $$.flow.describe("checksumCaseTest", {
         this.end();
     }
 
-});
+})();
 assert.callback("checksumCaseTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

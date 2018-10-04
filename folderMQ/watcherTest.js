@@ -47,7 +47,7 @@ const flow = $$.flow.describe('watcherTest', {
 		this.cb();
 		process.exit();
 	}
-});
+})();
 
 assert.callback("consumeExistingTest", function (callback) {
 	flow.init(callback);

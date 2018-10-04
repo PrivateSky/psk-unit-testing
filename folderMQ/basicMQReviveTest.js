@@ -1,5 +1,6 @@
 require("../../../builds/devel/pskruntime");
 require("callflow");
+require("launcher");
 const fs         = require("fs");
 const mq = require("foldermq");
 const assert     = require("double-check").assert;
@@ -14,7 +15,7 @@ try {
 } catch (e) {}
 
 // Describe and create a new swarm
-const f = $$.swarm.create("test", {
+const f = $$.swarm.describe("test", {
 	public: {
 		result: "int"
 	},
@@ -32,7 +33,7 @@ const f = $$.swarm.create("test", {
 	phaseThree: function () {
 		this.result++;
 	}
-});
+})();
 
 let finalResult = null;
 
@@ -80,7 +81,7 @@ const flow = $$.flow.describe('basicMQReviveTest', {
 		this.cb();
 		process.exit();
 	}
-});
+})();
 
 assert.callback("basicMQReviveTest", function (callback) {
 	flow.start(callback);

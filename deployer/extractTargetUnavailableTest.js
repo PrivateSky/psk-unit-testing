@@ -58,7 +58,7 @@ var f = $$.flow.describe("extractTargetUnavailable", {
         assert.true(fs.existsSync(targetPath), `[FAIL] Dependency does not exist in ${targetPath}`);
         this.end();
     }
-});
+})();
 assert.callback("extractTargetUnavailable", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

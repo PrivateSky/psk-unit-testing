@@ -62,7 +62,7 @@ var f = $$.flow.describe("readConfigFromTestFile", {
         assert.true(fs.existsSync(targetPath), `[FAIL] Dependency "${targetPath}" does not exist!`);
         this.end();
     }
-});
+})();
 assert.callback("readConfigFromTestFile", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");

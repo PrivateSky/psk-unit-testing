@@ -5,10 +5,11 @@ var f = $$.callflow.describe("joinsExample", {
     public:{
         result:"int"
     },
-    start:function(){
-
-        var join = this.parallel();
-
+    start:function(callback){
+        var join = this.parallel(callback);
     }
+})();
+
+assert.callback("joinsExample", function(callback){
+    f.start(callback);
 });
-f.start();

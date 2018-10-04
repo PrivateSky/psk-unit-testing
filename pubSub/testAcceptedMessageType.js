@@ -21,7 +21,7 @@ var f = $$.flow.describe("testAcceptedMessageType",{
             this.cb();
         }
     }
-});
+})();
 assert.callback("testAcceptedChannelName", function (callback){
     f.init(callback);
 }, 1500);

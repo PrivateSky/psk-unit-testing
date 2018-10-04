@@ -57,7 +57,7 @@ var f = $$.flow.describe("cloneNoAuthorizationTest", {
         assert.true(!fs.existsSync(dependencyPath), `[FAIL] Dependency "${dependencyPath}" does not exist!`);
         this.end();
     }
-});
+})();
 
 assert.callback("cloneNoAuthorizationTest", function(end) {
     setTimeout(function(){
