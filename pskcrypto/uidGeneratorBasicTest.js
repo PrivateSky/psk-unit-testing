@@ -8,7 +8,7 @@ assert.callback("basicUidGeneratorTest", function (callback) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
 	function genUID(index) {
-		if(index === 100){
+		if(index === 1000){
 			assert.equal(generated.length, index, "Not enough uids generated");
 			callback();
 			return;
@@ -23,4 +23,4 @@ assert.callback("basicUidGeneratorTest", function (callback) {
 
 	}
 	genUID(0);
-}, 1000);
+}, 10000);
