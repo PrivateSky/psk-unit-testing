@@ -46,5 +46,13 @@ assert.callback("Testul_lui_Om", function(callback){
     assert.true(newOm !== OMClone);
     assert.true(newOm.relationship === OMClone.relationship);
 
+    let superOm = new OwM({
+        "simpleProp": 1,
+        "meta": {
+            "metaprop": "2"
+        }
+    });
+    console.log("superOm", superOm);
+
     callback();
 });

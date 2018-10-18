@@ -45,14 +45,17 @@ const flow = $$.flow.describe('prodConsTest', {
 			f.callback();
 		});
 	},
-	__filter: function () {
-		return f.getInnerValue().meta.swarmId;
+	__filter: function (message) {
+		return f.getInnerValue().meta.swarmId == message.meta.swarmId;
 	},
 	startObserve: function (callback) {
 	    f.observe(() => {
 		    f.init(callback);
 		    this.producerHandler.addSwarm(f, function(){});
 	    }, null,this.__filter);
+
+	    //small fix after swarmId is set sync instead async
+	    f.notify();
     }
 })();
 

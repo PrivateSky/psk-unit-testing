@@ -61,11 +61,10 @@ const flow = $$.flow.describe('basicMQReviveTest', {
 			// First (1) run the phase one before serialization
 			f.phaseOne(7, 3);
 			// Then (2) send phaseTwo to execution for the moment when it'll be revived
-			const swarm = beesHealer.asJSON(f.getInnerValue(), "phaseTwo", [4, 8], function () {
-
-			});
+			let swarm = beesHealer.asJSON(f.getInnerValue(), "phaseTwo", [4, 8]);
 			producerHandler.sendSwarmForExecution(swarm, callback);
 		}, null, null);
+		f.notify();
 	},
 	finish: function () {
 		assert.equal(finalResult, 23, "Phase two wasn't executed");

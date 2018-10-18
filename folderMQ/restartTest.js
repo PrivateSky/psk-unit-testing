@@ -42,6 +42,9 @@ flow1.observe(function(){
             });
         }, null,filter);
 
+//small fix after swarmId is set sync instead async
+flow1.notify();
+
 assert.callback("restartTest", function(callback){
     setTimeout(function(){
         assert.equal(value,2,"Not consumed enough");
