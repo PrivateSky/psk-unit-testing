@@ -118,7 +118,9 @@ TS.push(prepareTest({
             waiting++;
             swarmList[i] = $$.swarm.start("test");
             swarmList[i].init();
-            swarmList[i].observe(cb)
+            swarmList[i].observe(cb);
+            //small fix after swarmId is set sync instead async
+            swarmList[i].notify();
         }
         queue.registerConsumer(function(){});
 

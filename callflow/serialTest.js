@@ -39,7 +39,13 @@ const flow = $$.flow.describe('serialTest', {
 
 
 assert.callback('serialTest', function(callback) {
-    flow.init(callback);
+    try{
+        flow.init(callback);
+    }catch(err){
+        //clean
+        throw err;
+    }
+
 }, 5000);
 
 
