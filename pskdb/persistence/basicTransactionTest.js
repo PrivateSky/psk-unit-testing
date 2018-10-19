@@ -25,14 +25,12 @@ const flow = $$.flow.describe('basicTransactionTest', {
 
         const transactionSwarm = transaction.lookup('global.Key', 'testId');
 
-        setTimeout(() => {
-            transaction.add(transactionSwarm);
+        transaction.add(transactionSwarm);
 
-            this.swarmId = transactionSwarm.getMeta('swarmId');
+        this.swarmId = transactionSwarm.getMeta('swarmId');
 
-            $$.blockchain.commit(transaction);
-            callback();
-        }, 1000);
+        $$.blockchain.commit(transaction);
+        callback();
     },
     readTransaction: function(swarm, callback) {
         const transaction = $$.blockchain.beginTransaction(swarm);
