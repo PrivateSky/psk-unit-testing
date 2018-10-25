@@ -1,6 +1,6 @@
 function simpleTest(){
-    const fs = require("fs");
-    const assert = require("assert");
+    let fs = require("fs");
+    let assert = require("assert");
     let welcomeMessage = "PrivateSky is a wonderful project";
     let exclamationMark = "!";
     let path = "/indexed/text.txt";
