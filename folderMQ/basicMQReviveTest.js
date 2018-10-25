@@ -1,6 +1,6 @@
 require("../../../builds/devel/pskruntime");
-require("callflow");
-require("launcher");
+/*require("callflow");
+require("launcher");*/
 const fs         = require("fs");
 const mq = require("foldermq");
 const assert     = require("double-check").assert;
