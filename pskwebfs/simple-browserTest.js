@@ -1,13 +1,11 @@
-const fs = require("fs");
-const assert = require("assert");
-
-let welcomeMessage = "PrivateSky is a wonderful project";
-let exclamationMark = "!";
-let path = "/indexed/text.txt";
-
 function simpleTest(){
-    describe('BrowserFS', function() {
+    const fs = require("fs");
+    const assert = require("assert");
+    let welcomeMessage = "PrivateSky is a wonderful project";
+    let exclamationMark = "!";
+    let path = "/indexed/text.txt";
 
+    describe('BrowserFS', function() {
         describe('writeFile', function() {
             it('should save without error', function(done){
                 fs.writeFile(path, welcomeMessage,done);
