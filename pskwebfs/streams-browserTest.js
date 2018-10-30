@@ -8,7 +8,7 @@ describe('BrowserFS-Streams', function () {
     let path = "/indexed/text.txt";
     let pipePath = "/indexed/pipe.txt";
 
-        describe('writeReadStream', function () {
+    describe('writeReadStream', function () {
         it('should write content:\"' + fullMessage + "\"", function (done) {
             let writeStream = fs.createWriteStream(path);
             writeStream.write(welcomeMessage);
@@ -78,8 +78,8 @@ describe('BrowserFS-Streams', function () {
     describe('create readStream with start and end', function () {
         let start = 16;
         let end = 25;
-        it('should read content:\"' + fullMessage.substring(start,end) + "\"", function (done) {
-            let readStream = fs.createReadStream(path, {start:start, end: end});
+        it('should read content:\"' + fullMessage.substring(start, end) + "\"", function (done) {
+            let readStream = fs.createReadStream(path, {start: start, end: end});
             let myData = "";
             readStream.on("data", function (data) {
                 myData += data;
@@ -94,11 +94,11 @@ describe('BrowserFS-Streams', function () {
     describe('create readStream with highWaterMark:', function () {
         let highWaterMark = 4;
         it('should read content using highWaterMark:', function (done) {
-            let readStream = fs.createReadStream(path, {highWaterMark:highWaterMark});
+            let readStream = fs.createReadStream(path, {highWaterMark: highWaterMark});
             let start = 0;
             readStream.on("data", function (data) {
-                assert.strictEqual(data.toString(), fullMessage.substring(start,start+highWaterMark));
-                start +=highWaterMark;
+                assert.strictEqual(data.toString(), fullMessage.substring(start, start + highWaterMark));
+                start += highWaterMark;
             });
             readStream.on("end", function () {
                 done();
@@ -124,11 +124,11 @@ describe('BrowserFS-Streams', function () {
     describe('create readStream and liste on readable event', function () {
         let highWaterMark = 1;
         it('should read content using read method:', function (done) {
-            let readStream = fs.createReadStream(path,{highWaterMark:highWaterMark});
+            let readStream = fs.createReadStream(path, {highWaterMark: highWaterMark});
             let myData = "";
             readStream.on("readable", function () {
                 var chunk = readStream.read();
-                if(chunk){
+                if (chunk) {
                     myData += chunk;
                 }
             });
@@ -144,17 +144,17 @@ describe('BrowserFS-Streams', function () {
         let highWaterMark = 1;
         let pauseThreshold = 10;
         it('should read content:', function (done) {
-            let readStream = fs.createReadStream(path,{highWaterMark:highWaterMark});
+            let readStream = fs.createReadStream(path, {highWaterMark: highWaterMark});
             let myData = "";
             let steps = 0;
             readStream.on("data", function (data) {
-                myData+=data;
+                myData += data;
                 steps++;
-                if(steps%pauseThreshold === 0){
+                if (steps % pauseThreshold === 0) {
                     readStream.pause();
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         readStream.resume();
-                    },10);
+                    }, 10);
                 }
             });
             readStream.on("end", function () {
@@ -193,16 +193,16 @@ describe('BrowserFS-Streams', function () {
             let readStream = fs.createReadStream(path);
             let writeStream = fs.createWriteStream(pipePath);
             readStream.pipe(writeStream);
-            writeStream.on("finish",function(){
+            writeStream.on("finish", function () {
                 let pipeStream = fs.createReadStream(pipePath);
                 let myData = "";
-                pipeStream.on("data",function(data){
-                    myData +=data;
+                pipeStream.on("data", function (data) {
+                    myData += data;
                 });
 
-                pipeStream.on("end", function(){
-                   assert.strictEqual(myData, fullMessage);
-                   done();
+                pipeStream.on("end", function () {
+                    assert.strictEqual(myData, fullMessage);
+                    done();
                 });
             });
         })

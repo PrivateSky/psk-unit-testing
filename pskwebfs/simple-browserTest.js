@@ -1,24 +1,24 @@
-function simpleTest(){
+function simpleTest() {
     let fs = require("fs");
     let assert = require("assert");
     let welcomeMessage = "PrivateSky is a wonderful project";
     let exclamationMark = "!";
     let path = "/indexed/text.txt";
 
-    describe('BrowserFS', function() {
-        describe('writeFile', function() {
-            it('should save without error', function(done){
-                fs.writeFile(path, welcomeMessage,done);
+    describe('BrowserFS', function () {
+        describe('writeFile', function () {
+            it('should save without error', function (done) {
+                fs.writeFile(path, welcomeMessage, done);
             });
         });
 
-        describe("readFile", function(){
-            it('should read the welcome message', function(done){
-                fs.readFile(path, function(err,data){
-                    if(err){
+        describe("readFile", function () {
+            it('should read the welcome message', function (done) {
+                fs.readFile(path, function (err, data) {
+                    if (err) {
                         done(err);
                     }
-                    else{
+                    else {
                         assert.strictEqual(data.toString(), welcomeMessage);
                         done();
                     }
@@ -26,19 +26,19 @@ function simpleTest(){
             });
         });
 
-        describe("appendFile", function(){
-            it('should append an exclamation mark', function(done){
-                fs.appendFile(path, exclamationMark, function(err){
-                    if(err){
+        describe("appendFile", function () {
+            it('should append an exclamation mark', function (done) {
+                fs.appendFile(path, exclamationMark, function (err) {
+                    if (err) {
                         done(err);
                     }
-                    else{
-                        fs.readFile(path, function(err,data){
-                            if(err){
+                    else {
+                        fs.readFile(path, function (err, data) {
+                            if (err) {
                                 done(err);
                             }
-                            else{
-                                assert.strictEqual(data.toString(), welcomeMessage+exclamationMark);
+                            else {
+                                assert.strictEqual(data.toString(), welcomeMessage + exclamationMark);
                                 done();
                             }
                         })
@@ -47,15 +47,15 @@ function simpleTest(){
             });
         });
 
-        describe("removeFile", function(){
-            it('should remove the file', function(done){
-                fs.unlink(path, function(err){
-                    if(err){
+        describe("removeFile", function () {
+            it('should remove the file', function (done) {
+                fs.unlink(path, function (err) {
+                    if (err) {
                         done(err);
                     }
-                    else{
-                        fs.stat(path,function(err){
-                            assert.notEqual(err,undefined);
+                    else {
+                        fs.stat(path, function (err) {
+                            assert.notEqual(err, undefined);
                             done();
                         })
                     }
