@@ -3,7 +3,7 @@ function simpleTest() {
     let assert = require("assert");
     let welcomeMessage = "PrivateSky is a wonderful project";
     let exclamationMark = "!";
-    let path = "/indexed/text.txt";
+    let path = "/text.txt";
 
     describe('BrowserFS', function () {
         describe('writeFile', function () {

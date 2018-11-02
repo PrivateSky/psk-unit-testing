@@ -5,8 +5,8 @@ describe('BrowserFS-Streams', function () {
     let welcomeMessage = "PrivateSky is a wonderful project";
     let exclamationMark = "!";
     let fullMessage = welcomeMessage + exclamationMark;
-    let path = "/indexed/text.txt";
-    let pipePath = "/indexed/pipe.txt";
+    let path = "/text.txt";
+    let pipePath = "/pipe.txt";
 
     describe('writeReadStream', function () {
         it('should write content:\"' + fullMessage + "\"", function (done) {
