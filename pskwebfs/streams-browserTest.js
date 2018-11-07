@@ -69,7 +69,7 @@ describe('BrowserFS-Streams', function () {
                 myData += data;
             });
             readStream.on("end", function () {
-                assert.strictEqual(myData, fullMessage.substring(0, end));
+                assert.strictEqual(myData, fullMessage.substring(0, end+1));
                 done();
             })
         });
@@ -85,7 +85,7 @@ describe('BrowserFS-Streams', function () {
                 myData += data;
             });
             readStream.on("end", function () {
-                assert.strictEqual(myData, fullMessage.substring(start, end));
+                assert.strictEqual(myData, fullMessage.substring(start, end+1));
                 done();
             })
         });
@@ -121,7 +121,7 @@ describe('BrowserFS-Streams', function () {
         });
     });
 
-    describe('create readStream and liste on readable event', function () {
+    describe('create readStream and listen on readable event', function () {
         let highWaterMark = 1;
         it('should read content using read method:', function (done) {
             let readStream = fs.createReadStream(path, {highWaterMark: highWaterMark});
