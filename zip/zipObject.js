@@ -53,7 +53,7 @@ function objectsAreEqual(obj1, obj2, callback) {
 				}
 			});
 		}else if(typeof obj1[keys[i]] === 'object' && !Buffer.isBuffer(obj1[keys[i]])) {
-			 return objectsAreEqual(obj1[keys[i]], obj2[keys[i]], callback);
+			return objectsAreEqual(obj1[keys[i]], obj2[keys[i]], callback);
 		}
 	}
 	return callback(null, true);
@@ -82,23 +82,17 @@ var obj = {
 	}
 };
 
-assert.callback("Test zip/unzip in memory", function (callback) {
-	crypto.archiver.zipInMemory(obj, function (err, data) {
+
+crypto.archiver.zipInMemory(obj, function (err, data) {
+	if(err){
+		throw err;
+	}
+	crypto.archiver.unzipInMemory(data, function (err, unzippedObj) {
 		if(err){
 			throw err;
 		}
-		crypto.archiver.unzipInMemory(data, function (err, unzippedObj) {
-			if(err){
-				throw err;
-			}
-			objectsAreEqual(obj, unzippedObj, function (err, status) {
-				if(err){
-					throw err;
-				}
-				assert.true(status, "Objects are not equal");
-				callback();
-			});
-		})
-	});
-}, 10000);
+		console.log("Enough from the clown");
+	})
+});
+
 
