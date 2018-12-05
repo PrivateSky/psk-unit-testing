@@ -61,7 +61,7 @@ function objectsAreEqual(obj1, obj2, callback) {
 
 if(!fs.existsSync("./big.file")) {
 	const file = fs.createWriteStream("./big.file");
-	for(let i=0; i<= 6e6; i++) {
+	for(let i=0; i<= 1e6; i++) {
 		file.write('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore' +
 			' et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip' +
 			' ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu ' +
@@ -79,11 +79,17 @@ var obj = {
 	key3: {
 		sk1: "Hello darkness, my old friend",
 		sk2: "ashdjg"
-	}
+	},
+	key4: {
+		sk1: ['ana', 'are', {
+			sk11: 11
+		}],
+	},
+	key5: [[{}]]
 };
 
 assert.callback("Test zip/unzip in memory", function (callback) {
-	crypto.archiver.zipInMemory(obj, function (err, data) {
+	crypto.archiver.zipInMemory(obj, null, function (err, data) {
 		if(err){
 			throw err;
 		}
