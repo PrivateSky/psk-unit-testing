@@ -75,7 +75,9 @@ var obj = {
 	key3: {
 		sk1: "Hello darkness, my old friend",
 		sk2: "ashdjg"
-	}
+	},
+	key4: null,
+	key5: undefined
 };
 
 assert.callback("test Encryption/Decryption in memory", function (callback) {

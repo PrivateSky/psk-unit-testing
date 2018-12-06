@@ -79,20 +79,29 @@ var obj = {
 	key3: {
 		sk1: "Hello darkness, my old friend",
 		sk2: "ashdjg"
-	}
+	},
+	key4: null,
+	key5: undefined
 };
 
-
-crypto.archiver.zipInMemory(obj, function (err, data) {
-	if(err){
-		throw err;
-	}
-	crypto.archiver.unzipInMemory(data, function (err, unzippedObj) {
+assert.callback("Test zip/unzip in memory", function (callback) {
+	crypto.archiver.zipInMemory(obj, null, function (err, data) {
 		if(err){
 			throw err;
 		}
-		console.log("Enough from the clown");
-	})
-});
+		crypto.archiver.unzipInMemory(data, function (err, unzippedObj) {
+			if(err){
+				throw err;
+			}
+			objectsAreEqual(obj, unzippedObj, function (err, status) {
+				if(err){
+					throw err;
+				}
+				assert.true(status, "Objects are not equal");
+				callback();
+			});
+		})
+	});
+}, 5000);
 
 
