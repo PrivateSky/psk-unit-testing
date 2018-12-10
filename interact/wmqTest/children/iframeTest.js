@@ -19,6 +19,7 @@ $$.swarm.describe("swarmTest", {
         this.swarm("interaction", "step4", firstValue, secondValue);
     }
 });
-
-var interaction = require("interact").createWindowInteractionSpace("iframe", window.parent);
+var interact = require("interact");
+interact.enableWebViewInteractions();
+var interaction = interact.createWindowInteractionSpace("iframe", window.parent);
 interaction.init();

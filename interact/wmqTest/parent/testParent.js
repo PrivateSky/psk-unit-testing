@@ -29,8 +29,10 @@ function runInteractionTest(doneCallback){
     };
 
     let collectedValue = "Super";
-    var is = require("interact").createWindowInteractionSpace("iframe",childWindow);
 
+    var interact = require("interact");
+    interact.enableWebViewInteractions();
+    var is = interact.createWindowInteractionSpace("iframe",childWindow);
     is.startSwarm("swarmTest", "start", initialValue, secondTestValue).on({
         step1:function(fValue, sValue){
             assert.deepEqual(fValue, initialValue);

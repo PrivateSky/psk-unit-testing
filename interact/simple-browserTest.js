@@ -1,6 +1,7 @@
 describe('console-interact', function () {
-
-    var is = require("interact").createInteractionSpace();
+    var interact = require("interact");
+    interact.enableLocalInteractions();
+    var is = interact.createInteractionSpace();
     require("callflow");
     require("launcher");
     let assert = require("assert");
