@@ -4,7 +4,7 @@ require("launcher");*/
 const fs         = require("fs");
 const mq = require("foldermq");
 const assert     = require("double-check").assert;
-const beesHealer = require("foldermq").beesHealer;
+const beesHealer = require("swarmutils").beesHealer;
 const folderPath = './BasicReviveChannel';
 
 const queue = mq.createQue(folderPath, function () {
