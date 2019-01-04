@@ -35,7 +35,6 @@ var f = $$.flow.describe("moveSourceUnavailable", {
                 }
             ]
         };
-        fileStateManager.saveState([testWorkspaceDir]);
     },
 
     act:function() {
@@ -44,7 +43,6 @@ var f = $$.flow.describe("moveSourceUnavailable", {
 
     clean:function(){
         console.log("restoring");
-        fileStateManager.restoreState();
     },
 
     callback:function (error,result) {
@@ -54,10 +52,6 @@ var f = $$.flow.describe("moveSourceUnavailable", {
     }
 })();
 assert.callback("moveSourceUnavailable", function(end) {
-    setTimeout(function(){
-        console.log("Forcing clean");
-        f.clean();
-    }, 1500);
     f.start(end);
 });
 

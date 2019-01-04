@@ -27,7 +27,6 @@ var f = $$.flow.describe("moveActionTest", {
             "dependencies": [
                 {
                     "name": dependencyName,
-                    "src": "npm",
                     "actions": [{
                         "type": "move",
                         "src": `${dummySrcDir}/dummy-dependency`,

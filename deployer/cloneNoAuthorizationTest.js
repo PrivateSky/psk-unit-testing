@@ -25,7 +25,7 @@ var f = $$.flow.describe("cloneNoAuthorizationTest", {
             "dependencies": [
                 {
                     "name": dependencyName,
-                    "src": "ssh://git@docker.heavensolutions.com:50022/privatesky/swarm-engine.git",
+                    "src": "http://unknownuser:nopass@docker.heavensolutions.com:50080/privatesky/swarm-engine.git",
                     "actions": [{
                         "type": "clone",
                         "options": {
@@ -50,7 +50,6 @@ var f = $$.flow.describe("cloneNoAuthorizationTest", {
     },
 
     callback:function (error, result) {
-        console.log(JSON.stringify(error));
         assert.notNull(error, "Should be errors!");
         assert.isNull(result, "Result should be null!" );
         let dependencyPath = fsExt.resolvePath(dependencyTarget + "/" + dependencyName);

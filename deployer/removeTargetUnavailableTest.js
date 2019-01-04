@@ -25,7 +25,6 @@ var f = $$.flow.describe("removeTargetUnavailable", {
             "dependencies": [
                 {
                     "name": dependencyName,
-                    "src": "npm",
                     "actions": [{
                         "type": "remove",
                         "target": dummyTargetDir
@@ -33,29 +32,19 @@ var f = $$.flow.describe("removeTargetUnavailable", {
                 }
             ]
         };
-        fileStateManager.saveState([testWorkspaceDir]);
     },
 
     act:function() {
         deployer.run(this.configObject, this.callback);
     },
 
-    clean:function(){
-        console.log("restoring");
-        fileStateManager.restoreState();
-    },
-
     callback:function (error, result) {
-        assert.notNull(error, "Should be errors!");
-        assert.isNull(result, "Result should be null!");
+        assert.notNull(result, "Should pass withour errors");
+        assert.isNull(error, "Error should be null!");
         this.end();
     }
 })();
 assert.callback("removeTargetUnavailable", function(end) {
-    setTimeout(function(){
-        console.log("Forcing clean");
-        f.clean();
-    }, 1500);
     f.start(end);
 });
 

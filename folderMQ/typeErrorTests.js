@@ -4,7 +4,7 @@ var fs = require("fs");
 var assert = require("double-check").assert;
 
 var expectedErrors = 0;
-var folderPath = './testFolderMQ';
+var folderPath = './testFolderMQ/';
 var caughtErrors = 0;
 
 var someSwarm = $$.swarm.describe("test", {

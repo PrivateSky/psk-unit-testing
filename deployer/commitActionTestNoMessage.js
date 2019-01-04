@@ -29,26 +29,32 @@ var f = $$.flow.describe("commitActionTest", {
             "dependencies": [
                 {
                     "name": dependencyName,
-                    "src": "http://bogdan.baran@docker.heavensolutions.com:50080/bogdan.baran/demo-project-bot.git",
+                    "src": "http://docker.heavensolutions.com:50080/bogdan.baran/demo-project-bot.git",
                     "credentials": {
                         "username": "hs.bot",
                         "password": "6z5??JENc>e;]V@8"
                     },
-                    "actions": [{
-                        "type": "clone",
-                        "options": {
-                            "depth": "1",
-                            "branch": "master"
+                    "actions": [
+                        {
+                            "type": "clone",
+                            "options":
+                                {
+                                    "depth": "1",
+                                    "branch": "master"
+                                },
+                            "target": dependencyTarget
                         },
-                        "target": dependencyTarget
-                    }, {
-                        "type": "move",
-                        "src": `${tempDir}/sub/`,
-                        "target": `${dependencyTarget}/${dependencyName}`
-                    }, {
-                        "type": "commit",
-                        "target": fsExt.resolvePath(`${dependencyTarget}/${dependencyName}`)
-                    }]
+                        {
+                            "type": "move",
+                            "src": `${tempDir}/sub/`,
+                            "target": `${dependencyTarget}/${dependencyName}`,
+                            "options": {overwrite: true}
+                        },
+                        {
+                            "type": "commit",
+                            "target": fsExt.resolvePath(`${dependencyTarget}/${dependencyName}`)
+                        }
+                    ]
                 }
             ]
         };
@@ -79,6 +85,6 @@ assert.callback("commitActionTest", function(end) {
     setTimeout(function(){
         console.log("Forcing clean");
         f.clean();
-    }, 3000);
+    }, 4500);
     f.start(end);
-});
+}, 5000);

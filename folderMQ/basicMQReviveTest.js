@@ -1,4 +1,5 @@
 require("../../../builds/devel/pskruntime");
+require("../../../builds/devel/psknode");
 /*require("callflow");
 require("launcher");*/
 const fs         = require("fs");
