@@ -31,7 +31,7 @@ function runInteractionTest(doneCallback){
     let collectedValue = "Super";
 
     var interact = require("interact");
-    interact.enableWebViewInteractions();
+    interact.enableIframeInteractions();
     var is = interact.createWindowInteractionSpace("iframe",childWindow);
     is.startSwarm("swarmTest", "start", initialValue, secondTestValue).on({
         step1:function(fValue, sValue){

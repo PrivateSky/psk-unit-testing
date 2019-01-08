@@ -20,6 +20,6 @@ $$.swarm.describe("swarmTest", {
     }
 });
 var interact = require("interact");
-interact.enableWebViewInteractions();
+interact.enableIframeInteractions();
 var interaction = interact.createWindowInteractionSpace("iframe", window.parent);
 interaction.init();
