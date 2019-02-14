@@ -74,10 +74,10 @@ if(!fs.existsSync("./big.file")) {
 
 
 var obj = {
-    key1: "Daniel",
+    key1: "john",
     key2: fs.createReadStream("./big.file"),
     key3: {
-        sk1: "Hello darkness, my old friend",
+        sk1: "Hello",
         sk2: "ashdjg"
     },
     key4: null,
