@@ -27,6 +27,7 @@ const flow = $$.flow.describe('testAttachFile', {
             serial.attachSameNameFile(serial.progress);
             serial.prepareMultipleFiles(0, serial.progress);
             serial.attachMultipleFiles(0, serial.progress);
+            serial.restoreState(serial.progress);
         });
     },
 
@@ -41,7 +42,6 @@ const flow = $$.flow.describe('testAttachFile', {
     },
     prepareFile: function (fileName, callback) {
         const file = Buffer.alloc(10000, 'a');
-        // throw new Error('ddd');
         fs.writeFile(path.join(csbFolder, fileName), file, (err) => {
             assert.false(err, 'Error preparing file for test ' + (err && err.message));
             callback();
