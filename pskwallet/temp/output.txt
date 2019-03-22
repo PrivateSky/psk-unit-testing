@@ -1,9 +1,0 @@
-process.stdin.isTTY undefined
-Setting non TTY version on.
-PSK node client loading
-Insert pin:password length: 8
-12345678
-There aren't any csbs in the current folder
-Pin is invalid
-Try again
-Insert pin:
