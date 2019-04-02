@@ -56,6 +56,24 @@ function deleteRecursively(inputPath, callback) {
     });
 }
 
+function generateErrorHandler(){
+    return function(err, info = '', isWarning){
+        if(isWarning){
+            console.log("Warning", info);
+        } else{
+            console.log("Error", info, err);
+        }
+    }
+}
+
+function generateMessagePrinter(){
+    return function(message){
+        console.log(message);
+    }
+}
+
 module.exports = {
-    deleteRecursively
+    deleteRecursively,
+    generateErrorHandler,
+    generateMessagePrinter
 };

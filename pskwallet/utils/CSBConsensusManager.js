@@ -1,20 +1,46 @@
-const RootCSB = require('modules/pskwallet/libraries/RootCSB');
+const path = require("path");
+const fs = require("fs");
+const utils = require("./utils");
+const is = require("interact").createInteractionSpace();
+const pskwallet = require("pskwallet");
+const RootCSB = pskwallet.RootCSB;
+pskwallet.init();
 
-RootCSB.on('end', () => {
-    console.log("end");
-})
 
-function CSBConsensusManager(localFolder) {
+function CSBConsensusManager(localFolder = process.cwd(), seed) {
 
-    let updatedCSBs = [];
-    this.updatePending = function (dseed) {
-        updatedCSBs.push(dseed);
+    let rootCSB;
 
+    this.saveBackup = function () {
+        ensureRootCSBExists(err => {
+            if (err) {
+                throw err;
+            }
+
+            rootCSB.on("end", () => {
+                is.startSwarm("saveBackup", "withSeed", seed, localFolder).on({
+                    printInfo: utils.generateMessagePrinter(),
+                    handleError: utils.generateErrorHandler(),
+                    csbBackupReport: function ({errors, successes}) {
+
+                    }
+                });
+            });
+        });
     };
 
-    this.backupPending = function (finishedUpdating, delta) {
+    function ensureRootCSBExists(callback) {
+        if (!rootCSB || typeof rootCSB === "undefined") {
+            RootCSB.loadWithSeed(localFolder, seed, (err, root) => {
+                if (err) {
+                    return callback(err);
+                }
 
-
+                rootCSB = root;
+                callback();
+            });
+        }
     }
 }
 
+module.exports = CSBConsensusManager;

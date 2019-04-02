@@ -6,7 +6,8 @@ const assert = require("double-check").assert;
 const pskwallet = require("pskwallet");
 const CSBIdentifier = pskwallet.CSBIdentifier;
 
-const csbId = new CSBIdentifier(null, "http://localhost:8080");
+const defaultBackup = ["http://localhost:8080"];
+const csbId = new CSBIdentifier(null, defaultBackup);
 
 assert.true(csbId !== undefined && csbId !== null, "Unexpected value for CSBIdentifier instance");
 
@@ -22,9 +23,13 @@ let newCSBId = new CSBIdentifier(seed);
 let newSeed = newCSBId.getSeed();
 let newDseed = newCSBId.getDseed();
 let newUid = newCSBId.getUid();
+let backups = newCSBId.getBackupUrls();
+
 assert.true(newSeed !== null && newSeed !== undefined, "Seed is null or undefined");
 assert.true(newDseed !== null && newDseed !== undefined, "Deed is null or undefined");
 assert.true(newUid !== null && newUid !== undefined, "Uid is null or undefined");
+assert.arraysMatch(backups, defaultBackup, "Unexpected backup URLs");
+
 
 newCSBId = new CSBIdentifier(dseed);
 try{
@@ -36,6 +41,7 @@ assert.true(newCSBId.getDseed() !== null && newCSBId.getDseed() !== undefined, "
 assert.true(newCSBId.getDseed().toString() === newDseed.toString(), "Unexpected Dseed");
 assert.true(newCSBId.getUid() !== null && newCSBId.getUid() !== undefined, "Uid is null or undefined");
 assert.true(newCSBId.getUid().toString() === newUid.toString(), "Unexpected Uid");
+assert.arraysMatch(newCSBId.getBackupUrls(), defaultBackup, "Unexpected backup URLs");
 
 newCSBId = new CSBIdentifier(uid);
 try{
@@ -49,5 +55,14 @@ try{
 }catch(e){
     assert.true(e !== null && e !== undefined, "Error expected");
 }
+
+try{
+    newCSBId.getBackupUrls();
+}catch(e){
+    assert.true(e !== null && e !== undefined, "Error expected");
+}
 assert.true(newCSBId.getUid() !== null && newCSBId.getUid() !== undefined, "Uid is null or undefined");
 assert.true(newCSBId.getUid().toString() === newUid.toString(), "Unexpected Uid");
+
+
+
