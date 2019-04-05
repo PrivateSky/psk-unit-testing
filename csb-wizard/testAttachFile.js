@@ -3,9 +3,10 @@ require('../../../builds/devel/psknode');
 require('../../../builds/devel/virtualMQ');
 require('../../../builds/devel/consoleTools');
 const assert = require("double-check").assert;
-const Seed = require('pskwallet').Seed;
 const path = require('path');
 const fs = require('fs');
+const pskwallet = require('pskwallet');
+const CSBIdentifier = pskwallet.CSBIdentifier;
 const fileStateManager = require('../../../libraries/utils/FileStateManager').getFileStateManager();
 
 const tempFolder = path.resolve('../../tmp');
@@ -35,8 +36,7 @@ const flow = $$.flow.describe('testAttachFile', {
         csbInteractions.createCSB(csbFolder, "http://localhost:8080", (err, seed) => {
             assert.false(err, "Error creating CSB: " + (err && err.message));
             assert.true(seed, "Seed is undefined");
-            assert.true(Seed.isValidForm(seed), 'Received invalid seed');
-            this.dseed = Seed.deriveSeed(seed);
+            this.seed = seed;
             callback();
         });
     },
@@ -49,13 +49,13 @@ const flow = $$.flow.describe('testAttachFile', {
     },
 
     attachSingleFile: function (callback) {
-        csbInteractions.attachFile(csbFolder, fileName, this.dseed, (err) => {
+        csbInteractions.attachFile(csbFolder, fileName, this.seed, (err) => {
             assert.false(err, 'Error attaching single file ' + (err && err.message));
             callback();
         })
     },
     attachSameNameFile: function (callback) {
-        csbInteractions.attachFile(csbFolder, fileName , this.dseed, (err) => {
+        csbInteractions.attachFile(csbFolder, fileName , this.seed, (err) => {
             assert.true(err, 'Error missing when attaching a file with an existing name ');
             callback();
         })
@@ -77,7 +77,7 @@ const flow = $$.flow.describe('testAttachFile', {
             return;
         }
 
-        csbInteractions.attachFile(csbFolder, fileName + index , this.dseed, (err) => {
+        csbInteractions.attachFile(csbFolder, fileName + index , this.seed, (err) => {
             assert.false(err, 'Error missing when attaching file in sequence with number ' + index);
             this.attachMultipleFiles(++index, callback);
         });
