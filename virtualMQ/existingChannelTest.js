@@ -3,53 +3,54 @@ require("../../../builds/devel/virtualMQ");
 require("../../../builds/devel/psknode");
 
 const assert = require("double-check").assert;
-const VirtualMQ  = require('virtualmq');
+const VirtualMQ = require('virtualmq');
 const CHANNEL_NAME = Buffer.from('testChannel').toString('base64');
 const fs = require("fs");
 const http = require("http");
 
-try{
+try {
     folder = fs.mkdtempSync("test");
-}catch(err){
+} catch (err) {
     console.log("Failed to create tmp directory");
 }
 
-let port = 8089;
+let port = 8092;
+
 //var server = new Server(sslConfig).listen(port);
-function createServer(callback){
-    var server = VirtualMQ.createVirtualMQ(port, folder, undefined, (err, res)=>{
-        if(err){
+function createServer(callback) {
+    var server = VirtualMQ.createVirtualMQ(port, folder, undefined, (err, res) => {
+        if (err) {
             console.log("Failed to create VirtualMQ server on port ", port);
             console.log("Trying again...");
-            if(port >0 && port< 50000){
+            if (port > 0 && port < 50000) {
                 port++;
                 createServer(callback);
-            }else{
+            } else {
                 console.log("There is no available port to start VirtualMQ instance need it for test!");
-            }            
-        }else{
+            }
+        } else {
             console.log("Server ready and available on port ", port);
             callback(server);
         }
     });
 }
 
-function createSwarmMessage(){
+function createSwarmMessage(msg) {
     return JSON.stringify({
-        meta:{
-            swarmId: "notArandomId"
+        meta: {
+            swarmId: msg
         }
     });
 }
 
 // Make a post with a message
-function postMessage(message){
+function postMessage(message, type) {
 
     const options = {
         host: '127.0.0.1',
         port: port,
-        path: '/'+CHANNEL_NAME,
-        method: 'POST'
+        path: '/' + CHANNEL_NAME,
+        method: type || 'POST'
     };
 
     var req = http.request(options, (res) => {
@@ -67,7 +68,9 @@ function postMessage(message){
         }
 
         let rawData = '';
-        res.on('data', (chunk) => { rawData += chunk; });
+        res.on('data', (chunk) => {
+            rawData += chunk;
+        });
         res.on('end', () => {
             console.log(rawData);
         });
@@ -76,10 +79,10 @@ function postMessage(message){
     req.end();
 }
 
-function test(finish){
+var countMsg = 0;
+var msgArr = ['firstMessage', 'secondMessage', 'afterDeleteMessage']
 
-    console.log(`http://localhost:${port}/${CHANNEL_NAME}`);
-
+function getMessageFromQueue(finish) {
     //making a get request that will wait until timeout or somebody puts a message on the channel
     http.get(`http://localhost:${port}/${CHANNEL_NAME}`, (resp) => {
         let data = '';
@@ -91,20 +94,39 @@ function test(finish){
 
         // The whole response has been received. Print out the result.
         resp.on('end', () => {
-            assert.equal(createSwarmMessage(), data, "Did not receive the right message back");
-            console.log("Received message", data);
+            console.log("Received message ", data);
+            console.log("Expected message ", createSwarmMessage(msgArr[countMsg]));
+            assert.equal(createSwarmMessage(msgArr[countMsg]),data, "Did not receive the right message back");
+            countMsg ++;
+            if (countMsg >= msgArr.length) {
+                finish();
+                process.exit(0);
+            }
 
-            finish();
-            process.exit(0);
         });
 
     }).on("error", (err) => {
         console.log("Error: " + err.message);
-    });
+    }).end();
 
-    postMessage(createSwarmMessage());
 }
 
-createServer((server)=> {
-    assert.callback("VirtualMQ channel request test",test, 10000);
+function test(finish) {
+    //test read/write to mq (post and get)
+    getMessageFromQueue(finish);
+    postMessage(createSwarmMessage(msgArr[0]));
+
+
+    //test delete from mq
+    postMessage(createSwarmMessage(msgArr[1]));
+   /* postMessage(createSwarmMessage(msgArr[1]), 'DELETE');*/
+    postMessage(createSwarmMessage(msgArr[2]));
+
+//    getMessageFromQueue(finish);
+
+
+}
+
+createServer((server) => {
+    assert.callback("VirtualMQ channel request test", test, 3000);
 });
