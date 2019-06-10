@@ -1,7 +1,8 @@
-require("../../../builds/devel/pskruntime"); 
+require("../../../builds/devel/pskruntime");
+require("../../../builds/devel/psknode");
 const assert           = require("double-check").assert;
 const fileStateManager = require('../../../libraries/utils/FileStateManager').getFileStateManager();
-const VirtualMQ        = require('virtualmq');
+const VirtualMQ        = require('../../../modules/virtualmq');
 const path             = require('path');
 require('psk-http-client');
 
@@ -9,6 +10,20 @@ const PORT = 9090;
 const tempFolder = path.resolve('../../../tmp');
 const CHANNEL_NAME = 'testChannel';
 const url = `http://127.0.0.1:${PORT}/${CHANNEL_NAME}`;
+
+const swarmId = '26a4-01ba6a63a554';
+const swarmDefinition = {
+	meta: {
+		swarmId: swarmId,
+		requestId: swarmId,
+		swarmTypeName: 'testSwarm',
+		phaseName: 'testPhase',
+		args: undefined,
+		command: 'relay',
+		target: 'agent\\agent_x'
+	}
+};
+
 
 const flow = $$.flow.describe('VirtualMQTest', {
 	init: function(callback) {
@@ -19,9 +34,6 @@ const flow = $$.flow.describe('VirtualMQTest', {
 			this.virtualMq = VirtualMQ.createVirtualMQ(PORT, tempFolder, () => {
 				this.sendSwarm(() => {
 					this.getSwarm(() => {
-						this.getSwarm(() => {
-
-						});
 						setTimeout(() => {
 							this.sendSwarm(() => {
 								this.virtualMq.close();
@@ -52,15 +64,3 @@ assert.callback("VirtualMQTest", function (callback) {
 	flow.init(callback);
 }, 1500);
 
-const swarmId = '26a4-01ba6a63a554';
-const swarmDefinition = {
-	meta: {
-		swarmId: swarmId,
-		requestId: swarmId,
-		swarmTypeName: 'testSwarm',
-		phaseName: 'testPhase',
-		args: undefined,
-		command: 'relay',
-		target: 'agent\\agent_x'
-	}
-};
