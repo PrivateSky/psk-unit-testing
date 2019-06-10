@@ -72,7 +72,7 @@ function postMessage(message, type) {
             rawData += chunk;
         });
         res.on('end', () => {
-            console.log(rawData);
+            console.log("Post message", message, new Date().getTime());
         });
     });
     req.write(message);
@@ -94,15 +94,16 @@ function getMessageFromQueue(finish) {
 
         // The whole response has been received. Print out the result.
         resp.on('end', () => {
-            console.log("Received message ", data);
-            console.log("Expected message ", createSwarmMessage(msgArr[countMsg]));
-            assert.equal(createSwarmMessage(msgArr[countMsg]),data, "Did not receive the right message back");
-            countMsg ++;
-            if (countMsg >= msgArr.length) {
+            var expected = createSwarmMessage(msgArr[countMsg]);
+            countMsg++;
+            console.log("Got message", data);
+            console.log("Expected message ", expected);
+            assert.equal(expected, data, "Did not receive the right message back");
+
+            if (countMsg == msgArr.length) {
                 finish();
                 process.exit(0);
             }
-
         });
 
     }).on("error", (err) => {
@@ -112,21 +113,20 @@ function getMessageFromQueue(finish) {
 }
 
 function test(finish) {
-    //test read/write to mq (post and get)
-    getMessageFromQueue(finish);
-    postMessage(createSwarmMessage(msgArr[0]));
 
-
-    //test delete from mq
-    postMessage(createSwarmMessage(msgArr[1]));
-   /* postMessage(createSwarmMessage(msgArr[1]), 'DELETE');*/
-    postMessage(createSwarmMessage(msgArr[2]));
-
-//    getMessageFromQueue(finish);
-
+    var index = 0;
+    var interval = setInterval(()=>{
+        if(index == msgArr.length){
+            clearInterval(interval);
+            return;
+        }
+        getMessageFromQueue(finish);
+        postMessage(createSwarmMessage(msgArr[index]));
+        index++;
+    }, 1000);
 
 }
 
 createServer((server) => {
-    assert.callback("VirtualMQ channel request test", test, 3000);
+    assert.callback("VirtualMQ channel request test", test, 5000);
 });
