@@ -7,9 +7,9 @@ const Duplex = require('stream').Duplex;
 const fileStateManager = require('../../../libraries/utils/FileStateManager').getFileStateManager();
 const fs = require('fs');
 
-const fileName = 'test.txt';
+var fileName = 'test.txt';
 const demoFileBufferSize = 100000;
-const tempFolder = path.resolve('../../../tempo');
+const tempFolder = path.resolve('../../../temp');
 var demoFileStream =  fs.createWriteStream(`${tempFolder}/${fileName}`);
 const tempReadStream = fs.createReadStream(`${tempFolder}/${fileName}`);
 
