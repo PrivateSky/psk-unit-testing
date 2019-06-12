@@ -1,51 +1,82 @@
 require("../../../builds/devel/pskruntime");
-require('../../../modules/virtualmq/flows/CSBmanager');
-require("../../../builds/devel/pskruntime"); 
+require("../../../builds/devel/virtualMQ");
+require("../../../builds/devel/psknode");
 const assert = require("double-check").assert;
 const path = require('path');
 const Duplex = require('stream').Duplex;
 const fileStateManager = require('../../../libraries/utils/FileStateManager').getFileStateManager();
 const fs = require('fs');
 
-
-const fileName = 'test-file.txt';
+var fileName = 'test.txt';
 const demoFileBufferSize = 100000;
-const tempFolder = path.resolve('../../../tmp');
+const tempFolder = path.resolve('../../../temp');
+var demoFileStream =  fs.createWriteStream(`${tempFolder}/${fileName}`);
+const tempReadStream = fs.createReadStream(`${tempFolder}/${fileName}`);
 
 
 const flow = $$.flow.describe('CSBmanagerFlowTest', {
 	init: function (callback) {
 		this.cb = callback;
 		fileStateManager.saveState([tempFolder], () => {
+			//console.log('**************this is the temporary folder************* '+tempFolder);
 			this.__initializeCSBManager((err) => {
-				assert.false(err, 'Error initializing CSBmanager: ' + (err && err.message));
+				assert.false(err, 'Error initializing CSBManager: ' + (err && err.message));
 				this.__getDemoFileStream();
-				this.__writeFile(() => {
-					this.__readFile();
-				});
+				this.__writeFile();					
+				this.__readFile();
 			});
 		});
 	},
 	__initializeCSBManager: function (callback) {
-		this.CSBManager = $$.flow.describe('CSBmanager');
-		this.CSBManager.init(`${tempFolder}/CSB`, callback);
+		//console.log("Entered in initialization func scope!!!");
+		this.CSBManager = $$.flow.describe('CSBManager',{
+			init:function(){
+				(`${tempFolder}`, callback);
+			},
+			write:function(fileName, demoFileStream, writeCallback){
+				let flag = false;
+				fs.open(fileName, 'r+', (err, fd) => {
+					//console.log("$$$$$$$$ "+ fd);
+					fs.write(fd, demoFileStream.read(), (err, content) => { 
+						//console.log('------------------------Write');
+						if (err) flag = true;
+						console.log('Content saved: '+ content + ' abc`s');
+					});
+				  })
+				writeCallback(flag);
+			}, 
+			read:function(fileName){
+				//console.log("Read file!!!!!!!");
+				fs.readFile(fileName, 'utf8', (err, contents) => { 
+					if (err) throw err;
+					console.log('Content read: '+ contents.toString());
+					assert.equal('abcabcabcabcabcabcabcabca', contents.toString(), 'Contents are not similar');
+				})
+			}
+		})();
+
+		let response  = this.CSBManager ? false : true;
+		callback(response);
 	},
+
 	__getDemoFileStream: function () {
-		this.demoFileStream = bufferToStream(Buffer.alloc(100000, 'a'));
+		//console.log("Entered in getDemoFileStream func scope!!!");
+		demoFileStream = bufferToStream(Buffer.alloc(25, 'abc'));
 	},
-	__writeFile: function (callback) {
-		this.CSBManager.write(fileName, this.demoFileStream, (err) => {
+	__writeFile: function () {
+		//console.log("Entered in writeFile func scope!!!");
+		this.CSBManager.write(fileName, demoFileStream, (err) => {
 			assert.false(err, "Error writing demo file: " + (err && err.message));
-			callback();
 		});
+		//console.log("file was written!! " + demoFileStream.read()) ;	
 	},
 	__readFile: function () {
-		const tempWriteStream = fs.createWriteStream(`${tempFolder}/CSB/${fileName}`);
+		//console.log("Entered in readFile func scope!!!");
 
-		this.CSBManager.read(fileName, tempWriteStream, (err) => {
+		this.CSBManager.read(fileName, tempReadStream, (err) => {
 			assert.false(err, "Error reading demo file: " + (err && err.message));
 
-			streamToBuffer(fs.createReadStream(`${tempFolder}/CSB/${fileName}`), (err, buffer) => {
+			streamToBuffer(fs.tempReadStream, (err, buffer) => {
 				if (err) {
 					throw err;
 				}
@@ -67,13 +98,13 @@ const flow = $$.flow.describe('CSBmanagerFlowTest', {
 				fileStateManager.restoreState(this.cb);
 			});
 		});
+		//console.log("File was read!!! ");
 	}
 })();
 
 assert.callback("CSBmanagerFlowTest", function (callback) {
 	flow.init(callback);
-}, 1500);
-
+}, 1000);
 
 function bufferToStream(buffer) {
 	const stream = new Duplex();
