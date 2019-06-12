@@ -6,11 +6,9 @@ const VirtualMQ        = require('../../../modules/virtualmq');
 const path             = require('path');
 require('psk-http-client');
 
-const PORT = 9090;
+var PORT = 9090;
 const tempFolder = path.resolve('../../../tmp');
 const CHANNEL_NAME = 'testChannel';
-const url = `http://127.0.0.1:${PORT}/${CHANNEL_NAME}`;
-
 const swarmId = '26a4-01ba6a63a554';
 const swarmDefinition = {
 	meta: {
@@ -24,6 +22,24 @@ const swarmDefinition = {
 	}
 };
 
+function createServer(callback) {
+    var server = VirtualMQ.createVirtualMQ(PORT, tempFolder, undefined, (err, res) => {
+        if (err) {
+            console.log("Failed to create VirtualMQ server on port ", PORT);
+			console.log("Trying again...");
+            if (PORT > 0 && PORT < 50000) {
+                PORT++;
+                createServer(callback);
+            } else {
+                console.log("There is no available port to start VirtualMQ instance need it for test!");
+            }
+        } else {
+			console.log("Server ready and available on port ", PORT);
+			let url = `http://127.0.0.1:${PORT}/${CHANNEL_NAME}`; 
+			callback(server, url);
+        }
+    });
+}
 
 const flow = $$.flow.describe('VirtualMQTest', {
 	init: function(callback) {
@@ -31,12 +47,13 @@ const flow = $$.flow.describe('VirtualMQTest', {
 
 		fileStateManager.saveState([tempFolder], (err) => {
 			assert.false(err, 'Saving state has failed');
-			this.virtualMq = VirtualMQ.createVirtualMQ(PORT, tempFolder, () => {
+			createServer( (server, url) => {
+				this.url = url; 
 				this.sendSwarm(() => {
 					this.getSwarm(() => {
 						setTimeout(() => {
 							this.sendSwarm(() => {
-								this.virtualMq.close();
+								server.close();
 								fileStateManager.restoreState();
 								this.cb();
 							})
@@ -47,13 +64,13 @@ const flow = $$.flow.describe('VirtualMQTest', {
 		});
 	},
 	sendSwarm: function(callback) {
-		$$.remote.doHttpPost(url, JSON.stringify(swarmDefinition), (err, data) => {
+		$$.remote.doHttpPost(this.url, JSON.stringify(swarmDefinition), (err, data) => {
 			assert.false(err, 'Posting swarm failed ' + (err ? err.message : ''));
 			callback();
 		});
 	},
 	getSwarm: function(callback) {
-		$$.remote.doHttpGet(url, (err, data) => {
+		$$.remote.doHttpGet(this.url, (err, data) => {
 			assert.false(err, 'Getting swarm has failed');
 			callback();
 		});
