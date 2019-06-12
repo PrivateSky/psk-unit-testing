@@ -1,24 +1,20 @@
-require("../../../../builds/devel/pskruntime");
-var pskDB = require("pskdb");
-const cutil = require("../../../../modules/signsensus/lib/consUtil");
+require('../../../../builds/devel/pskruntime');
+require('../../../../builds/devel/psknode');
+var pskDB = require('pskdb');
+const cutil = require('../../../../modules/signsensus/lib/consUtil');
 var assert = require('double-check').assert;
 
-var pds = pskDB.startDB("./storageFolder");
-var h = pds.getHandler();
+var theGlobalBlockchain = pskDB.startDB('./testData'); // a.k.a. $$.blockchain
+var transaction = theGlobalBlockchain.beginTransaction({});
+var pdsStorage = transaction.getHandler();
 
+pdsStorage.writeKey('k1', 'v1');
+pdsStorage.writeKey('k2', 'v2');
+pdsStorage.writeKey('k3', 'v3');
 
-var h = pds.getHandler();
-h.writeKey("k1", "v1");
-h.writeKey("k2", "v2");
-h.writeKey("k3", "v3");
-
-var swarm = {
-    swarmName: "Swarm"
-};
-
-var diff = pds.computeSwarmTransactionDiff(swarm, h);
-
-var t = cutil.createTransaction(0, diff);
-var set = {};
-set[t.digest] = t;
-pds.commit(set,1);
+assert.callback('values should match', function(done) {
+  assert.equal(pdsStorage.readKey('k1'), 'v1', "Results don't match!");
+  assert.equal(pdsStorage.readKey('k2'), 'v2', "Results don't match!");
+  assert.equal(pdsStorage.readKey('k3'), 'v3', "Results don't match!");
+  done();
+});
