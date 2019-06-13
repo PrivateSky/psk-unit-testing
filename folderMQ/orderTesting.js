@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////////////////////
+// Test if folderMQ consumes the contents for the folder queue in order
+////////////////////////////////////////////////////////////////////////
 require("../../../builds/devel/pskruntime"); 
 const fs = require("fs");
 const mq = require("../../../modules/foldermq/lib/folderMQ");
