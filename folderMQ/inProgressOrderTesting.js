@@ -61,7 +61,7 @@ const flow = $$.flow.describe('watcherTest', {
             return;
         }
         expected.push(tempCt);
-        fs.rename(folderPath + '/file' + tempCt + '.test.in_progress', folderPath + '/file' + tempCt + '.test', 
+        fs.renameSync(folderPath + '/file' + tempCt + '.test.in_progress', folderPath + '/file' + tempCt + '.test', 
         (err) => {
             if (err) {
                 console.log(err);
@@ -92,6 +92,6 @@ const flow = $$.flow.describe('watcherTest', {
     }
 })();
 
-assert.callback("orderTest", function (callback) {
+assert.callback("inProgressOrderTest", function (callback) {
 	flow.init(callback);
 }, 2000);
