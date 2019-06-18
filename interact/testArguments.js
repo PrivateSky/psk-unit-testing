@@ -4,17 +4,20 @@
 /////////////////////////////////////////////////////////////
 require('../../../builds/devel/pskruntime');
 require("../../../builds/devel/psknode");
+require("../../../builds/devel/httpinteract");
 const assert = require('double-check').assert;
-const interact = require('../../../modules/interact');
+const interact = require('interact');
+const httpClient = require('psk-http-client');
 const VirtualMQ = require('../../../modules/virtualmq');
+const channel = 'local/agent/test'
 var endpoint = '';
 const alias  = 'virtualMQLocal';
 const folder = './tmp';
-const arg1 = 1;
-const arg2 = 2;
+
+const args = [1,'2',{3: "val"}, [1,2]]
 
 function createServer(callback) {
-    let port = 2000;
+    let port = 8080;
     var server = VirtualMQ.createVirtualMQ(port, folder, undefined, (err, res) => {
         if (err) {
             console.log("Failed to create VirtualMQ server on port ", port);
@@ -23,7 +26,7 @@ function createServer(callback) {
                 port++;
                 createServer(callback);
             } else {
-                console.log("There is no available port to start VirtualMQ instance need it for test!");
+                console.log("There is no available port to start VirtualMQ instance needed for test!");
             }
         } else {
             console.log("Server ready and available on port ", port);
@@ -33,23 +36,24 @@ function createServer(callback) {
     });
 }
 
-$$.swarm.describe("interactSwarm",{
-    doSomething:function(v1, v2){
-        assert.equal(v1,arg1, 'Args not as expected!');
-        assert.equal(v2,arg2, 'Args not as expected!');    
-        this.return(v1, v2);
-    }
-});
-
-assert.callback('Argument test' ,(finished)=>{
+assert.callback('Argument test' ,(finished) => {
     createServer(() => {
-        let iSpace = interact.createInteractionSpace(alias, endpoint);
-        iSpace.startSwarm('interactSwarm', 'doSomething', arg1, arg2).onReturn(
-            (res1, res2)=>{
-                assert.equal(res1, arg1, 'Args not as expected!');
-                assert.equal(res2, arg2, 'Args not as expected!');
-                finished();
-                process.exit(1);
-            });
+        let iSpace = interact.createRemoteInteractionSpace(alias, endpoint, channel);
+        iSpace.startSwarm('interactSwarm', 'doSomething', ...args);
+        $$.remote.newEndPoint(alias, endpoint, channel)
+        $$.remote[alias].on('interactSwarm', 'doSomething', (err, res)=>{
+            console.log(res); 
+            assert.equal(err, null, 'Got error!');
+            assert.equal(res.meta.args.length, args.length, "Number of args don't match!");
+            for (arg in args){
+                if( typeof res.meta.args[arg] === 'object') {
+                    assert.arraysMatch(res.meta.args[arg], args[arg]);
+                }
+                else {
+                    assert.equal(res.meta.args[arg], args[arg], "Args don't match!");      
+                }
+            }
+            finished();
+        });
     });
-});
+},2000);
