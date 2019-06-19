@@ -9,7 +9,8 @@ const assert = require('double-check').assert;
 const interact = require('interact');
 const httpClient = require('psk-http-client');
 const VirtualMQ = require('../../../modules/virtualmq');
-const channel = 'local/agent/test'
+const removeDir = require('../Utils/fileUtils').deleteFolder;
+const channel = 'local/agent/test';
 var endpoint = '';
 const alias  = 'virtualMQLocal';
 const folder = './tmp';
@@ -36,13 +37,17 @@ function createServer(callback) {
     });
 }
 
+try {
+    for (const file of fs.readdirSync(folder))  fs.unlinkSync(folder + '/' + file);
+} catch (e) {}
+
 assert.callback('Argument test' ,(finished) => {
     createServer(() => {
         let iSpace = interact.createRemoteInteractionSpace(alias, endpoint, channel);
         iSpace.startSwarm('interactSwarm', 'doSomething', ...args);
-        $$.remote.newEndPoint(alias, endpoint, channel)
+        $$.remote.newEndPoint(alias, endpoint, channel);
         $$.remote[alias].on('interactSwarm', 'doSomething', (err, res)=>{
-            console.log(res); 
+            console.log(res);
             assert.equal(err, null, 'Got error!');
             assert.equal(res.meta.args.length, args.length, "Number of args don't match!");
             for (arg in args){
@@ -54,6 +59,8 @@ assert.callback('Argument test' ,(finished) => {
                 }
             }
             finished();
+            removeDir(folder); //cleanup
+            process.exit(0);
         });
     });
 },2000);
