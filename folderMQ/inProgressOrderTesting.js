@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////
 // Test if folderMQ consumes the contents of the folder queue in order
+// when in_progress files have their extension removed
 ////////////////////////////////////////////////////////////////////////
 require("../../../builds/devel/pskruntime"); 
 const fs = require("fs");
@@ -12,6 +13,7 @@ const assert = require("double-check").assert;
 
 let ct = 0;
 const expected = [];
+const in_progress = [];
 const received = [];
 
 const flow = $$.flow.describe('watcherTest', {
@@ -23,9 +25,14 @@ const flow = $$.flow.describe('watcherTest', {
 
 		this.cb = callback;
 		this.registerConsumer();
-        let setRef = setInterval(this.writeTestFile, 100);
-        setTimeout(() => {
+        let setRef = setInterval(this.writeTestFile, 10);
+        let renameInterval;
+        setTimeout(() => { // Write files for 0.5 seconds
             clearInterval(setRef);
+            renameInterval = setInterval(this.clearInProgress, 10); // start clearing in_progress extensions
+        },500);
+        setTimeout(() => {
+            clearInterval(renameInterval);
             this.checkResults();
         },1000);
 	},
@@ -38,10 +45,29 @@ const flow = $$.flow.describe('watcherTest', {
         received.push(result.test);
 	},
 	writeTestFile: function () {
-        expected.push(ct);
-        fs.writeFileSync(folderPath + '/file' + ct +'.test', JSON.stringify({test: ct}));
+        if ( ct % 2 === 0 ){
+            fs.writeFileSync(folderPath + '/file' + ct +'.test.in_progress', JSON.stringify({test: ct}));
+            in_progress.push(ct);            
+        }
+        else {
+            fs.writeFileSync(folderPath + '/file' + ct +'.test', JSON.stringify({test: ct}));
+            expected.push(ct);    
+        }
         ct++;
-	},
+    },
+    clearInProgress: function () {
+        let tempCt = in_progress.shift(); 
+        if (!tempCt) {
+            return;
+        }
+        expected.push(tempCt);
+        fs.renameSync(folderPath + '/file' + tempCt + '.test.in_progress', folderPath + '/file' + tempCt + '.test', 
+        (err) => {
+            if (err) {
+                console.log(err);
+            };
+        });
+    },
 	checkResults: function () {
         console.log(expected);
         console.log(received);
@@ -66,6 +92,6 @@ const flow = $$.flow.describe('watcherTest', {
     }
 })();
 
-assert.callback("orderTest", function (callback) {
+assert.callback("inProgressOrderTest", function (callback) {
 	flow.init(callback);
 }, 2000);
