@@ -36,11 +36,6 @@ function createServer(callback) {
         }
     });
 }
-
-try {
-    for (const file of fs.readdirSync(folder))  fs.unlinkSync(folder + '/' + file);
-} catch (e) {}
-
 assert.callback('Argument test' ,(finished) => {
     createServer(() => {
         let iSpace = interact.createRemoteInteractionSpace(alias, endpoint, channel);
