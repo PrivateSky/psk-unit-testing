@@ -7,7 +7,6 @@ require("../../../builds/devel/psknode");
 require("../../../builds/devel/httpinteract");
 const assert = require('double-check').assert;
 const interact = require('interact');
-const httpClient = require('psk-http-client');
 const VirtualMQ = require('../../../modules/virtualmq');
 const removeDir = require('../Utils/fileUtils').deleteFolder;
 const channel = 'local/agent/test';
