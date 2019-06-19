@@ -1,18 +1,21 @@
 /////////////////////////////////////////////////////////////
-// Tests if the arguments passed through the interact module
-// to the target swarm are received as expected
+// Check if malformed swarm names are handled 
+//
 /////////////////////////////////////////////////////////////
 require('../../../builds/devel/pskruntime');
 require("../../../builds/devel/psknode");
 require("../../../builds/devel/httpinteract");
 const assert = require('double-check').assert;
 const interact = require('interact');
-const httpClient = require('psk-http-client');
 const VirtualMQ = require('../../../modules/virtualmq');
-const channel = 'local/agent/test'
+const removeDir = require('../Utils/fileUtils').deleteFolder;
+const channel = 'local/agent/test';
 var endpoint = '';
 const alias  = 'virtualMQLocal';
 const folder = './tmp';
+
+const swarmName = 'interac\/\tSwarm';
+const phaseName = 'doSomething';
 
 const args = [1,'2',{3: "val"}, [1,2]]
 
@@ -35,25 +38,17 @@ function createServer(callback) {
         }
     });
 }
-
-assert.callback('Argument test' ,(finished) => {
+assert.callback('Malformed SwarmName Test' ,(finished) => {
     createServer(() => {
+        $$.remote.newEndPoint(alias, endpoint, channel);
         let iSpace = interact.createRemoteInteractionSpace(alias, endpoint, channel);
-        iSpace.startSwarm('interactSwarm', 'doSomething', ...args);
-        $$.remote.newEndPoint(alias, endpoint, channel)
-        $$.remote[alias].on('interactSwarm', 'doSomething', (err, res)=>{
-            console.log(res); 
-            assert.equal(err, null, 'Got error!');
-            assert.equal(res.meta.args.length, args.length, "Number of args don't match!");
-            for (arg in args){
-                if( typeof res.meta.args[arg] === 'object') {
-                    assert.arraysMatch(res.meta.args[arg], args[arg]);
-                }
-                else {
-                    assert.equal(res.meta.args[arg], args[arg], "Args don't match!");      
-                }
-            }
-            finished();
-        });
+        iSpace.startSwarm(swarmName, phaseName, ...args);
+
+        // SwarmNames are not checked for '\' '|' '/' 
+        // TODO: figure out how to check for error
+
+        // removeDir(folder);
+        // finished();
+
     });
 },2000);
