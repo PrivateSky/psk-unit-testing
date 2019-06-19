@@ -10,6 +10,7 @@ const assert = require("double-check").assert;
 let steps    = 0;
 const phases = [];
 let order =[];
+let order_two =[];
 const correctOrder = [1,2,3];
 
 const flow = $$.flow.describe('firstflow', {
@@ -80,7 +81,7 @@ const flow_two = $$.flow.describe('secondflow', {
         assert.notEqual(result.test, null, "Bad data from folderMQ");
         if (typeof result.test !== 'undefined') {
             phases.push(result.test);
-            order.push(result.test)
+            order_two.push(result.test)
             console.log("Rreading with second flow here",result.test)
         }
         steps++;
@@ -90,7 +91,7 @@ const flow_two = $$.flow.describe('secondflow', {
         queue_two.registerConsumer(this.consume_two);
     },
     checkResults: function () {
-    console.log(order)
+    console.log(order_two)
 
 
 
