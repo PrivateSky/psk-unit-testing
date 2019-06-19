@@ -19,10 +19,10 @@ const flow = $$.flow.describe('consumerwaiting', {
         } catch (e) {}
         this.cb = callback;
         this.registerConsumer();
-
         this.writeTestFiles();
-        setTimeout(this.writeFilelater,1000);
-        setTimeout(this.checkResults, 2000);
+        this.writeFilelater();
+        setTimeout(this.changeLabel,1000);
+        setTimeout(this.checkResults, 4000);
 
     },
     writeTestFiles: function () {
@@ -31,7 +31,15 @@ const flow = $$.flow.describe('consumerwaiting', {
 
     },
     writeFilelater:function(){
-        fs.writeFileSync(folderPath + '/file3.test', JSON.stringify({test: 3}));
+        fs.writeFileSync(folderPath + '/file3.test.in_progress', JSON.stringify({test: 3}));
+    },
+    changeLabel:function(){
+               setTimeout(function () {
+                       fs.rename(folderPath + '/file3.test.in_progress', folderPath + '/file3.test',(err) => {
+                           assert.false(err, 'Error while renaming files');
+                   });
+
+    },0);
     },
     consume: function (err, result) {
         assert.notEqual(result.test, null, "Bad data from folderMQ");
@@ -45,7 +53,8 @@ const flow = $$.flow.describe('consumerwaiting', {
     registerConsumer: function () {
         queue.registerConsumer(this.consume);
     },
-    checkResults: function () {
+    checkResults: function (result) {
+        console.log(order)
 
         assert.arraysMatch(order, correctOrder);
         assert.equal(steps, 3, "The 3 files were not consumed");
@@ -62,5 +71,5 @@ const flow = $$.flow.describe('consumerwaiting', {
 
 assert.callback("consumerwaiting", function (callback) {
     flow.init(callback);
-}, 2000);
+}, 7000);
 
