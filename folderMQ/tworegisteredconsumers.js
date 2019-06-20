@@ -1,4 +1,4 @@
-// change the in_progrees flag of some files to see if they are consumed
+// register two consumers on the same instance of foldermq should handle this
 
 require("../../../builds/devel/pskruntime");
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
@@ -10,22 +10,18 @@ const os = require("os");
 
 var temp_path = path.join(os.tmpdir(), fsExt.guid());
 var test_dir = path.join(temp_path, './testdir');
-const queue = mq.getFolderQueue(test_dir, function () {
-});
+const queue = mq.getFolderQueue(test_dir, function () {});
 
 let steps = 0;
 const phases = [];
-const correctOrder = [1, 2, 3];
+const correctOrder = [1, 2];
 
-
-const flow = $$.flow.describe('changeInProgressFlag', {
+const flow = $$.flow.describe('tworegisteredconsumers', {
     init: function (callback) {
         this.cb = callback;
         this.registerConsumer();
         this.writeTestFiles();
-        this.writeFilelater();
-        setTimeout(this.changeLabel, 1000);
-        setTimeout(this.checkResults, 4000);
+        setTimeout(this.checkResults, 2000);
 
     },
     writeTestFiles: function () {
@@ -34,31 +30,26 @@ const flow = $$.flow.describe('changeInProgressFlag', {
         fs.writeFileSync(path.join(test_dir, '/file2.test'), JSON.stringify({test: 2}));
 
     },
-    writeFilelater: function () {
-        fs.writeFileSync(path.join(test_dir, '/file3.test.in_progress'), JSON.stringify({test: 3}));
-    },
-    changeLabel: function () {
-        setTimeout(function () {
-            fs.rename(path.join(test_dir, '/file3.test.in_progress'), path.join(test_dir, '/file3.test'), (err) => {
-                assert.false(err, 'Error while renaming files');
-            });
-
-        }, 0);
-    },
     consume: function (err, result) {
         assert.notEqual(result.test, null, "Bad data from folderMQ");
         if (typeof result.test !== 'undefined') {
             phases.push(result.test);
+            order.push(result.test)
         }
         steps++;
+    },
+    consume_two: function () {
+        assert.notEqual(result.test, null, "Bad data from folderMQ")
     },
 
     registerConsumer: function () {
         queue.registerConsumer(this.consume);
+        queue.registerConsumer(this.consume_two);
     },
-    checkResults: function (result) {
+    checkResults: function () {
+
         assert.arraysMatch(phases, correctOrder);
-        assert.equal(steps, 3, "The 3 files were not consumed");
+        assert.equal(steps, 2, "The 2 files were not consumed");
 
         try {
             fs.rmdirSync(test_dir);
@@ -70,7 +61,7 @@ const flow = $$.flow.describe('changeInProgressFlag', {
     }
 })();
 
-assert.callback("changeInProgressFlag", function (callback) {
+assert.callback("tworegisteredconsumers", function (callback) {
     flow.init(callback);
-}, 5000);
+}, 10000);
 

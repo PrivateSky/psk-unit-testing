@@ -1,45 +1,44 @@
 require("../../../builds/devel/pskruntime");
-const fs = require("fs");
+const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
 const mq = require("../../../modules/foldermq/lib/folderMQ");
-
-const folderPath = './consumerwaiting';
-
-const queue  = mq.getFolderQueue(folderPath, function () {});
-const queue_two  = mq.getFolderQueue(folderPath, function () {});
 const assert = require("double-check").assert;
-let steps    = 0;
+const fs = require("fs");
+const path = require("path");
+const os = require("os");
+
+var temp_path = path.join(os.tmpdir(), fsExt.guid());
+var test_dir = path.join(temp_path, './testdir');
+const queue = mq.getFolderQueue(test_dir, function () {});
+const queue_two = mq.getFolderQueue(test_dir, function () {});
+let steps = 0;
 const phases = [];
-let order =[];
-let order_two =[];
-const correctOrder = [1,2,3];
+let steps_two = 0;
+const phases_two = [];
+const correctOrder = [1, 2, 3];
 
-const flow = $$.flow.describe('firstflow', {
-    init: function (callback) {
-        // Try clear the dir before writing if anything exists
-        try {
-            for (const file of fs.readdirSync(folderPath)) fs.unlink(folderPath + '/' + file);
-        } catch (e) {}
-        this.cb = callback;
+const flow_one = $$.flow.describe('firstflow', {
+    init: function (callback_one) {
+        this.cb = callback_one;
         this.registerConsumer();
-
         this.writeTestFiles();
-        setTimeout(this.writeFilelater,1000);
-        setTimeout(this.checkResults, 4000);
+        this.writeFilelater();
+        setTimeout(this.checkResults, 2000);
 
     },
     writeTestFiles: function () {
-        fs.writeFileSync(folderPath + '/file1.test', JSON.stringify({test: 1}));
-        fs.writeFileSync(folderPath + '/file2.test', JSON.stringify({test: 2}));
+        fsExt.createDir(test_dir);
+        fs.writeFileSync(path.join(test_dir, '/file1.test'), JSON.stringify({test: 1}));
+        fs.writeFileSync(path.join(test_dir, '/file2.test'), JSON.stringify({test: 2}));
 
     },
-    writeFilelater:function(){
-        fs.writeFileSync(folderPath + '/file3.test', JSON.stringify({test: 3}));
+    writeFilelater: function () {
+        fs.writeFileSync(path.join(test_dir, '/file3.test'), JSON.stringify({test: 3}));
     },
     consume: function (err, result) {
         assert.notEqual(result.test, null, "Bad data from folderMQ");
         if (typeof result.test !== 'undefined') {
             phases.push(result.test);
-            order.push(result.test)
+            console.log(phases);
         }
         steps++;
     },
@@ -48,57 +47,44 @@ const flow = $$.flow.describe('firstflow', {
         queue.registerConsumer(this.consume);
     },
     checkResults: function () {
-
-        assert.arraysMatch(order, correctOrder);
+        assert.arraysMatch(phases, correctOrder);
         assert.equal(steps, 3, "The 3 files were not consumed");
-
-        try {
-            for (const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
-            fs.rmdirSync(folderPath);
-        } catch (e) {}
 
         this.cb();
 
     }
 })();
-assert.callback("firstflow", function (callback) {
-    flow.init(callback);
-}, 6000);
 
 const flow_two = $$.flow.describe('secondflow', {
-    init: function (callback) {
-        // Try clear the dir before writing if anything exists
-        try {
-            for (const file of fs.readdirSync(folderPath)) fs.unlink(folderPath + '/' + file);
-        } catch (e) {}
-        this.cb = callback;
+    init: function (callback_two) {
+        this.cb = callback_two;
         this.registerConsumer();
-        setTimeout(this.checkResults, 2000);
+        setTimeout(this.checkResults, 6000);
 
     },
 
     consume_two: function (err, result) {
         assert.notEqual(result.test, null, "Bad data from folderMQ");
         if (typeof result.test !== 'undefined') {
-            phases.push(result.test);
-            order_two.push(result.test)
-            console.log("Rreading with second flow here",result.test)
+            phases_two.push(result.test);
+            console.log("Im hereeeeeeeeeeeeeee", phases_two)
         }
-        steps++;
+        steps_two++;
     },
 
     registerConsumer: function () {
         queue_two.registerConsumer(this.consume_two);
     },
     checkResults: function () {
-    console.log(order_two)
-
-
-
+        assert.arraysMatch(phases_two, correctOrder);
+        assert.equal(steps_two, 3, "The 3 files were not consumed");
+        this.cb();
+        process.exit();
     }
 })();
 
-assert.callback("secondflow", function (callback) {
-    flow_two.init(callback);
-}, 2000);
+assert.callback("twoflows", function (callback_one,callback_two) {
+    flow_one.init(callback_one);
+    flow_two.init(callback_two);
+}, 10000);
 

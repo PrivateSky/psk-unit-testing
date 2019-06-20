@@ -1,43 +1,44 @@
+// register a consumer before writing the files
+
 require("../../../builds/devel/pskruntime");
-const fs = require("fs");
+const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
 const mq = require("../../../modules/foldermq/lib/folderMQ");
-
-const folderPath = './consumerwaiting';
-
-const queue  = mq.getFolderQueue(folderPath, function () {});
 const assert = require("double-check").assert;
-let steps    = 0;
+const fs = require("fs");
+const path = require("path");
+const os = require("os");
+
+var temp_path = path.join(os.tmpdir(), fsExt.guid());
+var test_dir = path.join(temp_path, './testdir');
+const queue = mq.getFolderQueue(test_dir, function () {});
+
+let steps = 0;
 const phases = [];
-let order =[];
 const correctOrder = [1,2,3];
 
 const flow = $$.flow.describe('consumerwaiting', {
     init: function (callback) {
-        // Try clear the dir before writing if anything exists
-        try {
-            for (const file of fs.readdirSync(folderPath)) fs.unlink(folderPath + '/' + file);
-        } catch (e) {}
         this.cb = callback;
         this.registerConsumer();
-
         this.writeTestFiles();
         setTimeout(this.writeFilelater,1000);
         setTimeout(this.checkResults, 2000);
 
     },
     writeTestFiles: function () {
-        fs.writeFileSync(folderPath + '/file1.test', JSON.stringify({test: 1}));
-        fs.writeFileSync(folderPath + '/file2.test', JSON.stringify({test: 2}));
+        fsExt.createDir(test_dir);
+        fs.writeFileSync(path.join(test_dir, '/file1.test'), JSON.stringify({test: 1}));
+        fs.writeFileSync(path.join(test_dir, '/file2.test'), JSON.stringify({test: 2}));
 
     },
     writeFilelater:function(){
-        fs.writeFileSync(folderPath + '/file3.test', JSON.stringify({test: 3}));
+        fs.writeFileSync(path.join(test_dir, '/file3.test'), JSON.stringify({test: 3}));
     },
     consume: function (err, result) {
         assert.notEqual(result.test, null, "Bad data from folderMQ");
         if (typeof result.test !== 'undefined') {
             phases.push(result.test);
-            order.push(result.test)
+
         }
         steps++;
     },
@@ -47,12 +48,11 @@ const flow = $$.flow.describe('consumerwaiting', {
     },
     checkResults: function () {
 
-        assert.arraysMatch(order, correctOrder);
+        assert.arraysMatch(phases, correctOrder);
         assert.equal(steps, 3, "The 3 files were not consumed");
 
         try {
-            for (const file of fs.readdirSync(folderPath)) fs.unlinkSync(folderPath + '/' + file);
-            fs.rmdirSync(folderPath);
+            fs.rmdirSync(test_dir);
         } catch (e) {}
 
         this.cb();
