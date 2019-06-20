@@ -1,211 +1,88 @@
 /* This test aims to test if deletion of the first message from a queue is working properly */
 
-require("../../../builds/devel/pskruntime");
-require("../../../builds/devel/virtualMQ");
-require("../../../builds/devel/psknode");
 
-const utils  = require("../Utils/virtualMQUtils");
+const utils = require("../Utils/virtualMQUtils");
 const assert = require("double-check").assert;
-const VirtualMQ = require('virtualmq');
-const CHANNEL_NAME = Buffer.from('testChannel').toString('base64');
-const fs = require("fs");
-const http = require("http");
-var folder;
 
-try {
-    folder = fs.mkdtempSync("testFile");
-} catch (err) {
-    console.log("Failed to create tmp directory");
-}
-
-let port = 8092;
-
-//var server = new Server(sslConfig).listen(port);
-function createServer(callback) {
-    var server = VirtualMQ.createVirtualMQ(port, folder, undefined, (err, res) => {
-        if (err) {
-            console.log("Failed to create VirtualMQ server on port ", port);
-            console.log("Trying again...");
-            if (port > 0 && port < 50000) {
-                port++;
-                createServer(callback);
-            } else {
-                console.log("There is no available port to start VirtualMQ instance need it for test!");
-            }
-        } else {
-            console.log("Server ready and available on port ", port);
-            callback(server);
-        }
-    });
-}
-
-function createSwarmMessage(msg) {
-    return JSON.stringify({
-        meta: {
-            swarmId: msg
-        }
-    });
-}
 var index = 0;
-// Make a post with a message
-function postMessage(message, type) {
-
-    const options = {
-        host: '127.0.0.1',
-        port: port,
-        path: '/' + CHANNEL_NAME,
-        method: type || 'POST'
-    };
-
-    var req = http.request(options, (res) => {
-        const statusCode = res;
-        let error;
-        if (statusCode >= 400) {
-            error = new Error('Request Failed.\n' +
-                `Status Code: ${statusCode}`);
-        }
-
-        if (error) {
-            console.log(error);
-            res.resume();
-            return;
-        }
-
-        let rawData = '';
-        res.on('data', (chunk) => {
-            rawData += chunk;
-        });
-        res.on('end', () => {
-            console.log("Post message", message, new Date().getTime());
-            index++;
-            if(index == msgArr.length){
-                return;
-            }
-            if(index==1){
-                console.log('-------- just wait for file structure to be created --------');
-                setTimeout(()=>{
-                    postMessage(createSwarmMessage(msgArr[index]));
-                }, 5000);
-            }
-            else{
-                postMessage(createSwarmMessage(msgArr[index]));
-            }
-        });
-    });
-    req.write(message);
-    req.end();
-}
-
-// Make a delete request
-function deleteMessage(msgId) {
-
-    const options = {
-        host: '127.0.0.1',
-        port: port,
-        path: '/' + CHANNEL_NAME + '/'+ msgId,
-        method: 'DELETE',
-        };
-
-    var req = http.request(options, (res) => {
-        const statusCode = res;
-        let error;
-        if (statusCode >= 400) {
-            error = new Error('Request Failed.\n' +
-                `Status Code: ${statusCode}`);
-        }
-
-        if (error) {
-            console.log(error);
-            res.resume();
-            return;
-        }
-
-        let rawData = '';
-        res.on('data', (chunk) => {
-            rawData +=chunk;
-        });
-        res.on('end', () => {
-            console.log("Delete message with ID", msgId);
-        });
-    });
-    req.write(msgId);
-    req.end();
-}
-
 
 var msgArr = ['msg_1', 'msg_2', 'msg_3', 'msg_4', 'msg_5'];
 var countMsg = 1;
+var finishCallback;
 
+// Make a post with a message
 
-function getMessageFromQueue(finish) {
-    //making a get request that will wait until timeout or somebody puts a message on the channel
-    let url = `http://localhost:${port}/${CHANNEL_NAME}`;
-    http.get(url, (resp) => {
-        let data = '';
+var postMessageCallback = function () {
+    //console.log("Post message", message, new Date().getTime());
+    index++;
+    if(index == msgArr.length){
+        return;
+    }
+    if(index==1){
+        console.log('-------- just wait for file structure to be created --------');
+        setTimeout(()=>{
+            utils.httpRequest(utils.createSwarmMessage(msgArr[index]), postMessageCallback);
+        }, 5000);
+    }
+    else{
+        utils.httpRequest(utils.createSwarmMessage(msgArr[index]), postMessageCallback);
+    }
+};
 
-        // A chunk of data has been recieved.
-        resp.on('data', (chunk) => {
-            data += chunk;
-        });
+var getMessageCallback = function (data) {
+    var expected = utils.createSwarmMessage(msgArr[countMsg]);
+    countMsg++;
+    console.log("Got message", data);
+    console.log("Expected message ", expected);
+    assert.equal(expected, data, "Did not receive the right message back");
+    assert.true(countMsg<=msgArr.length, "Number of messages is wrong");
+    if (countMsg == msgArr.length) {
+        utils.deleteFolder(folder);
+        finishCallback();
+        process.exit(0);
+    }
+};
 
-        // The whole response has been received. Print out the result.
-        resp.on('end', () => {
-            var expected = createSwarmMessage(msgArr[countMsg]);
-            countMsg++;
-            console.log("Got message", data);
-            console.log("Expected message ", expected);
-            assert.equal(expected, data, "Did not receive the right message back");
-            assert.true(countMsg<=msgArr.length, "Number of messages is wrong");
-            if (countMsg == msgArr.length) {
-                utils.deleteFolder(folder);
-                finish();
-                process.exit(0);
-            }
-        });
+var getMessageIdCallback = function (data) {
+    deleteMessage(JSON.parse(data).confirmationId);
+};
+var deleteMessageCallback = function(data){
+    console.log("Delete first message from MQ");
+};
 
-    }).on("error", (err) => {
-        console.log("Error: " + err.message);
-    }).end();
-
-}
-
-function deleteMessageFromMQ() {
-    //making a get request that will wait find out the confirmation id
-    let url = `http://localhost:${port}/${CHANNEL_NAME}?waitConfirmation=true`;
-    http.get(url, (resp) => {
-        let data = '';
-
-        // A chunk of data has been recieved.
-        resp.on('data', (chunk) => {
-            data += chunk;
-        });
-
-        // The whole response has been received. Print out the result.
-        resp.on('end', () => {          
-            deleteMessage(JSON.parse(data).confirmationId);
-            });
-
-    }).on("error", (err) => {
-        console.log("Error: " + err.message);
-    }).end();
-    
+// Make a delete request
+function deleteMessage(msgId) {
+    let options = utils.getRequestOptions('DELETE', '/'+ msgId);
+    utils.httpRequest(msgId, deleteMessageCallback, 'DELETE', options);
 }
 
 function test(finish) {
-    setTimeout(()=>{
-        setInterval(()=> {getMessageFromQueue(finish)},100);
-    }, 10000);
-  
-    postMessage(createSwarmMessage(msgArr[index]));
+    finishCallback = finish;
+    utils.createServer((server) => {
 
-    //delete first message from queue
-    setTimeout(()=>{
-        deleteMessageFromMQ();
-    }, 7000);
+        //post messages in mq
+        utils.httpRequest(utils.createSwarmMessage(msgArr[index]), postMessageCallback);
+
+        //delete first message from queue
+        setTimeout(()=>{
+            //deleteMessageFromMQ();
+            let options = utils.getRequestOptions('GET','?waitConfirmation=true');
+            utils.httpRequest(null, getMessageIdCallback, 'GET',options);
+        }, 7000);
+
+        setTimeout(()=>{
+            setInterval(()=> {
+                //getMessageFromQueue(finish)
+                utils.httpRequest(null, getMessageCallback, 'GET');
+            },100);
+        }, 10000);
+
+
+    });
+
 }
 
-createServer((server) => {
-    assert.callback("VirtualMQ channel request test", test, 25000);
-});
-
-
+utils.initVirtualMQ();
+assert.callback("VirtualMQ GET request test", test, 25000);
+//delete creted test folder
+utils.cleanUp(25000 + 3000);

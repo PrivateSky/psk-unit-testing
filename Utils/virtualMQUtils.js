@@ -58,11 +58,12 @@ module.exports.createServer = function (callback) {
     });
 };
 
-module.exports.getRequestOptions = function (requestType) {
+module.exports.getRequestOptions = function (requestType, urlParams) {
+    let path = urlParams ? '/' + CHANNEL_NAME + urlParams : '/' + CHANNEL_NAME;
     return {
         host: '127.0.0.1',
         port: port,
-        path: '/' + CHANNEL_NAME,
+        path: path,
         method: requestType || 'POST'
     }
 };
@@ -73,7 +74,7 @@ module.exports.createSwarmMessage = function (msg) {
             swarmId: msg
         }
     });
-}
+};
 
 module.exports.deleteFolder = deleteFolder;
 
@@ -84,20 +85,20 @@ HTTP Request with args:
  - responseCallback: callback for on end request, default will just display a message
  - requestType : PUT, POST, GET, DELETE (default is POST)
 * */
-module.exports.httpRequest = function (msg, responseCallback, requestType) {
-    let opt = this.getRequestOptions(requestType);
+module.exports.httpRequest = function (msg, responseCallback, requestType, options) {
+    let opt = options || this.getRequestOptions(requestType);
     var req = http.request(opt, (res) => {
         const statusCode = res.statusCode;
         let error;
         if (statusCode >= 400) {
             error = new Error('Request Failed.\n' +
-                `Status Code: ${statusCode}`);
+                `Status Code: ${statusCode}`) + ' requestType ' + requestType;
         }
 
         if (error) {
             console.log(error);
-            res.resume();
-            return;
+            /* res.resume();
+             return;*/
         }
 
         let rawData = '';
