@@ -5,7 +5,10 @@ require("../../../builds/devel/pskruntime");
 const fs = require("fs");
 const mq = require("../../../modules/foldermq/lib/folderMQ");
 
-const folderPath = './watcherChannel';
+const os = require('os');
+
+const tmpDir = os.tmpdir() || __dirname;
+const folderPath = tmpDir + '/watcherChannel';
 
 const queue  = mq.getFolderQueue(folderPath, function () {});
 const assert = require("double-check").assert;

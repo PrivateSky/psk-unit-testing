@@ -4,7 +4,7 @@ require("../../../builds/devel/pskruntime");
 require("../../../builds/devel/virtualMQ");
 require("../../../builds/devel/psknode");
 
-const utils  = require("../../psk-unit-testing/Utils/fileUtils");
+const utils  = require("../Utils/virtualMQUtils");
 const assert = require("double-check").assert;
 const VirtualMQ = require('virtualmq');
 const CHANNEL_NAME = Buffer.from('testChannel').toString('base64');
@@ -128,7 +128,7 @@ function deleteMessage(msgId) {
             console.log("Delete message with ID", msgId);
         });
     });
-    req.write(msgId)
+    req.write(msgId);
     req.end();
 }
 
