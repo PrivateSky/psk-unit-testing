@@ -14,6 +14,7 @@ var endpoint = '';
 const alias  = 'virtualMQLocal';
 const folder = './tmp';
 
+// const swarmName = 'interac\\..\\..\\..\\'; //path traversal
 const swarmName = 'interac\/\tSwarm';
 const phaseName = 'doSomething';
 
