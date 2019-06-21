@@ -115,6 +115,9 @@ module.exports.httpRequest = function (msg, responseCallback, requestType, optio
     if (opt.method != 'GET') {
         req.write(msg);
     }
+    req.on('error', function (e) {
+        throw e;
+    });
     req.end();
 };
 module.exports.cleanUp = function (timeout) {

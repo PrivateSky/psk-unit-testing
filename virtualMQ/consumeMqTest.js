@@ -1,4 +1,6 @@
 /* This test aims to test if deletion of all the messages in a queue is working properly */
+
+
 const utils = require("../Utils/virtualMQUtils");
 const assert = require("double-check").assert;
 
@@ -10,7 +12,6 @@ var intervalId = null, finishCallback;
 
 
 let postCallback = function () {
-    console.log('postCallback index = ', index);
     index++;
     if (index == msgArr.length) {
         return;
@@ -18,31 +19,20 @@ let postCallback = function () {
     if (index == 1) {
         // just wait for file structure to be created
         setTimeout(() => {
-            postCallback(utils.createSwarmMessage(msgArr[index]), postCallback);
+            utils.httpRequest(utils.createSwarmMessage(msgArr[index]), postCallback);
         }, 5000);
     } else {
-        postCallback(utils.createSwarmMessage(msgArr[index]), postCallback);
+        utils.httpRequest(utils.createSwarmMessage(msgArr[index]), postCallback);
     }
 };
-let getMessageIdCallback = function (data) {
-    console.log('message id =' , JSON.parse(data).confirmationId);
-    console.log('nrOfDeletions initial = ' + nrOfDeletions + ' and msgArr.length initial = ' + msgArr.length );
 
-    if (nrOfDeletions + 1 < 5 || msgArr.length > 0) {
-        deleteMessage(JSON.parse(data).confirmationId);
-        msgArr.shift();
-        nrOfDeletions++;
-        console.log('nrOfDeletions ' + nrOfDeletions + ' msgArr.length  = ' + msgArr.length );
-    } else {
-        clearInterval()
-    }
-};
 
 let deleteMessageCallback = function (data) {
-    if (nrOfDeletions == numberOfMessages) {
+    nrOfDeletions++;
+    if (nrOfDeletions == index) {
         clearInterval(intervalId);
+        assert.equal(nrOfDeletions, msgArr.length, "Queue is not empty");
         finishCallback();
-        assert.equal(0, msgArr.length, "Queue is not empty");
         utils.deleteFolder(folder);
         process.exit(0);
     }
@@ -51,8 +41,16 @@ let deleteMessageCallback = function (data) {
 // Make a delete request
 function deleteMessage(msgId) {
     let options = utils.getRequestOptions('DELETE', '/' + msgId);
-    utils.httpRequest(msgId, deleteMessageCallback, 'DELETE', options);
+    try {
+        utils.httpRequest(msgId, deleteMessageCallback, 'DELETE', options);
+    } catch (e) {
+        console.log(' in catch error form delete');
+    }
 }
+
+let getMessageIdCallback = function (data) {
+    deleteMessage(JSON.parse(data).confirmationId);
+};
 
 function deleteMessageFromMQ(finish) {
     let options = utils.getRequestOptions('GET', '?waitConfirmation=true');
@@ -60,21 +58,22 @@ function deleteMessageFromMQ(finish) {
 }
 
 function test(finish) {
+
     finishCallback = finish;
     utils.createServer((server) => {
         utils.httpRequest(utils.createSwarmMessage(msgArr[index]), postCallback);
 
-        //delete every message from queue
-        intervalId = setTimeout(() => {
-            setInterval(() => {
+        //delete first message from queue
+        setTimeout(() => {
+            intervalId = setInterval(() => {
                 deleteMessageFromMQ(finish);
             }, 500);
-        }, 5000);
+        }, 7000);
     });
 }
 
 
 utils.initVirtualMQ();
 assert.callback("VirtualMQ GET request test", test, 25000);
-//delete cretead test folder
+//delete creted test folder
 utils.cleanUp(25000 + 3000);
