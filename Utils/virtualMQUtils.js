@@ -60,11 +60,16 @@ module.exports.createServer = function (callback) {
 
 module.exports.getRequestOptions = function (requestType, urlParams) {
     let path = urlParams ? '/' + CHANNEL_NAME + urlParams : '/' + CHANNEL_NAME;
+    let headers = {'Content-Type': 'application/json'};
+    if (requestType && requestType == 'DELETE') {
+        headers ['Content-Length'] = Buffer.byteLength(urlParams.slice(1));
+    }
     return {
         host: '127.0.0.1',
         port: port,
         path: path,
-        method: requestType || 'POST'
+        method: requestType || 'POST',
+        headers: headers
     }
 };
 
@@ -97,8 +102,8 @@ module.exports.httpRequest = function (msg, responseCallback, requestType, optio
 
         if (error) {
             console.log(error);
-            /* res.resume();
-             return;*/
+            res.resume();
+            return;
         }
 
         let rawData = '';
