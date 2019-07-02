@@ -60,7 +60,7 @@ module.exports.createServer = function (callback) {
 
 module.exports.getRequestOptions = function (requestType, urlParams) {
     let path = urlParams ? '/' + CHANNEL_NAME + urlParams : '/' + CHANNEL_NAME;
-    let headers = {'Content-Type': 'application/json'};
+    let headers = {'Content-Type': 'application/json;charset=UTF-8'};
     if (requestType && requestType == 'DELETE') {
         headers ['Content-Length'] = Buffer.byteLength(urlParams.slice(1));
     }
@@ -76,7 +76,8 @@ module.exports.getRequestOptions = function (requestType, urlParams) {
 module.exports.createSwarmMessage = function (msg) {
     return JSON.stringify({
         meta: {
-            swarmId: msg
+            swarmId: 'AAAA',
+            TEXT:msg
         }
     });
 };
