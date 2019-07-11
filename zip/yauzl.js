@@ -14,17 +14,17 @@ yauzl.open("input/yazltest.zip", {lazyEntries: true}, function(err, zipfile) {
 			zipfile.readEntry();
 		} else {
 			let folder = path.dirname(entry.fileName);
-			$$.ensureFolderExists(folder, () => {
-				zipfile.openReadStream(entry, function(err, readStream) {
+			fs.mkdir(folder, {recursive: true}, () => {
+				zipfile.openReadStream(entry, function (err, readStream) {
 					if (err) throw err;
 
-					readStream.on("end", function() {
+					readStream.on("end", function () {
 						zipfile.readEntry();
 					});
 
 					let fileName = path.join(outputFolder, entry.fileName);
 					let folder = path.dirname(fileName);
-					$$.ensureFolderExists(folder, () => {
+					fs.mkdir(folder, {recursive: true}, () => {
 						let output = fs.createWriteStream(fileName);
 						readStream.pipe(output);
 					});
