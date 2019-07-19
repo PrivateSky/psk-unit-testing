@@ -35,16 +35,21 @@ let savePath = "dot";
 assert.callback("StoreBarInEDFSTEst", (callback) => {
     utils.ensureFilesExist(folders, files, text, (err) => {
         assert.true(err === null || typeof err === "undefined", "Received error");
+
         utils.computeFoldersHashes([folderPath], (err, initialHashes) => {
             assert.true(err === null || typeof err === "undefined", "Received error");
+
             archive.addFolder(folderPath, (err, mapDigest) => {
                 assert.true(err === null || typeof err === "undefined", "Received error");
                 assert.true(typeof mapDigest !== "undefined", "Did not receive mapDigest");
+
                 archive.getFolder(savePath, (err) => {
                     assert.true(err === null || typeof err === "undefined", "Received error");
+
                     utils.computeFoldersHashes([savePath], (err, decompressedHashes) => {
                         assert.true(err === null || typeof err === "undefined", "Received error");
                         assert.true(utils.hashArraysAreEqual(initialHashes, decompressedHashes), "Files are not identical");
+
                         utils.deleteFolders([folderPath, savePath], (err) => {
                             assert.true(err === null || typeof err === "undefined", "Received error");
                             callback();
@@ -54,6 +59,6 @@ assert.callback("StoreBarInEDFSTEst", (callback) => {
             });
         });
     });
-}, 3000);
+}, 1500);
 
 
