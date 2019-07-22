@@ -4,17 +4,17 @@ require("../../../builds/devel/psknode");
 
 const utils = require("./utils/utils");
 
-const edfs = require("edfs");
+const edfs = require("edfs-brick-storage");
 const bar = require("bar");
 const assert = require("double-check").assert;
 
 const url = "http://localhost:8080";
 const createEDFSBrickStorage = edfs.createEDFSBrickStorage;
+createEDFSBrickStorage(url);
 const createFsAdapter = bar.createFsBarWorker;
 
 const ArchiveConfigurator = bar.ArchiveConfigurator;
 
-ArchiveConfigurator.prototype.registerStorageProvider("EDFSBrickStorage", createEDFSBrickStorage, url);
 ArchiveConfigurator.prototype.registerDiskAdapter("fsAdapter", createFsAdapter);
 
 const archiveConfigurator = new ArchiveConfigurator();
@@ -40,10 +40,16 @@ assert.callback("StoreBarInEDFSTEst", (callback) => {
             assert.true(err === null || typeof err === "undefined", "Received error");
 
             archive.addFolder(folderPath, (err, mapDigest) => {
+                if (err) {
+                    throw err;
+                }
                 assert.true(err === null || typeof err === "undefined", "Received error");
                 assert.true(typeof mapDigest !== "undefined", "Did not receive mapDigest");
 
-                archive.getFolder(savePath, (err) => {
+                archive.extractFolder(savePath, (err) => {
+                    if (err) {
+                        throw err;
+                    }
                     assert.true(err === null || typeof err === "undefined", "Received error");
 
                     utils.computeFoldersHashes([savePath], (err, decompressedHashes) => {
