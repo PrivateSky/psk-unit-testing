@@ -1,4 +1,4 @@
-require("../../../builds/devel/pskruntime");
+require("../../../psknode/bundles/pskruntime");
 const path = require("path");
 const fs = require("fs");
 var crypto = require("pskcrypto");
@@ -81,10 +81,10 @@ var obj = {
 };
 
 assert.callback("test Encryption/Decryption in memory", function (callback) {
-    crypto.encryptJson(obj, "123", function (err, data) {
+    crypto.encryptObject(obj, "123", function (err, data) {
         if(err) throw err;
 
-        crypto.decryptJson(data, "123", function(err, decryptedObj) {
+        crypto.decryptObject(data, "123", function(err, decryptedObj) {
             if(err) throw err;
 
             objectsAreEqual(obj, decryptedObj, function (err, status) {

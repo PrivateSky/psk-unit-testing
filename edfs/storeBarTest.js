@@ -1,7 +1,7 @@
-require("../../../builds/devel/pskruntime");
-require("../../../builds/devel/consoleTools");
-require("../../../builds/devel/psknode");
-require("../../../builds/devel/virtualMQ");
+require("../../../psknode/bundles/pskruntime");
+require("../../../psknode/bundles/consoleTools");
+require("../../../psknode/bundles/psknode");
+require("../../../psknode/bundles/virtualMQ");
 
 const utils = require("./utils/utils");
 
@@ -9,14 +9,11 @@ const edfs = require("edfs-brick-storage");
 const bar = require("bar");
 const assert = require("double-check").assert;
 
-const createEDFSBrickStorage = edfs.createEDFSBrickStorage;
 const createFsAdapter = bar.createFsBarWorker;
 
 const ArchiveConfigurator = bar.ArchiveConfigurator;
 
 ArchiveConfigurator.prototype.registerDiskAdapter("fsAdapter", createFsAdapter);
-ArchiveConfigurator.prototype.registerStorageProvider("EDFSBrickStorage", createEDFSBrickStorage);
-
 const archiveConfigurator = new ArchiveConfigurator();
 archiveConfigurator.setDiskAdapter("fsAdapter");
 archiveConfigurator.setBufferSize(256);
@@ -80,10 +77,17 @@ assert.callback("StoreBarInEDFSTest", (callback) => {
                         utils.computeFoldersHashes([savePath], (err, decompressedHashes) => {
                             assert.true(err === null || typeof err === "undefined", "Received error");
                             assert.true(utils.hashArraysAreEqual(initialHashes, decompressedHashes), "Files are not identical");
-                            server.close();
-                            utils.deleteFolders([folderPath, savePath], (err) => {
-                                assert.true(err === null || typeof err === "undefined", "Received error");
-                                callback();
+                            server.close(err => {
+                                if (err) {
+                                    throw err;
+                                }
+
+                                console.log("Server closed");
+                                // callback();
+                                utils.deleteFolders([folderPath, savePath], (err) => {
+                                    assert.true(err === null || typeof err === "undefined", "Received error");
+                                    callback();
+                                });
                             });
                         });
                     });
@@ -92,6 +96,6 @@ assert.callback("StoreBarInEDFSTest", (callback) => {
 
         });
     });
-}, 1500);
+});
 
 

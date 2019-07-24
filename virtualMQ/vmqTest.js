@@ -1,7 +1,7 @@
 
-require("../../../builds/devel/pskruntime");
-require("../../../builds/devel/consoleTools");
-require("../../../builds/devel/virtualMQ");
+require("../../../psknode/bundles/pskruntime");
+require("../../../psknode/bundles/consoleTools");
+require("../../../psknode/bundles/virtualMQ");
 const VirtualMQ = require('virtualmq');
 const path = require('path');
 const interact = require('interact');

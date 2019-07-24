@@ -1,4 +1,4 @@
-require("../../../builds/devel/pskruntime");
+require("../../../psknode/bundles/pskruntime");
 const cartesianProduct = require("swarmutils").combos;
 const assert = require("double-check").assert;
 

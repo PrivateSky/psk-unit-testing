@@ -1,4 +1,4 @@
-require("../../../builds/devel/pskruntime"); 
+require("../../../psknode/bundles/pskruntime"); 
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
 const assert = require("double-check").assert;
 

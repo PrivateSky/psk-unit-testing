@@ -1,4 +1,4 @@
-require("../../../builds/devel/pskruntime"); 
+require("../../../psknode/bundles/pskruntime"); 
 const assert = require("double-check").assert;
 const soundPubSub = require("soundpubsub").soundPubSub;
 var channels = {ch1:"superFunChannel", ch2:"News1", ch3:"Travel", ch4:"Closed"};

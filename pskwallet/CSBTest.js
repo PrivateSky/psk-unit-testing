@@ -1,6 +1,6 @@
-require('../../../builds/devel/pskruntime');
-require('../../../builds/devel/consoleTools');
-require("../../../builds/devel/virtualMQ");
+require('../../../psknode/bundles/pskruntime');
+require('../../../psknode/bundles/consoleTools');
+require("../../../psknode/bundles/virtualMQ");
 
 const assert = require("double-check").assert;
 const VirtualMQ = require('virtualmq');
@@ -31,7 +31,7 @@ const s = $$.swarm.describe("CSBTest", {
         this.CSBPath = '';
         this.callback = callback;
         this.counter = 0;
-        $$.ensureFolderExists(localFolder, (err) => {
+        fs.mkdir(localFolder, {recursive: true}, (err) => {
             if (err) {
                 throw err;
             }
@@ -85,7 +85,7 @@ const s = $$.swarm.describe("CSBTest", {
 
     attachFile: function (url, fileName) {
         const self = this;
-        is.startSwarm("attachFile", "withSeed", this.seed, url, path.join(resourcesDir, fileName), this.localFolder).on({
+        is.startSwarm("attachFile", "withCSBIdentifier", this.seed, url, path.join(resourcesDir, fileName), this.localFolder).on({
             handleError: handleError,
 
             __return__: function () {
@@ -114,7 +114,7 @@ const s = $$.swarm.describe("CSBTest", {
 
     listCSBs: function () {
         const self = this;
-        is.startSwarm("listCSBs", "withSeed", this.seed, undefined, this.localFolder).on({
+        is.startSwarm("listCSBs", "withCSBIdentifier", this.seed, undefined, this.localFolder).on({
             // printInfo: utils.generateMessagePrinter(),
             handleError: handleError,
             __return__: function (csbAliases) {
@@ -133,7 +133,7 @@ const s = $$.swarm.describe("CSBTest", {
                 return callback(err);
             }
 
-            $$.ensureFolderExists(folderPath, err => {
+            fs.mkdir(folderPath, {recursive: true}, err => {
                 if (err) {
                     return callback(err);
                 }

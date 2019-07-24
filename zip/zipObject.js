@@ -1,4 +1,4 @@
-require("../../../builds/devel/pskruntime");
+require("../../../psknode/bundles/pskruntime");
 const path = require("path");
 const fs = require("fs");
 var crypto = require("pskcrypto");

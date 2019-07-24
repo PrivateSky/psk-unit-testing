@@ -1,4 +1,4 @@
-require("../../../builds/devel/pskruntime");
+require("../../../psknode/bundles/pskruntime");
 const path = require("path");
 const yazl = require("yazl");
 const fs = require("fs");

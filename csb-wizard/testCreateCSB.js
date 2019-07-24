@@ -1,7 +1,7 @@
-require('../../../builds/devel/pskruntime');
-require('../../../builds/devel/psknode');
-require('../../../builds/devel/virtualMQ');
-require('../../../builds/devel/consoleTools');
+require('../../../psknode/bundles/pskruntime');
+require('../../../psknode/bundles/psknode');
+require('../../../psknode/bundles/virtualMQ');
+require('../../../psknode/bundles/consoleTools');
 const assert = require("double-check").assert;
 const Seed = require('pskwallet').Seed;
 const path = require('path');

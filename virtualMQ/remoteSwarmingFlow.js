@@ -1,7 +1,7 @@
-require("../../../builds/devel/pskruntime");
+require("../../../psknode/bundles/pskruntime");
 require("callflow");
 require('../../../modules/virtualmq/flows/remoteSwarming');
-require("../../../builds/devel/pskruntime"); 
+require("../../../psknode/bundles/pskruntime");
 const assert           = require("double-check").assert;
 const path             = require('path');
 const Duplex           = require('stream').Duplex;

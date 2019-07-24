@@ -1,6 +1,6 @@
 /*console.log(require.resolve("./lib1"), require("./lib1"));*/
 //require("blabla")
-require("../../../builds/devel/pskruntime");
+require("../../../psknode/bundles/pskruntime");
 
 var assert = require("double-check").assert;
 

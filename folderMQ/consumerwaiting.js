@@ -1,6 +1,6 @@
 // register a consumer before writing the files
 
-require("../../../builds/devel/pskruntime");
+require("../../../psknode/bundles/pskruntime");
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;
 const mq = require("../../../modules/foldermq/lib/folderMQ");
 const assert = require("double-check").assert;

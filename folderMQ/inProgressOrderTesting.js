@@ -2,7 +2,7 @@
 // Test if folderMQ consumes the contents of the folder queue in order
 // when in_progress files have their extension removed
 ////////////////////////////////////////////////////////////////////////
-require("../../../builds/devel/pskruntime"); 
+require("../../../psknode/bundles/pskruntime");
 const fs = require("fs");
 const os = require('os');
 const mq = require("../../../modules/foldermq/lib/folderMQ");

@@ -1,4 +1,4 @@
-require("../../../builds/devel/pskruntime");
+require("../../../psknode/bundles/pskruntime");
 require('../../../modules/virtualmq/flows/CSBmanager');
 const assert = require("double-check").assert;
 const path = require('path');

@@ -1,4 +1,4 @@
-require("../../../builds/devel/pskruntime"); 
+require("../../../psknode/bundles/pskruntime"); 
 
 var deployer  = require( __dirname + "/../../../deployer/Deployer.js");
 

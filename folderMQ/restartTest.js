@@ -1,4 +1,4 @@
-require("../../../builds/devel/pskruntime"); 
+require("../../../psknode/bundles/pskruntime"); 
 var mq = require("../../../modules/foldermq/lib/folderMQ")
 const fs = require('fs');
 

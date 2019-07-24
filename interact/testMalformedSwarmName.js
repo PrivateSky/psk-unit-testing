@@ -2,9 +2,9 @@
 // Check if malformed swarm names are handled 
 //
 /////////////////////////////////////////////////////////////
-require('../../../builds/devel/pskruntime');
-require("../../../builds/devel/psknode");
-require("../../../builds/devel/httpinteract");
+require('../../../psknode/bundles/pskruntime');
+require("../../../psknode/bundles/psknode");
+require("../../../psknode/bundles/httpinteract");
 const assert = require('double-check').assert;
 const interact = require('interact');
 const VirtualMQ = require('../../../modules/virtualmq');

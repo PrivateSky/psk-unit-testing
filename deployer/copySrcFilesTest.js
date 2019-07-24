@@ -1,4 +1,4 @@
-require("../../../builds/devel/pskruntime"); 
+require("../../../psknode/bundles/pskruntime");
 var fsm = require("../../../libraries/utils/FileStateManager.js");
 var fileStateManager = fsm.getFileStateManager();
 const fsExt = require('../../../libraries/utils/FSExtension').fsExt;

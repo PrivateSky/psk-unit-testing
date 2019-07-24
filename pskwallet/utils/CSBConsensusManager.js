@@ -4,6 +4,7 @@ const utils = require("./utils");
 const is = require("interact").createInteractionSpace();
 const pskwallet = require("pskwallet");
 const RootCSB = pskwallet.RootCSB;
+const CSBIdentifier = pskwallet.CSBIdentifier;
 pskwallet.init();
 
 
@@ -18,7 +19,7 @@ function CSBConsensusManager(localFolder = process.cwd(), seed) {
             }
 
             rootCSB.on("end", () => {
-                is.startSwarm("saveBackup", "withSeed", seed, localFolder).on({
+                is.startSwarm("saveBackup", "withCSBIdentifier", seed, localFolder).on({
                     printInfo: utils.generateMessagePrinter(),
                     handleError: utils.generateErrorHandler(),
                     csbBackupReport: function ({errors, successes}) {
@@ -31,7 +32,7 @@ function CSBConsensusManager(localFolder = process.cwd(), seed) {
 
     function ensureRootCSBExists(callback) {
         if (!rootCSB || typeof rootCSB === "undefined") {
-            RootCSB.loadWithSeed(localFolder, seed, (err, root) => {
+            RootCSB.loadWithIdentifier(localFolder, new CSBIdentifier(seed), (err, root) => {
                 if (err) {
                     return callback(err);
                 }

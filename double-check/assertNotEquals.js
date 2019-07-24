@@ -1,4 +1,4 @@
-require("../../../builds/devel/pskruntime"); 
+require("../../../psknode/bundles/pskruntime"); 
 const assert = require("double-check").assert;
 var f = $$.flow.describe("assertNotEquals", {
     action:function (cb) {

@@ -1,4 +1,4 @@
-require("../../../builds/devel/pskruntime");
+require("../../../psknode/bundles/pskruntime");
 require("../../../engine/core");
 const path = require("path");
 const yauzl = require("yauzl");
