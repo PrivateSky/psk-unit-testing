@@ -1,4 +1,4 @@
-require("../../../psknode/bundles/pskruntime");
+require("../testBase");
 const assert = require('double-check').assert;
 const TokenBucket = require('../../../modules/virtualmq/libs/TokenBucket');
 
