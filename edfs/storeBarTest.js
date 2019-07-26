@@ -56,36 +56,29 @@ assert.callback("StoreBarInEDFSTest", (callback) => {
 
         utils.computeFoldersHashes([folderPath], (err, initialHashes) => {
             assert.true(err === null || typeof err === "undefined", "Received error");
-            createServer((err, server, url) => {
 
+            createServer((err, server, url) => {
                 assert.true(err === null || typeof err === "undefined", "Received error");
+
                 archiveConfigurator.setStorageProvider("EDFSBrickStorage", url);
                 const archive = new bar.Archive(archiveConfigurator);
                 archive.addFolder(folderPath, (err, mapDigest) => {
-                    if (err) {
-                        throw err;
-                    }
-                    assert.true(err === null || typeof err === "undefined", "Received error");
+                    assert.true(err === null || typeof err === "undefined", "Failed to add folder");
                     assert.true(typeof mapDigest !== "undefined", "Did not receive mapDigest");
 
                     archive.extractFolder(savePath, (err) => {
-                        if (err) {
-                            throw err;
-                        }
-                        assert.true(err === null || typeof err === "undefined", "Received error");
+                        assert.true(err === null || typeof err === "undefined", "Failed to extract folder");
 
                         utils.computeFoldersHashes([savePath], (err, decompressedHashes) => {
-                            assert.true(err === null || typeof err === "undefined", "Received error");
+                            assert.true(err === null || typeof err === "undefined", "Failed to compute folders hashes");
                             assert.true(utils.hashArraysAreEqual(initialHashes, decompressedHashes), "Files are not identical");
-                            server.close(err => {
-                                if (err) {
-                                    throw err;
-                                }
 
-                                console.log("Server closed");
-                                // callback();
+                            server.close(err => {
+                                assert.true(err === null || typeof err === "undefined", "Failed to close server");
+
                                 utils.deleteFolders([folderPath, savePath], (err) => {
-                                    assert.true(err === null || typeof err === "undefined", "Received error");
+                                    assert.true(err === null || typeof err === "undefined", "Failed to delete test folders");
+
                                     callback();
                                 });
                             });
@@ -93,7 +86,6 @@ assert.callback("StoreBarInEDFSTest", (callback) => {
                     });
                 });
             });
-
         });
     });
 }, 1000);
