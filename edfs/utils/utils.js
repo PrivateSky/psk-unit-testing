@@ -131,6 +131,10 @@ function collectFilesAndFolders(folderList = [], fileList = [], folderIndex, cal
             return callback(err);
         }
 
+        if (files.length === 0) {
+            return collectFilesAndFolders(folderList, fileList, folderIndex + 1, callback);
+        }
+
         files = files.map(file => path.join(folderPath, file));
         files.forEach((file, i) => {
             fs.stat(file, (err, stats) => {
