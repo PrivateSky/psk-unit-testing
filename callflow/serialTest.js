@@ -1,5 +1,4 @@
 require('../../../psknode/bundles/pskruntime');
-require("../../../engine/core");
 const assert = require("double-check").assert;
 
 
@@ -13,7 +12,7 @@ const flow = $$.flow.describe('serialTest', {
         });
 
         serial.__asyncTask(1000, serial.__progress);
-        serial.__asyncTask(1000, this.__progress);
+        serial.__asyncTask(1000, serial.__progress);
         serial.__asyncTask(1, serial.__progress);
 
         setTimeout(() => {

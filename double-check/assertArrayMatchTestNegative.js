@@ -5,11 +5,10 @@ var f = $$.flow.describe("assertArrayMatchTestNegative",{
 
     action:function(cb){
         this.cb = cb;
-        for (var i = 0; i < negativeTestDataArray.length; i++) {
+        for (var i = 0; i < negativeTestDataArray.length; i += 2) {
             var j = i + 1;
-            assert.arraysMatch(negativeTestDataArray[i], negativeTestDataArray[j],'Arrays at index '+  i +' and '+j+' did not match');
-            i+=1;
-        };
+                assert.arraysMatch(negativeTestDataArray[i], negativeTestDataArray[j],'Arrays at index '+  i +' and '+j+' did not match');
+        }
         this.cb();
     },
 })();
