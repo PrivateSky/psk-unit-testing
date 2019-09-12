@@ -1,7 +1,8 @@
 require("../../../psknode/bundles/pskruntime");
 require("../../../psknode/bundles/virtualMQ");
 require("../../../psknode/bundles/psknode");
-const assert = require("double-check").assert;
+const double_check = require("double-check");
+const assert = double_check.assert;
 const path = require('path');
 const Duplex = require('stream').Duplex;
 const fileStateManager = require('../../../libraries/utils/FileStateManager').getFileStateManager();
@@ -9,10 +10,22 @@ const fs = require('fs');
 
 var fileName = 'test.txt';
 const demoFileBufferSize = 100000;
-const tempFolder = path.resolve('../../../temp');
-var demoFileStream =  fs.createWriteStream(`${tempFolder}/${fileName}`);
-const tempReadStream = fs.createReadStream(`${tempFolder}/${fileName}`);
 
+let tempFolder;
+let demoFileStream;
+let tempReadStream;
+
+double_check.createTestFolder("CSBManagerFlow", (err, res)=>{
+	assert.isNull(err, "Got an error");
+	tempFolder = res;
+
+	demoFileStream =  fs.createWriteStream(path.join(tempFolder, fileName));
+	tempReadStream = fs.createReadStream(path.join(tempFolder, fileName));
+
+	assert.callback("CSBmanagerFlowTest", function (callback) {
+		flow.init(callback);
+	}, 1000);
+});
 
 const flow = $$.flow.describe('CSBmanagerFlowTest', {
 	init: function (callback) {
@@ -22,7 +35,7 @@ const flow = $$.flow.describe('CSBmanagerFlowTest', {
 			this.__initializeCSBManager((err) => {
 				assert.false(err, 'Error initializing CSBManager: ' + (err && err.message));
 				this.__getDemoFileStream();
-				this.__writeFile();					
+				this.__writeFile();
 				this.__readFile();
 			});
 		});
@@ -31,23 +44,24 @@ const flow = $$.flow.describe('CSBmanagerFlowTest', {
 		//console.log("Entered in initialization func scope!!!");
 		this.CSBManager = $$.flow.describe('CSBManager',{
 			init:function(){
-				(`${tempFolder}`, callback);
+				this.CSBManager = $$.flow.describe('CSBmanager');
+				this.CSBManager.init(`${tempFolder}`, callback);
 			},
 			write:function(fileName, demoFileStream, writeCallback){
 				let flag = false;
 				fs.open(fileName, 'r+', (err, fd) => {
 					//console.log("$$$$$$$$ "+ fd);
-					fs.write(fd, demoFileStream.read(), (err, content) => { 
+					fs.write(fd, demoFileStream.read(), (err, content) => {
 						//console.log('------------------------Write');
 						if (err) flag = true;
 						console.log('Content saved: '+ content + ' abc`s');
 					});
 				  })
 				writeCallback(flag);
-			}, 
+			},
 			read:function(fileName){
 				//console.log("Read file!!!!!!!");
-				fs.readFile(fileName, 'utf8', (err, contents) => { 
+				fs.readFile(fileName, 'utf8', (err, contents) => {
 					if (err) throw err;
 					console.log('Content read: '+ contents.toString());
 					assert.equal('abcabcabcabcabcabcabcabca', contents.toString(), 'Contents are not similar');
@@ -68,7 +82,7 @@ const flow = $$.flow.describe('CSBmanagerFlowTest', {
 		this.CSBManager.write(fileName, demoFileStream, (err) => {
 			assert.false(err, "Error writing demo file: " + (err && err.message));
 		});
-		//console.log("file was written!! " + demoFileStream.read()) ;	
+		//console.log("file was written!! " + demoFileStream.read()) ;
 	},
 	__readFile: function () {
 		//console.log("Entered in readFile func scope!!!");
@@ -101,10 +115,6 @@ const flow = $$.flow.describe('CSBmanagerFlowTest', {
 		//console.log("File was read!!! ");
 	}
 })();
-
-assert.callback("CSBmanagerFlowTest", function (callback) {
-	flow.init(callback);
-}, 1000);
 
 function bufferToStream(buffer) {
 	const stream = new Duplex();

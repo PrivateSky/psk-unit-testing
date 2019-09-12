@@ -14,6 +14,7 @@ const queue = mq.getFolderQueue(test_dir, function () {});
 
 let steps = 0;
 const phases = [];
+const order = [];
 const correctOrder = [1, 2];
 
 const flow = $$.flow.describe('tworegisteredconsumers', {
@@ -34,7 +35,7 @@ const flow = $$.flow.describe('tworegisteredconsumers', {
         assert.notEqual(result.test, null, "Bad data from folderMQ");
         if (typeof result.test !== 'undefined') {
             phases.push(result.test);
-            order.push(result.test)
+            order.push(result.test);
         }
         steps++;
     },
@@ -44,7 +45,12 @@ const flow = $$.flow.describe('tworegisteredconsumers', {
 
     registerConsumer: function () {
         queue.registerConsumer(this.consume);
-        queue.registerConsumer(this.consume_two);
+        try{
+            queue.registerConsumer(this.consume_two);
+        }catch(err){
+            console.log(err);
+        }
+
     },
     checkResults: function () {
 

@@ -21,6 +21,6 @@ for (var i = 0; i < callbackType.length; i++) {
             counter++;
         }
     }
-};
+}
 
 assert.equal(counter, wrongCalls.length, "Counter should be equal to "+wrongCalls.length+" instead is "+counter);

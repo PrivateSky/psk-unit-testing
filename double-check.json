@@ -1,5 +1,3 @@
 {
-  "confFileName": "double-check.json",
-  "fileExt": ".bau",
-  "ignore": ["*.js"]
+  "ignore": ["Utils"]
 }

@@ -46,8 +46,8 @@ var f = $$.flow.describe("removeTargetUnavailable", {
     },
 
     callback:function (error, result) {
-        assert.notNull(error, "Should be errors!");
-        assert.isNull(result, "Result should be null!");
+        assert.isNull(error, "There are errors!");
+        assert.notNull(result, "Result is null!");
         this.end();
     }
 })();
